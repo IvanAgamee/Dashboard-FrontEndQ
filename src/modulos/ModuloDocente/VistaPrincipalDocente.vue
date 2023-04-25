@@ -13,6 +13,7 @@
 
   <!-- Estructura de la tabla -->
   <q-table class="my-sticky-header-table q-ma-lg" :rows="row" :columns="columns" header>
+
   <!-- Agrega botones por cada registro de botones -->
   <template v-slot:body="props">
     <q-tr :props="props">

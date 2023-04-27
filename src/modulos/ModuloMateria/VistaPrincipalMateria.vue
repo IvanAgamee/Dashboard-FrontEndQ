@@ -29,7 +29,64 @@
   
    </q-table>
   </q-card>
-  
+
+<MiModal v-model:show="showModal">
+  <div class ="col-12 text-center ">
+    <h5 style="margin:0px"> Agregar Materia</h5>
+  </div>
+
+  <q-separator style="margin:15px"/>
+
+  <div class="row col-12">
+    <!-- Columna 1 del modal agregar Materia -->
+    <div class="col-6 col-6-full">
+
+<!-- Input para ingresar la especialidad
+<q-input v-model="especialidad" label="Especialidad *" hint="Ingrese la especialidad de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
+
+<!-- Input para ingresar el nombre de la materia-->
+<q-input v-model="nombre" label="Nombre *" hint="Ingrese el nombre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el area de la materia-->
+<q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el semestre de la materia-->
+<q-input v-model="semestre" label="Semestre *" hint="Ingrese el semestre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+</div>
+
+<!-- Columna 2 del modal agregar Materia -->
+<div class="col-6 col-6-full">
+<!-- Input para ingresar la competencia de la materia-->
+<q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el url del vídeo de la materia-->
+<q-input v-model="urlVideo" label="URL del Vídeo *" hint="Ingrese el URL del Vídeo" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el url del programa de la materia-->
+<q-input v-model="urlPrograma" label="URL del Programa *" hint="Ingrese el URL del Programa" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el estatus de la materia
+<q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+  :rules="[val => val && val.length > 0 || 'Este campo es obligatorio', val => /^[0-9]+$/.test(val) || 'Ingrese solo números']"
+  type="number"/>-->
+</div>
+
+<!-- Botones del modal -->
+<div class="col-12 text-center">
+<q-separator style="margin:8px"/>
+<q-btn label="Cancelar" @click="openModal" class="q-ml-sm q-mr-md" color="positive"/>
+<q-btn label="Enviar" type="submit" @click="agregarMateria" color="negative"/>
+</div>
+  </div>
+
+</MiModal>
  </q-page>
 </template>
 
@@ -46,6 +103,20 @@ import apiMateria from '../ModuloMateria/apiMateria.js'
 
 // Declaraciones de constantes
 const row = ref([])
+
+//Constantes para inputs de creación
+const showModal = ref(false)
+//const especialidad = ref('')
+const nombre = ref('')
+const area = ref('')
+const semestre = ref('')
+const competencia = ref('')
+const urlVideo = ref('')
+const urlPrograma = ref('')
+//Abrir y cerrar modal
+function openModal(){
+  showModal.value = !showModal.value
+}
 
 // Columnas de la tabla
 const columns = [
@@ -80,6 +151,44 @@ const columns = [
        return data;
    };
    returnData();
+
+   //Agregar registros a la tabla
+   const agregarMateria = async () => {
+
+      if(nombre.value == "" || area.value == "" || semestre.value == "" || competencia.value == "" ||
+      urlVideo.value == "" || urlPrograma.value == ""){
+        console.log("Debe llenar todos los campos")
+      }
+
+      else{
+        const data = {
+          nombre: nombre.value,
+          area: area.value,
+          semestre: semestre.value,
+          competencia: competencia.value,
+          urlVideo: urlVideo.value,
+          urlPrograma: urlPrograma.value,
+          carreraId: 11,
+          status: 1
+        }
+        console.log(data)
+        try{
+          await apiMateria.createMaterias(data);
+          openModal();
+          nombre.value = "",
+          area.value = "",
+          semestre.value = "",
+          competencia.value = "",
+          urlVideo.value = "",
+          urlPrograma.value = "",
+
+          returnData();
+        }catch(e){
+          console.log(e)
+        }
+      }
+
+   }
 
 </script>
 

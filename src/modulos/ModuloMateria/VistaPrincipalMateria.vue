@@ -51,7 +51,7 @@ const row = ref([])
 // Columnas de la tabla
 const columns = [
   { name: 'especialidad', align: 'center', label: 'Especialidad',align: 'center', field: 'especialidad', sortable: true },
-  { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
+  { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', sortable: true},
   { name: 'area', align: 'center', label: 'Área',align: 'center', field: 'area', sortable: true },
   { name: 'semestre', required: true, align: 'center', label: 'Semestre',align: 'center', field: 'semestre', sortable: true },
   { name: 'competencia', required: true, align: 'center', label: 'Competencia',align: 'center', field: 'competencia', sortable: true},
@@ -65,13 +65,13 @@ const columns = [
     console.log(data)
         data.data.map((el) => {
          var obj = {
-          especialidad: el.especialidad,
+          especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad,
           nombre: el.nombre,
           area: el.area,
           semestre: el.semestre,
           competencia: el.competencia.length > 40 ? el.competencia.substring(0, 40) + "..." : el.competencia,
-          urlImagen: el.urlVideo.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
-          urlImagen: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
+          urlVideo: el.urlVideo.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
+          urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
             { nombre: 'Editar', funcion: () => console.log('Editar') },
             { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }

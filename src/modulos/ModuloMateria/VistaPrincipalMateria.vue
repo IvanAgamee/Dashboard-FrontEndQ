@@ -109,7 +109,7 @@ import apiMateria from '../ModuloMateria/apiMateria.js'
 const row = ref([])
 
 //Constantes para inputs de creación
-const showModal = ref(true)
+const showModal = ref(false)
 //const especialidad = ref('')
 const nombre = ref('')
 const area = ref('')
@@ -182,7 +182,19 @@ const agregarMateria = async () => {
     }
     console.log(data)
 
-
+    try {
+      await apiMateria.createMateria(data);
+      openModal();
+      nombre.value = "";
+      area.value = "";
+      semestre.value = "";
+      competencia.value = "";
+      urlVideo.value = "";
+      urlPrograma.value = "";
+      returnData();
+    }catch (e) {
+      console.log(e)
+    }
   }
 
 }

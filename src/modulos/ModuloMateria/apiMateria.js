@@ -20,6 +20,16 @@ const getModulos = async () => {
     }
   }
 
+  const createMateria = async (data) => {
+    try{
+      const response = await axios.post('http://localhost:9000/api/materia/crudMateria', data)
+      return response.data;
+    }catch (error) {
+      console.log('Se produjo un error al crear el docente');
+      throw error;
+    }
+  }
+
   export default {
-    getModulos, getMaterias
+    getModulos, getMaterias, createMateria
   }

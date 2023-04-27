@@ -30,6 +30,17 @@
    </q-table>
   </q-card>
 
+<MiModal v-model:show="showModal">
+
+<div class ="col-12 text-center ">
+  <h5 style="margin:0px"> Agregar Materia</h5>
+</div>
+<q-separator style="margin:15px"/>
+
+<-- -->
+
+</MiModal>
+
  </q-page>
 </template>
 
@@ -48,6 +59,14 @@ import apiMateria from '../ModuloMateria/apiMateria.js'
 // Declaraciones de constantes
 const row = ref([])
 
+//Constantes para inputs de creación
+const showModal = ref(true)
+
+//Abrir y cerrar modal
+function openModal(){
+  showModal.value = !showModal.value
+}
+
 // Columnas de la tabla
 // especialidad, nombre, area, semestre, competencia, urlVideo, urlPrograma, estatus
 const columns = [
@@ -65,7 +84,7 @@ const columns = [
     console.log(data)
         data.data.map((el) => {
          var obj = {
-          especialidad: el.especialidad,
+          especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad,
           nombre: el.nombre,
           area: el.area,
           semestre: el.semestre,

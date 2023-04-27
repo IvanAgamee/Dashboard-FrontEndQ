@@ -12,7 +12,7 @@ const getModulos = async () => {
 
   const getMaterias = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/docente/getMaterias');
+      const response = await axios.get('http://localhost:9000/api/materia/getMaterias');
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al obtener los datos');

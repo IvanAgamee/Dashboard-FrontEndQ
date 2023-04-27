@@ -32,12 +32,61 @@
 
 <MiModal v-model:show="showModal">
 
-<div class ="col-12 text-center ">
-  <h5 style="margin:0px"> Agregar Materia</h5>
-</div>
-<q-separator style="margin:15px"/>
+  <div class ="col-12 text-center ">
+    <h5 style="margin:0px"> Agregar Materia</h5>
+  </div>
+  <q-separator style="margin:15px"/>
 
-<-- -->
+  <div class="row col-12">
+
+    <!-- Columna 1 del modal agregar Materia -->
+    <div class="col-6 col-6-full">
+
+      <!-- Input para ingresar la especialidad
+      <q-input v-model="especialidad" label="Especialidad *" hint="Ingrese la especialidad de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
+
+      <!-- Input para ingresar el nombre de la materia-->
+      <q-input v-model="nombre" label="Materia *" hint="Ingrese el nombre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+      <!-- Input para ingresar el area de la materia-->
+      <q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+      <!-- Input para ingresar el semestre de la materia-->
+      <q-input v-model="semestre" label="Semestre *" hint="Ingrese el semestre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      type="number" max="11" min="1" step="1" :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+    </div>
+
+    <!-- Columna 2 del modal agregar Materia -->
+    <div class="col-6 col-6-full">
+      <!-- Input para ingresar la competencia de la materia-->
+      <q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+      <!-- Input para ingresar el url del vídeo de la materia-->
+      <q-input v-model="urlVideo" label="URL del Vídeo *" hint="Ingrese el URL del Vídeo" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+      <!-- Input para ingresar el url del programa de la materia-->
+      <q-input v-model="urlPrograma" label="URL del Programa *" hint="Ingrese el URL del Programa" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+      <!-- Input para ingresar el estatus de la materia
+      <q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
+
+    </div>
+
+    <!-- Botones del modal -->
+    <div class="col-12 text-center">
+      <q-separator style="margin:8px"/>
+      <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+      <q-btn label="Enviar" type="submit" @click="agregarMateria" color="secondary"/>
+    </div>
+
+  </div>
 
 </MiModal>
 
@@ -61,6 +110,15 @@ const row = ref([])
 
 //Constantes para inputs de creación
 const showModal = ref(true)
+//const especialidad = ref('')
+const nombre = ref('')
+const area = ref('')
+const semestre = ref('')
+const competencia = ref('')
+const urlVideo = ref('')
+const urlPrograma = ref('')
+//const estatus = ref('')
+
 
 //Abrir y cerrar modal
 function openModal(){
@@ -70,8 +128,8 @@ function openModal(){
 // Columnas de la tabla
 // especialidad, nombre, area, semestre, competencia, urlVideo, urlPrograma, estatus
 const columns = [
-  { name: 'especialidad', label: 'Especialidad', align: 'center', field: 'especialidad', format: val => `${val}`, sortable: true},
-  { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
+ // { name: 'especialidad', label: 'Especialidad', align: 'center', field: 'especialidad', format: val => `${val}`, sortable: true},
+  { name: 'nombre', required: true, label: 'Materia', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
   { name: 'area', align: 'center', label: 'Área',align: 'center', field: 'area', sortable: true },
   { name: 'semestre', required: true, align: 'center', label: 'Semestre',align: 'center', field: 'semestre', sortable: true },
   { name: 'competencia', required: true, align: 'center', label: 'Competencia',align: 'center', field: 'competencia', sortable: true},
@@ -84,7 +142,7 @@ const columns = [
     console.log(data)
         data.data.map((el) => {
          var obj = {
-          especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad,
+//          especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad,
           nombre: el.nombre,
           area: el.area,
           semestre: el.semestre,
@@ -102,6 +160,33 @@ const columns = [
    };
    returnData();
 
+//Agregar registros
+const agregarMateria = async () => {
+
+  if(nombre.value == "" || area.value == "" || semestre.value == ""
+  || competencia.value == "" || urlVideo.value == "" || urlPrograma.value == ""){
+
+    console.log("Debe llenar todos los campos")
+
+  }else{
+    const data = {
+      //especialidad: especialidad.value;
+      nombre: nombre.value,
+      area: area.value,
+      semestre: semestre.value,
+      competencia: competencia.value,
+      urlVideo: urlVideo.value,
+      urlPrograma: urlPrograma.value,
+      carreraId: 11,
+      status: 1
+    }
+    console.log(data)
+
+
+  }
+
+}
+// especialidad, nombre, area, semestre, competencia, urlVideo, urlPrograma, estatus
 </script>
 
 // Diseño de la tabla - Estilos de la tabla

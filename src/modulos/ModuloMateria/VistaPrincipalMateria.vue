@@ -63,12 +63,11 @@ const columns = [
     console.log(data)
         data.data.map((el) => {
          var obj = {
-          especialidad: el.especialidad,
+          especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad,
           nombre: el.nombre,
           area: el.area,
           semestre: el.semestre,
           competencia: el.competencia.length > 40 ? el.competencia.substring(0, 40) + "..." : el.competencia,
-          descripcion: el.descripcion.length > 40 ? el.descripcion.substring(0, 40) + "..." : el.descripcion,
           urlVideo: el.urlVideo.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
           urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [

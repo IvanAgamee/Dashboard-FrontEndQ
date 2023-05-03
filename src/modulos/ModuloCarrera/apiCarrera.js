@@ -10,18 +10,9 @@ const getModulos = async () => {
     }
   }
 
-  const getMaterias = async () => {
+  const getCarreras = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/materia/getMaterias');
-      return response.data;
-    } catch (error) {
-        console.log('Se produjo un error al obtener los datos');
-      throw error;
-    }
-  }
-  const createMateria = async (data) => {
-    try {
-      const response = await axios.post('http://localhost:9000/api/materia/crudMateria',data);
+      const response = await axios.get('http://localhost:9000/api/carrera/getCarreras');
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al obtener los datos');
@@ -30,5 +21,5 @@ const getModulos = async () => {
   }
 
   export default {
-    getModulos, getMaterias, createMateria
+    getModulos, getCarreras
   }

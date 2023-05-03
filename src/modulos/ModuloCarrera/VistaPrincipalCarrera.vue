@@ -6,8 +6,8 @@
     <q-card class="q-pt-lg q-pb-lg">
     <!-- Area del titulo y boton agregar -->
       <div class="row">
-        <h6 class="col q-ma-sm q-ml-lg">Registro de materias</h6>
-        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="black" color="accent" size="md" label="Agregar materia" @click="openModal" dense ellipsis/>
+        <h6 class="col q-ma-sm q-ml-lg">Registro de Carreras</h6>
+        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="black" color="accent" size="md" label="Agregar Carrera" @click="openModal" dense ellipsis/>
       </div>
     <q-separator style="margin:15px" />
 
@@ -32,7 +32,7 @@
 
 <MiModal v-model:show="showModal">
   <div class ="col-12 text-center ">
-    <h5 style="margin:0px"> Agregar Materia</h5>
+    <h5 style="margin:0px"> Agregar Carrera</h5>
   </div>
 
   <q-separator style="margin:15px"/>
@@ -46,11 +46,11 @@
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
 
 <!-- Input para ingresar el nombre de la materia-->
-<q-input v-model="nombre" label="nombre *" hint="Ingrese el nombre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+<q-input v-model="nombre" label="nombre *" hint="Ingrese el nombre de la carrera" lazy-rules dense style="padding: 0px 10px 45px 10px"
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el area de la materia-->
-<q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+<q-input v-model="deártamento" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el semestre de la materia-->
@@ -99,7 +99,7 @@ import { QBtn, QTable, QCard } from 'quasar'
 import MiModal from '../../components/MiModal.vue'
 // Llamadas al backend
 //import apiRaM from '../ModuloEjemplo/apiRickAndMorty.js'
-import apiMateria from '../ModuloMateria/apiMateria.js'
+import apiCarrera from '../ModuloCarrera/apiCarrera.js'
 
 // Declaraciones de constantes
 const row = ref([])
@@ -107,12 +107,8 @@ const row = ref([])
 //Constantes para inputs de creación
 const showModal = ref(false)
 //const especialidad = ref('')
-const nombre = ref('')
-const area = ref('')
-const semestre = ref('')
-const competencia = ref('')
-const urlVideo = ref('')
-const urlPrograma = ref('')
+const carrera = ref('')
+const departamento = ref('')
 //Abrir y cerrar modal
 function openModal(){
   showModal.value = !showModal.value
@@ -120,27 +116,17 @@ function openModal(){
 
 // Columnas de la tabla
 const columns = [
-  { name: 'especialidad', align: 'center', label: 'Especialidad',align: 'center', field: 'especialidad', sortable: true },
-  { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
-  { name: 'area', align: 'center', label: 'Area',align: 'center', field: 'area', sortable: true },
-  { name: 'semestre', required: true, align: 'center', label: 'Semestre',align: 'center', field: 'semestre', sortable: true },
-  { name: 'competencia', required: true, align: 'center', label: 'Competencia',align: 'center', field: 'competencia', sortable: true},
-  { name: 'urlVideo', align: 'center', label: 'Url de Video',align: 'center', field: 'urlVideo', sortable: true },
-  { name: 'urlPrograma', required: true, align: 'center', label: 'Url de Programa',align: 'center', field: 'urlPrograma', sortable: true }]
+  { name: 'nombre', required: true, label: 'Carrera', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
+  { name: 'departamentoNombre', align: 'center', label: 'Departamento',align: 'center', field: 'departamentoNombre', sortable: true }]
 
 // Llenado de la tabla con información del backend
  const returnData =  async () =>{
-    const data = await apiMateria.getMaterias();
+    const data = await apiCarrera.getCarreras();
     console.log(data)
         data.data.map((el) => {
          var obj = {
-          especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad,
           nombre: el.nombre,
-          area: el.area,
-          semestre: el.semestre,
-          competencia: el.competencia.length > 40 ? el.competencia.substring(0, 40) + "..." : el.competencia,
-          urlVideo: el.urlVideo.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
-          urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
+          departamentoNombre: el.departamentoNombre,
           acciones: [
             { nombre: 'Editar', funcion: () => console.log('Editar') },
             { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }
@@ -153,27 +139,22 @@ const columns = [
    returnData();
 
    //Agregar registros a la tabla
-   const agregarMateria = async () => {
-
+   /* const agregarMateria = async () => {
       if(nombre.value == "" || area.value == "" || semestre.value == "" || competencia.value == "" || urlVideo.value == "" || urlPrograma.value == ""){
         console.log("Debe llenar todos los campos")
       }
 
       else{
         const data = {
-          nombre: nombre.value,
-          area: area.value,
-          semestre: semestre.value,
-          competencia: competencia.value,
-          urlVideo: urlVideo.value,
-          urlPrograma: urlPrograma.value,
+          carrera: carrera.value,
+          departamento: departamento.value,
           carreraId: 11,
           status:1
         }
         console.log(data)
 
         try{
-          await apiMateria.createMateria(data);
+          await apiCarrera.createCarrera(data);
           openModal();
           returnData();
 
@@ -182,7 +163,7 @@ const columns = [
         }
       }
 
-   }
+   }*/
 </script>
 
 // Diseño de la tabla - Estilos de la tabla

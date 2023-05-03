@@ -28,7 +28,7 @@
               <q-item-section> Materias </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="" active-class="my-menu-link">
+            <q-item clickable v-ripple to="/vistaCarrera" active-class="my-menu-link">
               <q-item-section avatar> <q-icon name="fa-solid fa-graduation-cap" size="20px" /> </q-item-section>
               <q-item-section> Carreras </q-item-section>
             </q-item>

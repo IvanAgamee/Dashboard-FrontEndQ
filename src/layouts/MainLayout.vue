@@ -11,24 +11,24 @@
       <q-drawer v-model="drawer" show-if-above :width="200" :breakpoint="400">
         <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
           <q-list padding>
-          
+
     <!-- Elementos del Menú -->
-         <q-item clickable v-ripple to="/about" active-class="my-menu-link"> 
+         <q-item clickable v-ripple to="/home" active-class="my-menu-link">
               <q-item-section avatar> <q-icon name="home" /> </q-item-section>
               <q-item-section> Inicio </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="/home" active-class="my-menu-link" exact>
+            <q-item clickable v-ripple to="/vistaDocente" active-class="my-menu-link" exact>
               <q-item-section avatar> <q-icon name="fa-solid fa-chalkboard-user" size="20px" /> </q-item-section>
               <q-item-section> Docentes </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="/about" active-class="my-menu-link"> 
+            <q-item clickable v-ripple to="/vistaMateria" active-class="my-menu-link">
               <q-item-section avatar> <q-icon name="fa-solid fa-book" size="20px" /> </q-item-section>
               <q-item-section> Materias </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="" active-class="my-menu-link">
+            <q-item clickable v-ripple to="/vistaCarrera" active-class="my-menu-link">
               <q-item-section avatar> <q-icon name="fa-solid fa-graduation-cap" size="20px" /> </q-item-section>
               <q-item-section> Carreras </q-item-section>
             </q-item>

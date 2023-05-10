@@ -126,7 +126,8 @@ const columns = [
   { name: 'semestre', required: true, align: 'center', label: 'Semestre',align: 'center', field: 'semestre', sortable: true },
   { name: 'competencia', required: true, align: 'center', label: 'Competencia',align: 'center', field: 'competencia', sortable: true},
   { name: 'urlVideo', align: 'center', label: 'Url de Video',align: 'center', field: 'urlVideo', sortable: true },
-  { name: 'urlPrograma', required: true, align: 'center', label: 'Url de Programa',align: 'center', field: 'urlPrograma', sortable: true }]
+  { name: 'urlPrograma', required: true, align: 'center', label: 'Url de Programa',align: 'center', field: 'urlPrograma', sortable: true },
+  { name: 'acciones', align: 'center', label: 'Acciones',align: 'center', field: 'acciones', sortable: true }]
 
 // Llenado de la tabla con información del backend
  const returnData =  async () =>{
@@ -143,7 +144,7 @@ const columns = [
           urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
             { nombre: 'Editar', funcion: () => console.log('Editar') },
-            { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }
+            { nombre: 'Eliminar', funcion: () => {idEliminar.value=el.materiaId, eliminarMateria()} }
           ],
         };
         row.value.push(obj);
@@ -151,6 +152,21 @@ const columns = [
        return data;
    };
    returnData();
+
+      //Eliminar registros de la tabla
+      const eliminarMateria = async () => {
+    const data = {
+      materiaId: idEliminar.value,
+      status:0}
+
+      try{
+        await apiMateria.createMateria(data);
+        returnData();
+      }catch(e){
+        console.log(e)
+        returnData();
+      }
+    }
 
    //Agregar registros a la tabla
    const agregarMateria = async () => {

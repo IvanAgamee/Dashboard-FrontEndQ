@@ -87,6 +87,20 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
   </div>
 
 </MiModal>
+
+<MiModal v-model:show="showModalEliminar">
+    <div class ="col-12 text-center ">
+    <h5 style="margin:0px"> ¿Esta seguro que desea eliminar la materia?</h5>
+  </div>
+  <q-separator style="margin:15px"/>
+  <!-- Botones del modal -->
+<div class="col-12 text-center">
+<q-separator style="margin:8px"/>
+<q-btn label="Cancelar" @click="openModal" class="q-ml-sm q-mr-md" color="positive"/>
+<q-btn label="Enviar" type="submit" @click="eliminarMaterias" color="negative"/>
+</div>
+  </MiModal>
+
  </q-page>
 </template>
 
@@ -106,6 +120,7 @@ const row = ref([])
 
 //Constantes para inputs de creación
 const showModal = ref(false)
+const showModalEliminar = ref(false)
 //const especialidad = ref('')
 const nombre = ref('')
 const area = ref('')
@@ -113,6 +128,7 @@ const semestre = ref('')
 const competencia = ref('')
 const urlVideo = ref('')
 const urlPrograma = ref('')
+const idEliminar = ref('')
 //Abrir y cerrar modal
 function openModal(){
   showModal.value = !showModal.value
@@ -126,7 +142,8 @@ const columns = [
   { name: 'semestre', required: true, align: 'center', label: 'Semestre',align: 'center', field: 'semestre', sortable: true },
   { name: 'competencia', required: true, align: 'center', label: 'Competencia',align: 'center', field: 'competencia', sortable: true},
   { name: 'urlVideo', align: 'center', label: 'Url de Video',align: 'center', field: 'urlVideo', sortable: true },
-  { name: 'urlPrograma', required: true, align: 'center', label: 'Url de Programa',align: 'center', field: 'urlPrograma', sortable: true }]
+  { name: 'urlPrograma', required: true, align: 'center', label: 'Url de Programa',align: 'center', field: 'urlPrograma', sortable: true },
+  { name: 'acciones', align: 'center', label: 'Acciones',align: 'center', field: 'acciones', sortable: true }]
 
 // Llenado de la tabla con información del backend
  const returnData =  async () =>{
@@ -143,7 +160,7 @@ const columns = [
           urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
             { nombre: 'Editar', funcion: () => console.log('Editar') },
-            { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }
+            { nombre: 'Eliminar', funcion: () =>{idEliminar.value=el.materiaId, showModalEliminar.value = true} }
           ],
         };
         row.value.push(obj);
@@ -151,6 +168,22 @@ const columns = [
        return data;
    };
    returnData();
+
+   //Eliminar registros de la tabla 
+ const eliminarMaterias = async () => {
+  const data = {
+    materiaId: idEliminar.value,
+    status: 0 }
+
+    try {
+      await apiMateria.createMaterias(data);
+      showModalEliminar.value = false
+        returnData();
+    } catch (e) {
+      console.log(e)
+      returnData();
+    }
+ }
 
    //Agregar registros a la tabla
    const agregarMateria = async () => {

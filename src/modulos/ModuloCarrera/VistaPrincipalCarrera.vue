@@ -49,7 +49,8 @@ const row = ref([])
 // Columnas de la tabla
 const columns = [
   { name: 'nombre', required: true, label: 'Nombre de la carrera', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
-  { name: 'departamentoNombre', align: 'center', label: 'Nombre del departamento',align: 'center', field: 'departamento', sortable: true }]
+  { name: 'departamentoNombre', align: 'center', label: 'Nombre del departamento',align: 'center', field: 'departamento', sortable: true },
+  { name: 'acciones', align: 'center', label: 'Acciones',align: 'center', field: 'acciones', sortable: true }]
 
 
 // Llenado de la tabla con información del backend
@@ -62,7 +63,7 @@ const columns = [
           departamentoNombre: el.departamentoNombre,
           acciones: [
             { nombre: 'Editar', funcion: () => console.log('Editar') },
-            { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }
+            { nombre: 'Eliminar', funcion: () => console.log(idEliminar.value=el.docenteId,eliminarDocente) }
           ],
         };
         row.value.push(obj);
@@ -70,6 +71,21 @@ const columns = [
        return data;
    };
    returnData();
+
+   //Eliminar registros de la tabla 
+ const eliminarDocente = async () => {
+  const data = {
+    docenteId: idEliminar.value,
+    status: 0 }
+
+    try {
+      await apiDocente.createDocente(data);
+      returnData();
+    } catch (e) {
+      console.log(e)
+      returnData();
+    }
+ }
 
 </script>
 

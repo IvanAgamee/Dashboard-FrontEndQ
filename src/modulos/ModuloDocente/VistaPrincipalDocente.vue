@@ -54,7 +54,8 @@ const columns = [
   { name: 'materias', align: 'center', label: 'Materias',align: 'center', field: 'materias', sortable: true },
   { name: 'descripcion', align: 'center', label: 'Descripcion',align: 'center', field: 'descripcion', sortable: true},
   { name: 'informacionAcademica', align: 'center', label: 'Información Academica',align: 'center', field: 'informacionAcademica', sortable: true },
-  { name: 'urlImagen', align: 'center', label: 'Url de Imagen',align: 'center', field: 'urlImagen', sortable: true }]
+  { name: 'urlImagen', align: 'center', label: 'Url de Imagen',align: 'center', field: 'urlImagen', sortable: true },
+  { name: 'acciones', align: 'center', label: 'Acciones',align: 'center', field: 'acciones', sortable: true }]
 
 // Llenado de la tabla con información del backend
  const returnData =  async () =>{
@@ -70,7 +71,7 @@ const columns = [
           urlImagen: el.urlImagen.length > 40 ? el.urlImagen.substring(0, 40) + "..." : el.urlImagen,
           acciones: [
             { nombre: 'Editar', funcion: () => console.log('Editar') },
-            { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }
+            { nombre: 'Eliminar', funcion: () => console.log(idEliminar.value=el.docenteId,eliminarDocente) }
           ],
         };
         row.value.push(obj);
@@ -78,6 +79,22 @@ const columns = [
        return data;
    };
    returnData();
+
+//Eliminar registros de la tabla 
+ const eliminarDocente = async () => {
+  const data = {
+    docenteId: idEliminar.value,
+    status: 0 }
+
+    try {
+      await apiDocente.createDocente(data);
+      returnData();
+    } catch (e) {
+      console.log(e)
+      returnData();
+    }
+ }
+
 
 </script>
 

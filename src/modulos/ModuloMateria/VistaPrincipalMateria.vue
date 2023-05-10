@@ -30,10 +30,11 @@
    </q-table>
   </q-card>
 
-<MiModal v-model:show="showModal">
-  <div class ="col-12 text-center ">
-    <h5 style="margin:0px"> Agregar Materia</h5>
-  </div>
+  <MiModal v-model:show="showModal">
+    <div class ="col-12 text-center ">
+      <h5 style="margin:0px"> Agregar Materia</h5>
+    </div>
+
 
   <q-separator style="margin:15px"/>
 
@@ -87,6 +88,22 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
   </div>
 
 </MiModal>
+
+    <MiModal v-model:show="showModalEliminar">
+        <div class ="col-1 text-center ">
+          <h5 style="margin:0px"> ¿Deseas eliminar esta materia?</h5>
+        </div>
+
+
+
+    <!-- Botones del modal -->
+    <div class="col-1 text-center">
+    <q-separator style="margin:8px"/>
+    <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Aceptar" type="submit" @click="eliminarMateria()" color="negative"/>
+    </div>
+
+</MiModal>
  </q-page>
 </template>
 
@@ -113,6 +130,8 @@ const semestre = ref('')
 const competencia = ref('')
 const urlVideo = ref('')
 const urlPrograma = ref('')
+const showModalEliminar = ref(false)
+const idEliminar = ref('')
 //Abrir y cerrar modal
 function openModal(){
   showModal.value = !showModal.value
@@ -144,7 +163,7 @@ const columns = [
           urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
             { nombre: 'Editar', funcion: () => console.log('Editar') },
-            { nombre: 'Eliminar', funcion: () => {idEliminar.value=el.materiaId, eliminarMateria()} }
+            { nombre: 'Eliminar', funcion: () => {idEliminar.value=el.materiaId, showModalEliminar.value=true} }
           ],
         };
         row.value.push(obj);
@@ -161,6 +180,7 @@ const columns = [
 
       try{
         await apiMateria.createMateria(data);
+        showModalEliminar.value=false
         returnData();
       }catch(e){
         console.log(e)

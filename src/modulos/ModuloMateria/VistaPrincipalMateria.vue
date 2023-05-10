@@ -85,13 +85,41 @@
       <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
       <q-btn label="Enviar" type="submit" @click="agregarMateria" color="secondary"/>
     </div>
-
   </div>
 
+</MiModal>
+//Modal para eliminar
+<MiModal v-model:show="showModalEliminar">
+
+<div class ="col-12 text-center ">
+  <h5 style="margin:0px"> ¿Está seguro de eliminar esta materia? </h5>
+</div>
+<q-separator style="margin:15px"/>
+
+<div class="row col-12">
+
+  <!-- Columna 2 del modal agregar Materia
+  <div class="col-6 col-6-full">
+
+     Input para ingresar la competencia de la materia
+    <q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+    :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+  </div> -->
+
+  <!-- Botones del modal -->
+  <div class="col-12 text-center">
+    <q-separator style="margin:8px"/>
+    <q-btn label="Cancelar" @click="eliminarDato()" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Enviar" type="submit" @click="eliminarMateria()" color="secondary"/>
+  </div>
+</div>
 </MiModal>
 
  </q-page>
 </template>
+
+
 
 // JavaScript de la página - Estructura de la página
 <script setup>
@@ -104,25 +132,32 @@ import MiModal from '../../components/MiModal.vue'
 //import apiRaM from '../ModuloEjemplo/apiRickAndMorty.js'
 //import apiDocente from '../ModuloDocente/apiDocente.js'
 import apiMateria from '../ModuloMateria/apiMateria.js'
+import { data } from "autoprefixer"
 
 // Declaraciones de constantes
 const row = ref([])
 
+
 //Constantes para inputs de creación
 const showModal = ref(false)
-//const especialidad = ref('')
 const nombre = ref('')
 const area = ref('')
 const semestre = ref('')
 const competencia = ref('')
 const urlVideo = ref('')
 const urlPrograma = ref('')
-//const estatus = ref('')
+const showModalEliminar = ref(false)
+const idEliminar = ref('')
 
 
-//Abrir y cerrar modal
+//Abrir y cerrar modal agregar
 function openModal(){
   showModal.value = !showModal.value
+}
+
+//Abrir y cerrar modal eliminar
+function openModalEliminar(){
+  showModalEliminar.value = !showModalEliminar.value
 }
 
 // Columnas de la tabla
@@ -134,7 +169,11 @@ const columns = [
   { name: 'semestre', required: true, align: 'center', label: 'Semestre',align: 'center', field: 'semestre', sortable: true },
   { name: 'competencia', required: true, align: 'center', label: 'Competencia',align: 'center', field: 'competencia', sortable: true},
   { name: 'urlVideo', align: 'center', label: 'Url del Vídeo',align: 'center', field: 'urlVideo', sortable: true },
-  { name: 'urlPrograma', required: true, align: 'center', label: 'Url del Programa',align: 'center', field: 'urlPrograma', sortable: true }]
+  { name: 'urlPrograma', required: true, align: 'center', label: 'Url del Programa',align: 'center', field: 'urlPrograma', sortable: true },
+  { name: 'acciones', required: true, align: 'center', label: 'Acciones',align: 'center', field: 'acciones', sortable: true },
+]
+
+
 
 // Llenado de la tabla con información del backend
  const returnData =  async () =>{
@@ -151,7 +190,7 @@ const columns = [
           urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
             { nombre: 'Editar', funcion: () => console.log('Editar') },
-            { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }
+            { nombre: 'Eliminar', funcion: () => { idEliminar.value=el.materiaId, showModalEliminar.value=true } }
           ],
         };
         row.value.push(obj);
@@ -159,6 +198,8 @@ const columns = [
        return data;
    };
    returnData();
+
+
 
 //Agregar registros
 const agregarMateria = async () => {
@@ -196,8 +237,36 @@ const agregarMateria = async () => {
       console.log(e)
     }
   }
-
 }
+
+
+
+//Eliminar datos de la tabla
+const eliminarMateria = async () => {
+    const data = {
+      materiaId: idEliminar.value,
+      status: 0,
+      //this.data.splice(this.data.indexOf(data),1)
+    }
+
+    try {
+      await apiMateria.createMateria(data);
+      showModalEliminar.value = false
+      return data;
+    } catch (e) {
+      console.log(e)
+      returnData();
+    }
+   }
+
+  /* eliminarDato(data) {
+  const index = this.columns.indexOf(data)
+  if (index > -1) {
+    this.datos.splice(index, 1)
+  }
+}
+*/
+
 // especialidad, nombre, area, semestre, competencia, urlVideo, urlPrograma, estatus
 </script>
 

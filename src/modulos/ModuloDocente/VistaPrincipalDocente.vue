@@ -3,7 +3,7 @@
 <!-- Q-page: Es el componente que envuelve a toda nuestra página -->
   <q-page padding>
   <!-- Q-card es el cuadro blanco dentro de la pagina -->
-    <q-card class="q-pt-lg q-pb-lg"> 
+    <q-card class="q-pt-lg q-pb-lg">
     <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de docentes</h6>
@@ -26,10 +26,10 @@
       </q-td>
     </q-tr>
   </template>
-  
+
    </q-table>
   </q-card>
-  
+
  </q-page>
 </template>
 
@@ -41,7 +41,7 @@ import {ref} from "vue"
 import { QBtn, QTable, QCard } from 'quasar'
 import MiModal from '../../components/MiModal.vue'
 // Llamadas al backend
-import apiRaM from '../ModuloEjemplo/apiRickAndMorty.js'
+//import apiRaM from '../ModuloEjemplo/apiRickAndMorty.js'
 import apiDocente from '../ModuloDocente/apiDocente.js'
 
 // Declaraciones de constantes
@@ -54,7 +54,9 @@ const columns = [
   { name: 'materias', align: 'center', label: 'Materias',align: 'center', field: 'materias', sortable: true },
   { name: 'descripcion', align: 'center', label: 'Descripcion',align: 'center', field: 'descripcion', sortable: true},
   { name: 'informacionAcademica', align: 'center', label: 'Información Academica',align: 'center', field: 'informacionAcademica', sortable: true },
-  { name: 'urlImagen', align: 'center', label: 'Url de Imagen',align: 'center', field: 'urlImagen', sortable: true }]
+  { name: 'urlImagen', align: 'center', label: 'Url de Imagen',align: 'center', field: 'urlImagen', sortable: true },
+  { name: 'acciones', align: 'center', label: 'Acciones',align: 'center', field: 'acciones', sortable: true }
+  ]
 
 // Llenado de la tabla con información del backend
  const returnData =  async () =>{
@@ -78,6 +80,22 @@ const columns = [
        return data;
    };
    returnData();
+
+   //Eliminar datos de la tabla
+   const eliminarDocente = async () => {
+    const data = {
+      docenteId: idEliminar.value,
+      status: 0
+    }
+
+    try {
+      await apiDocente.createDocente(data);
+      return data;
+    } catch (e) {
+      console.log(e)
+      returnData();
+    }
+   }
 
 </script>
 

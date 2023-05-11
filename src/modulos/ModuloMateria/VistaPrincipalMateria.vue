@@ -30,6 +30,8 @@
    </q-table>
   </q-card>
 
+  <!----------------MODAL AGREGAR MATERIA---------------------->
+
   <MiModal v-model:show="showModal">
     <div class ="col-12 text-center ">
       <h5 style="margin:0px"> Agregar Materia</h5>
@@ -89,6 +91,8 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 
 </MiModal>
 
+<!----------------MODAL ELIMINAR---------------------->
+
     <MiModal v-model:show="showModalEliminar">
         <div class ="col-1 text-center ">
           <h5 style="margin:0px"> ¿Deseas eliminar esta materia?</h5>
@@ -104,6 +108,84 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
     </div>
 
 </MiModal>
+
+<!----------------MODAL ACTUALIZAR---------------------->
+
+
+<MiModal v-model:show="showModalModificar">
+    <div class ="col-12 text-center ">
+      <h5 style="margin:0px"> Actualizar Materia</h5>
+    </div>
+
+
+  <q-separator style="margin:15px"/>
+
+  <div class="row col-12">
+    <!-- Columna 1 del modal agregar Materia -->
+    <div class="col-6 col-6-full">
+
+<!-- Input para ingresar la especialidad
+<q-input v-model="especialidad" label="Especialidad *" hint="Ingrese la especialidad de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
+
+<!-- Input para ingresar el nombre de la materia-->
+<q-input v-model="nombre" label="nombre *" hint="Ingrese el nombre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el area de la materia-->
+<q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el semestre de la materia-->
+<q-input v-model="semestre" label="Semestre *" hint="Ingrese el semestre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+</div>
+
+<!-- Columna 2 del modal agregar Materia -->
+<div class="col-6 col-6-full">
+<!-- Input para ingresar la competencia de la materia-->
+<q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el url del vídeo de la materia-->
+<q-input v-model="urlVideo" label="URL del Vídeo *" hint="Ingrese el URL del Vídeo" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el url del programa de la materia-->
+<q-input v-model="urlPrograma" label="URL del Programa *" hint="Ingrese el URL del Programa" lazy-rules dense style="padding: 0px 10px 45px 10px"
+:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<!-- Input para ingresar el estatus de la materia
+<q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+  :rules="[val => val && val.length > 0 || 'Este campo es obligatorio', val => /^[0-9]+$/.test(val) || 'Ingrese solo números']"
+  type="number"/>-->
+</div>
+
+<!-- Botones del modal -->
+<div class="col-12 text-center">
+<q-separator style="margin:8px"/>
+<q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+<q-btn label="Enviar" type="submit" @click=abrirModal() color="negative"/>
+</div>
+  </div>
+
+</MiModal>
+
+<!----------------MODAL ACTUALIZAR ¿estas seguro?---------------------->
+<MiModal v-model:show="showModalAsegurarModificar">
+        <div class ="col-1 text-center ">
+          <h5 style="margin:0px"> ¿Estas seguro que quieres modificar los datos de esta materia?</h5>
+        </div>
+
+    <!-- Botones del modal -->
+    <div class="col-1 text-center">
+    <q-separator style="margin:8px"/>
+    <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Aceptar" type="submit" @click=modificarMateria() color="negative"/>
+    </div>
+
+</MiModal>
+
  </q-page>
 </template>
 
@@ -117,6 +199,8 @@ import MiModal from '../../components/MiModal.vue'
 // Llamadas al backend
 //import apiRaM from '../ModuloEjemplo/apiRickAndMorty.js'
 import apiMateria from '../ModuloMateria/apiMateria.js'
+import { toast } from "vue3-toastify"
+
 
 // Declaraciones de constantes
 const row = ref([])
@@ -132,7 +216,9 @@ const urlVideo = ref('')
 const urlPrograma = ref('')
 const showModalEliminar = ref(false)
 const idEliminar = ref('')
-//Abrir y cerrar modal
+const showModalModificar = ref(false)
+const materiaId = ref('')
+const showModalAsegurarModificar = ref(false)
 function openModal(){
   showModal.value = !showModal.value
 }
@@ -162,7 +248,7 @@ const columns = [
           urlVideo: el.urlVideo.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
           urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
-            { nombre: 'Editar', funcion: () => console.log('Editar') },
+            { nombre: 'Editar', funcion: () =>  {datosModificarMateria(el), console.log(el)}},
             { nombre: 'Eliminar', funcion: () => {idEliminar.value=el.materiaId, showModalEliminar.value=true} }
           ],
         };
@@ -172,21 +258,23 @@ const columns = [
    };
    returnData();
 
-      //Eliminar registros de la tabla
-      const eliminarMateria = async () => {
+//Eliminar datos de la tabla
+const eliminarMateria = async () => {
     const data = {
       materiaId: idEliminar.value,
-      status:0}
-
-      try{
-        await apiMateria.createMateria(data);
-        showModalEliminar.value=false
-        returnData();
-      }catch(e){
-        console.log(e)
-        returnData();
-      }
+      status: 0,
+      //this.data.splice(this.data.indexOf(data),1)
     }
+
+    try {
+      await apiMateria.createMateria(data);
+      showModalEliminar.value = false
+      return data;
+    } catch (e) {
+      console.log(e)
+      returnData();
+    }
+   }
 
    //Agregar registros a la tabla
    const agregarMateria = async () => {
@@ -219,6 +307,50 @@ const columns = [
       }
 
    }
+
+
+   //Llena el modal de editar con los valores de la materia
+   const datosModificarMateria = async(el) =>{
+    showModalModificar.value = true
+          nombre.value = el.nombre,
+          area.value = el.area,
+          semestre.value = el.semestre,
+          competencia.value = el.competencia,
+          urlVideo.value = el.urlVideo,
+          urlPrograma.value = el.urlPrograma,
+          materiaId.value = el.materiaId
+
+   }
+
+   //Modificar los valores de la materia
+   const modificarMateria = async () =>{
+      const data = {
+          materiaId: materiaId.value,
+          nombre: nombre.value,
+          area: area.value,
+          semestre: semestre.value,
+          competencia: competencia.value,
+          urlVideo: urlVideo.value,
+          urlPrograma: urlPrograma.value,
+          carreraId: 11,
+          status:1
+      }
+
+      try{
+        await apiMateria.createMateria(data);
+        showModalModificar.value = false
+        showModalAsegurarModificar.value = false
+        returnData();
+      }catch(e){
+        toast.error("No se pudo modificar la materia");
+      }
+      }
+
+    const abrirModal = async () =>{
+      showModalAsegurarModificar.value = true
+    }
+
+
 </script>
 
 // Diseño de la tabla - Estilos de la tabla

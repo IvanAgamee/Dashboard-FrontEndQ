@@ -90,6 +90,9 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
   </div>
 
 </MiModal>
+<!----------------MODAL AGREGAR ASEGURAR---------------------->
+
+
 
 <!----------------MODAL ELIMINAR---------------------->
 
@@ -165,7 +168,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
 <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
-<q-btn label="Enviar" type="submit" @click=abrirModal() color="negative"/>
+<q-btn label="Actualizar" type="submit" @click="showModalAsegurarModificar=true" color="negative"/>
 </div>
   </div>
 
@@ -346,9 +349,9 @@ const eliminarMateria = async () => {
       }
       }
 
-    const abrirModal = async () =>{
+    /* const abrirModal = async () =>{
       showModalAsegurarModificar.value = true
-    }
+    }*/
 
 
 </script>

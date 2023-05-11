@@ -74,7 +74,7 @@
       :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
       <!-- Input para ingresar el estatus de la materia
-      <q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+      <q-input v-model="estatus" label="Estatus *" hint="Ingrese eshow()l estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
       :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
 
     </div>
@@ -110,7 +110,7 @@
   <!-- Botones del modal -->
   <div class="col-12 text-center">
     <q-separator style="margin:8px"/>
-    <q-btn label="Cancelar" @click="eliminarDato()" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Cancelar" @click="openModalEliminar()" flat class="q-ml-sm q-mr-md" />
     <q-btn label="Enviar" type="submit" @click="eliminarMateria()" color="secondary"/>
   </div>
 </div>

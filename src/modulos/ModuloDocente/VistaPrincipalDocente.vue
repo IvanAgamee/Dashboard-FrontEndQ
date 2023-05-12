@@ -38,8 +38,6 @@
     </div>
       <q-separator style="margin:15px" />  
 
-
-
     <div class="row col-12">
 
       <!-- Columna 1 del modal agregar Docente -->
@@ -71,8 +69,8 @@
        <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
-                <q-btn label="Enviar" type="submit" @click="createDocente" color="secondary"/>
+                <q-btn label="Cancelar" @click="openModal" class="q-ml-sm q-mr-md" color="negative"/>
+                <q-btn label="Enviar" type="submit" @click="createDocente" color="positive"/>
             </div>
       </div>
     </MiModal>
@@ -85,13 +83,11 @@
       <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="showModalEliminar=false" flat class="q-ml-sm q-mr-md" />
-                <q-btn label="Aceptar" type="submit" @click="eliminarDocente()" color="secondary"/>
+                <q-btn label="Cancelar" @click="showModalEliminar=false" class="q-ml-sm q-mr-md" color="negative"/>
+                <q-btn label="Aceptar" type="submit" @click="eliminarDocente()" color="positive"/>
             </div>
 
     </MiModal>
-
-
 
     <MiModal v-model:show="showModalModificar">
 
@@ -99,8 +95,6 @@
       <h5 style="margin:0px">Editar docente</h5> 
     </div>
       <q-separator style="margin:15px" />  
-
-
 
     <div class="row col-12">
 
@@ -133,8 +127,8 @@
        <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="showModalModificar=false" flat class="q-ml-sm q-mr-md" />
-                <q-btn label="Enviar" type="submit" @click="modificarDocente()" color="secondary"/>
+                <q-btn label="Cancelar" @click="showModalModificar=false" class="q-ml-sm q-mr-md" color="negative"/>
+                <q-btn label="Enviar" type="submit" @click="modificarDocente()" color="positive"/>
             </div>
       </div>
     </MiModal>

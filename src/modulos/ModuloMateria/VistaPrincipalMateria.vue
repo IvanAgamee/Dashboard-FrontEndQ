@@ -29,7 +29,7 @@
   
    </q-table>
   </q-card>
-
+<!----------------MODAL AGREGAR MATERIA---------------------->
 <MiModal v-model:show="showModal">
   <div class ="col-12 text-center ">
     <h5 style="margin:0px"> Agregar Materia</h5>
@@ -81,13 +81,13 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 <!-- Botones del modal -->
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="showModal=false" class="q-ml-sm q-mr-md" color="positive"/>
-<q-btn label="Enviar" type="submit" @click="showModalConfirmarAgregar=true" color="negative"/>
+<q-btn label="Cancelar" @click="showModal=false" class="q-ml-sm q-mr-md" color="negative"/>
+<q-btn label="Enviar" type="submit" @click="showModalConfirmarAgregar=true" color="positive"/>
 </div>
   </div>
 
 </MiModal>
-
+<!----------------MODAL CONFIRMAR AGREGAR MATERIA---------------------->
 <MiModal v-model:show="showModalConfirmarAgregar">
     <div class ="col-12 text-center ">
     <h5 style="margin:0px"> ¿Esta seguro que desea agregar la materia?</h5>
@@ -96,11 +96,12 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
   <!-- Botones del modal -->
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="showModalConfirmarAgregar=false" class="q-ml-sm q-mr-md" color="positive"/>
-<q-btn label="Enviar" type="submit" @click="agregarMateria()" color="negative"/>
+<q-btn label="Cancelar" @click="showModalConfirmarAgregar=false" class="q-ml-sm q-mr-md" color="negative"/>
+<q-btn label="Enviar" type="submit" @click="agregarMateria()" color="positive"/>
 </div>
 </MiModal>
 
+<!----------------MODAL ELIMINAR MATERIA---------------------->
 <MiModal v-model:show="showModalEliminar">
     <div class ="col-12 text-center ">
     <h5 style="margin:0px"> ¿Esta seguro que desea eliminar la materia?</h5>
@@ -109,9 +110,81 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
   <!-- Botones del modal -->
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="showModalEliminar=false" class="q-ml-sm q-mr-md" color="positive"/>
-<q-btn label="Enviar" type="submit" @click="eliminarMaterias()" color="negative"/>
+<q-btn label="Cancelar" @click="showModalEliminar=false" class="q-ml-sm q-mr-md" color="negative"/>
+<q-btn label="Enviar" type="submit" @click="eliminarMaterias()" color="positive"/>
 </div>
+</MiModal>
+<!----------------MODAL ACTUALIZAR MATERIA---------------------->
+<MiModal v-model:show="showModalModificar">
+
+<div class="col-12 text-center ">
+  <h5 style="margin:0px">Editar materia</h5> 
+</div>
+  <q-separator style="margin:15px" />  
+
+<div class="row col-12">
+
+  <!-- Columna 1 del modal agregar Docente -->
+          <div class="col-6 col-6-full">
+          <!-- Input para ingresar la especialidad
+              <q-input v-model="especialidad" label="Especialidad *" hint="Ingrese la especialidad de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
+
+              <!-- Input para ingresar el nombre de la materia-->
+              <q-input v-model="nombre" label="Nombre *" hint="Ingrese el nombre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+              <!-- Input para ingresar el area de la materia-->
+              <q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+              <!-- Input para ingresar el semestre de la materia-->
+              <q-input v-model="semestre" label="Semestre *" hint="Ingrese el semestre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+              type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+              </div>
+
+              <!-- Columna 2 del modal agregar Materia -->
+              <div class="col-6 col-6-full">
+              <!-- Input para ingresar la competencia de la materia-->
+              <q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+              <!-- Input para ingresar el url del vídeo de la materia-->
+              <q-input v-model="urlVideo" label="URL del Vídeo *" hint="Ingrese el URL del Vídeo" lazy-rules dense style="padding: 0px 10px 45px 10px"
+              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+              <!-- Input para ingresar el url del programa de la materia-->
+              <q-input v-model="urlPrograma" label="URL del Programa *" hint="Ingrese el URL del Programa" lazy-rules dense style="padding: 0px 10px 45px 10px"
+              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+              <!-- Input para ingresar el estatus de la materia
+              <q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
+                :rules="[val => val && val.length > 0 || 'Este campo es obligatorio', val => /^[0-9]+$/.test(val) || 'Ingrese solo números']"
+                type="number"/>-->
+          </div>
+
+   <!-- Botones del modal -->
+          <div class="col-12 text-center ">
+          <q-separator style="margin:8px" />
+            <q-btn label="Cancelar" @click="showModalModificar=false" class="q-ml-sm q-mr-md" color="negative"/>
+            <q-btn label="Enviar" type="submit" @click="showModalConfirmarModificar=true" color="positive"/>
+        </div>
+  </div>
+</MiModal>
+
+<!----------------MODAL CONFIRMAR ACTUALIZAR MATERIA---------------------->
+<MiModal v-model:show="showModalConfirmarModificar">
+        <div class ="col-1 text-center ">
+          <h5 style="margin:0px"> ¿Estas seguro que quieres modificar los datos de esta materia?</h5>
+        </div>
+
+    <!-- Botones del modal -->
+    <div class="col-1 text-center">
+    <q-separator style="margin:8px"/>
+    <q-btn label="Cancelar" @click="showModalConfirmarModificar=false" class="q-ml-sm q-mr-md" color="negative"/>
+    <q-btn label="Aceptar" type="submit" @click=modificarMateria() color="positive"/>
+    </div>
+
 </MiModal>
 
  </q-page>
@@ -137,6 +210,8 @@ const row = ref([])
 const showModal = ref(false)
 const showModalEliminar = ref(false)
 const showModalConfirmarAgregar = ref(false)
+const showModalModificar = ref(false)
+const showModalConfirmarModificar = ref(false)
 //const especialidad = ref('')
 const nombre = ref('')
 const area = ref('')
@@ -145,6 +220,7 @@ const competencia = ref('')
 const urlVideo = ref('')
 const urlPrograma = ref('')
 const idEliminar = ref('')
+const materiaId = ref('')
 //Abrir y cerrar modal
 function openModal(){
   showModal.value = !showModal.value
@@ -175,7 +251,7 @@ const columns = [
           urlVideo: el.urlVideo.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
           urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
-            { nombre: 'Editar', funcion: () => console.log('Editar') },
+            { nombre: 'Editar', funcion: () => {datosModificarMateria(el), console.log(el)} },
             { nombre: 'Eliminar', funcion: () =>{idEliminar.value=el.materiaId, showModalEliminar.value = true} }
           ],
         };
@@ -242,8 +318,47 @@ const columns = [
           console.log(e)
         }
       }
-
    }
+
+//Llena el modal de editar con los valores de la materia
+const datosModificarMateria = async(el) =>{
+    showModalModificar.value = true
+          nombre.value = el.nombre,
+          area.value = el.area,
+          semestre.value = el.semestre,
+          competencia.value = el.competencia,
+          urlVideo.value = el.urlVideo,
+          urlPrograma.value = el.urlPrograma,
+          materiaId.value = el.materiaId
+   }
+
+   //Modificar los valores de la materia
+   const modificarMateria = async () =>{
+      const data = {
+          materiaId: materiaId.value,
+          nombre: nombre.value,
+          area: area.value,
+          semestre: semestre.value,
+          competencia: competencia.value,
+          urlVideo: urlVideo.value,
+          urlPrograma: urlPrograma.value,
+          carreraId: 11,
+          status:1
+      }
+
+      try{
+        Loading.show({  spinner: QSpinnerGears,})
+        await apiMateria.createMaterias(data);
+        showModalModificar.value = false
+        showModalConfirmarModificar.value = false
+        Loading.hide()
+        Notify.create('Se ha realizado correcta');
+        returnData();
+      }catch(e){
+        toast.error("No se pudo modificar la materia");
+      }
+      }
+
 
 </script>
 

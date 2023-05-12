@@ -81,11 +81,24 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 <!-- Botones del modal -->
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="openModal" class="q-ml-sm q-mr-md" color="positive"/>
-<q-btn label="Enviar" type="submit" @click="agregarMateria" color="negative"/>
+<q-btn label="Cancelar" @click="showModal=false" class="q-ml-sm q-mr-md" color="positive"/>
+<q-btn label="Enviar" type="submit" @click="showModalConfirmarAgregar=true" color="negative"/>
 </div>
   </div>
 
+</MiModal>
+
+<MiModal v-model:show="showModalConfirmarAgregar">
+    <div class ="col-12 text-center ">
+    <h5 style="margin:0px"> ¿Esta seguro que desea agregar la materia?</h5>
+  </div>
+  <q-separator style="margin:15px"/>
+  <!-- Botones del modal -->
+<div class="col-12 text-center">
+<q-separator style="margin:8px"/>
+<q-btn label="Cancelar" @click="showModalConfirmarAgregar=false" class="q-ml-sm q-mr-md" color="positive"/>
+<q-btn label="Enviar" type="submit" @click="agregarMateria()" color="negative"/>
+</div>
 </MiModal>
 
 <MiModal v-model:show="showModalEliminar">
@@ -96,10 +109,10 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
   <!-- Botones del modal -->
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="openModal" class="q-ml-sm q-mr-md" color="positive"/>
-<q-btn label="Enviar" type="submit" @click="eliminarMaterias" color="negative"/>
+<q-btn label="Cancelar" @click="showModalEliminar=false" class="q-ml-sm q-mr-md" color="positive"/>
+<q-btn label="Enviar" type="submit" @click="eliminarMaterias()" color="negative"/>
 </div>
-  </MiModal>
+</MiModal>
 
  </q-page>
 </template>
@@ -114,6 +127,8 @@ import MiModal from '../../components/MiModal.vue'
 // Llamadas al backend
 //import apiRaM from '../ModuloEjemplo/apiRickAndMorty.js'
 import apiMateria from '../ModuloMateria/apiMateria.js'
+// outside of a Vue file
+import { Loading,Notify, QSpinnerGears } from 'quasar'
 
 // Declaraciones de constantes
 const row = ref([])
@@ -121,6 +136,7 @@ const row = ref([])
 //Constantes para inputs de creación
 const showModal = ref(false)
 const showModalEliminar = ref(false)
+const showModalConfirmarAgregar = ref(false)
 //const especialidad = ref('')
 const nombre = ref('')
 const area = ref('')
@@ -176,8 +192,11 @@ const columns = [
     status: 0 }
 
     try {
+      Loading.show({  spinner: QSpinnerGears,})
       await apiMateria.createMaterias(data);
+      Loading.hide()
       showModalEliminar.value = false
+      Notify.create('Se ha realizado correctamente')
         returnData();
     } catch (e) {
       console.log(e)
@@ -206,15 +225,18 @@ const columns = [
         }
         console.log(data)
         try{
+          Loading.show({  spinner: QSpinnerGears,})
           await apiMateria.createMaterias(data);
-          openModal();
+          showModal.value = false;
+          showModalConfirmarAgregar.value = false;
+          Loading.hide()
           nombre.value = "",
           area.value = "",
           semestre.value = "",
           competencia.value = "",
           urlVideo.value = "",
           urlPrograma.value = "",
-
+          Notify.create('Se ha realizado correctamente')
           returnData();
         }catch(e){
           console.log(e)

@@ -72,7 +72,7 @@
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
                 <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
-                <q-btn label="Enviar" type="submit" @click=" " color="secondary"/>
+                <q-btn label="Enviar" type="submit" @click="createDocente" color="secondary"/>
             </div>
       </div>
     </MiModal>
@@ -85,7 +85,7 @@
       <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+                <q-btn label="Cancelar" @click="showModalEliminar=false" flat class="q-ml-sm q-mr-md" />
                 <q-btn label="Aceptar" type="submit" @click="eliminarDocente()" color="secondary"/>
             </div>
 
@@ -153,8 +153,6 @@ import apiDocente from '../ModuloDocente/apiDocente.js'
 // outside of a Vue file
 import { Loading,Notify, QSpinnerGears } from 'quasar'
 
-Notify.create('Danger, Will Robinson! Danger!')
-
 // Declaraciones de constantes
 const row = ref([])
 
@@ -169,7 +167,7 @@ const materias = ref('')
 const contacto = ref('')
 const fotoPerfil = ref('')
 const docenteId = ref('')
-const idEliminar = ref()
+const idEliminar = ref('')
 
 // Abrir y cerrar modal
 function openModal () {
@@ -216,6 +214,8 @@ const columns = [
  const eliminarDocente = async () => {
   const data = {
     docenteId: idEliminar.value,
+    status: 0
+  }
       try{
       Loading.show({  spinner: QSpinnerGears,})
       await apiDocente.createDocente(data);
@@ -319,5 +319,4 @@ if (nombre.value != "" ) {
     font-weight: bold;
     color: white;
   }
-}
 </style>

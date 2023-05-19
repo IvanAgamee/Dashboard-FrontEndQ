@@ -106,7 +106,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
     <!-- Botones del modal -->
     <div class="col-1 text-center">
     <q-separator style="margin:8px"/>
-    <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Cancelar" @click="showModalEliminar = false" flat class="q-ml-sm q-mr-md" />
     <q-btn label="Aceptar" type="submit" @click="eliminarMateria()" color="negative"/>
     </div>
 
@@ -167,7 +167,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 <!-- Botones del modal -->
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+<q-btn label="Cancelar" @click="showModalModificar = false" flat class="q-ml-sm q-mr-md" />
 <q-btn label="Actualizar" type="submit" @click="showModalAsegurarModificar=true" color="negative"/>
 </div>
   </div>
@@ -183,7 +183,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
     <!-- Botones del modal -->
     <div class="col-1 text-center">
     <q-separator style="margin:8px"/>
-    <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Cancelar" @click="showModalAsegurarModificar = false" flat class="q-ml-sm q-mr-md" />
     <q-btn label="Aceptar" type="submit" @click=modificarMateria() color="negative"/>
     </div>
 
@@ -191,6 +191,9 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 
  </q-page>
 </template>
+
+
+
 
 // JavaScript de la página - Estructura de la página
 <script setup>
@@ -302,6 +305,7 @@ const eliminarMateria = async () => {
         try{
           await apiMateria.createMateria(data);
           openModal();
+
           returnData();
 
         }catch (e){
@@ -353,10 +357,11 @@ const eliminarMateria = async () => {
       showModalAsegurarModificar.value = true
     }*/
 
-
 </script>
 
-// Diseño de la tabla - Estilos de la tabla
+
+
+<!--Diseño de la tabla - Estilos de la tabla-->
 <style lang="scss">
 .my-sticky-header-table {
   thead tr:first-child th {

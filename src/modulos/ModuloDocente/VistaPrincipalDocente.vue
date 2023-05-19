@@ -87,7 +87,7 @@
       <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+                <q-btn label="Cancelar" @click="showModalEliminar = false" flat class="q-ml-sm q-mr-md" />
                 <q-btn label="Aceptar" type="submit" @click="eliminarDocente()" color="secondary"/>
             </div>
 

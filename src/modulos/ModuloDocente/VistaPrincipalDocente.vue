@@ -69,8 +69,8 @@
        <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="openModal" class="q-ml-sm q-mr-md" color="negative"/>
-                <q-btn label="Enviar" type="submit" @click="createDocente" color="positive"/>
+                <q-btn label="Cancelar" @click="ShowModal=false" class="q-ml-sm q-mr-md" color="negative"/>
+                <q-btn label="Enviar" type="submit" @click="agregarDocente" color="positive"/>
             </div>
       </div>
     </MiModal>

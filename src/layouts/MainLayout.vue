@@ -29,8 +29,13 @@
             </q-item>
 
             <q-item clickable v-ripple to="/vistaCarrera" active-class="my-menu-link">
-              <q-item-section avatar> <q-icon name="fa-solid fa-graduation-cap" size="20px" /> </q-item-section>
+              <q-item-section avatar> <q-icon name="fa-solid fa-university" size="20px" /> </q-item-section>
               <q-item-section> Carreras </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple to="/vistaUsuario" active-class="my-menu-link">
+              <q-item-section avatar> <q-icon name="fa-solid fa-user" size="20px" /> </q-item-section>
+              <q-item-section> Usuarios </q-item-section>
             </q-item>
 
           </q-list>
@@ -39,10 +44,10 @@
         <q-img class="absolute-top" src="../assets/img/portada-perfil5.png" style="height: 150px">
          <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="../assets/img/foto-perfil.png">
+              <img src="../assets/img/fotoPerfilMG.png">
             </q-avatar>
-            <div class="text-weight-bold">Ivan Agame</div>
-            <div>@ivanagamee</div>
+            <div class="text-weight-bold">Marck Gabriel</div>
+            <div>@marckgabriel</div>
           </div>
         </q-img>
       </q-drawer>
@@ -55,7 +60,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import EssentialLinkProps from 'components/EssentialLink.vue';
 
 const leftDrawerOpen = ref(false)
 const drawer = ref(false)

@@ -9,6 +9,7 @@ const routes = [
       { path: '/vistaDocente', component: () => import('../modulos/ModuloDocente/VistaPrincipalDocente.vue') },
       { path: '/vistaMateria', component: () => import('../modulos/ModuloMateria/VistaPrincipalMateria.vue') },
       { path: '/vistaCarrera', component: () => import('../modulos/ModuloCarrera/VistaPrincipalCarrera.vue') },
+      { path: '/vistaUsuario', component: () => import('../modulos/ModuloUsuario/VistaPrincipalUsuario.vue') },
       { path: '/archivoEjemplo', component: () => import('../modulos/ModuloAlumno/Archivoejemplo.vue') }
     ]
   },

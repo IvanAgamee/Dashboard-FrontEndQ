@@ -20,6 +20,16 @@ const getModulos = async () => {
     }
   }
 
+  const getUsuariosById = async () => {
+    try {
+      const response = await axios.get('http://localhost:9000/api/usuario/getUserById');
+      return response.data;
+    } catch (error) {
+        console.log('Se produjo un error al obtener los datos');
+      throw error;
+    }
+  }
+
   const createUsuarios = async (data) => {
     try {
       const response = await axios.post('http://localhost:9000/api/usuario/crudUser', data);

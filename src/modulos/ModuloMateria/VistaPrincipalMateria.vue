@@ -7,7 +7,7 @@
     <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de materias</h6>
-        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="black" color="accent" size="md" label="Agregar materia" @click="openModal" dense ellipsis/>
+        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar materia" @click="openModal" dense ellipsis/>
       </div>
     <q-separator style="margin:15px" />
 
@@ -20,8 +20,8 @@
        <template v-if="column.name !== 'acciones'">{{ props.row[column.name] }}</template>
        <template v-else>
          <q-btn-group>
-            <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" label="accion.nombre" @click="accion.funcion()" />
-         </q-btn-group>
+            <q-btn v-for="(accion, index) in props.row.acciones" :key="accion.nombre" :label="accion.nombre" :class="`boton-${index}`" @click="accion.funcion()" />
+          </q-btn-group>
        </template>
       </q-td>
     </q-tr>
@@ -202,6 +202,7 @@ import MiModal from '../../components/MiModal.vue'
 import apiMateria from '../ModuloMateria/apiMateria.js'
 // outside of a Vue file
 import { Loading,Notify, QSpinnerGears } from 'quasar'
+import { Warning } from "postcss"
 
 // Declaraciones de constantes
 const row = ref([])
@@ -251,7 +252,7 @@ const columns = [
           urlVideo: el.urlVideo.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
           urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
-            { nombre: 'Editar', funcion: () => {datosModificarMateria(el), console.log(el)} },
+            { nombre: "Editar", funcion: () => {datosModificarMateria(el), console.log(el)} },
             { nombre: 'Eliminar', funcion: () =>{idEliminar.value=el.materiaId, showModalEliminar.value = true} }
           ],
         };
@@ -370,5 +371,14 @@ const datosModificarMateria = async(el) =>{
     font-weight: bold;
     color: white;
   }
+}
+.boton-0 {
+  background-color: #0099FF;
+  color: black;
+}
+
+.boton-1 {
+  background-color: red;
+  color: black;
 }
 </style>

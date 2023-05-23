@@ -7,7 +7,7 @@
     <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de usuarios</h6>
-        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="black" color="accent" size="md" label="Agregar usuario" @click="openModal" dense ellipsis/>
+        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar usuario" @click="openModal" dense ellipsis/>
       </div>
     <q-separator style="margin:15px" />
 
@@ -20,7 +20,7 @@
        <template v-if="column.name !== 'acciones'">{{ props.row[column.name] }}</template>
        <template v-else>
          <q-btn-group>
-            <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" label="accion.nombre" @click="accion.funcion()" />
+            <q-btn v-for="(accion, index) in props.row.acciones" :key="accion.nombre" :label="accion.nombre" :class="`boton-${index}`" @click="accion.funcion()" />
          </q-btn-group>
        </template>
       </q-td>
@@ -301,5 +301,14 @@ const datosModificarUsuario = async(el) =>{
     font-weight: bold;
     color: white;
   }
+}
+.boton-0 {
+  background-color: #0099FF;
+  color: black;
+}
+
+.boton-1 {
+  background-color: red;
+  color: black;
 }
 </style>

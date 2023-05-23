@@ -7,22 +7,21 @@
     <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de docentes</h6>
-        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="black" color="accent" size="md" label="Agregar docente" @click="openModal" dense ellipsis/>
+        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar docente" @click="openModal" dense ellipsis/>
       </div>
     <q-separator style="margin:15px" />
 
   <!-- Estructura de la tabla -->
   <q-table class="my-sticky-header-table q-ma-lg" :rows="row" :columns="columns" header>
-
-  <!-- Agrega botones por cada registro de la tabla -->
+  <!-- Agrega botones por cada registro de botones -->
   <template v-slot:body="props">
     <q-tr :props="props">
       <q-td v-for="column in props.cols" :key="column.name" :props="props">
        <template v-if="column.name !== 'acciones'">{{ props.row[column.name] }}</template>
        <template v-else>
          <q-btn-group>
-            <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" label="accion.nombre" @click="accion.funcion()" />
-         </q-btn-group>
+            <q-btn v-for="(accion, index) in props.row.acciones" :key="accion.nombre" :label="accion.nombre" :class="`boton-${index}`" @click="accion.funcion()" />
+          </q-btn-group>
        </template>
       </q-td>
     </q-tr>
@@ -344,9 +343,20 @@ if (nombre.value != "" ) {
 
 // Diseño de la tabla - Estilos de la tabla
 <style lang="scss">
+.my-sticky-header-table {
   thead tr:first-child th {
     background-color: $table;
     font-weight: bold;
     color: white;
   }
+}
+.boton-0 {
+  background-color: #0099FF;
+  color: black;
+}
+
+.boton-1 {
+  background-color: red;
+  color: black;
+}
 </style>

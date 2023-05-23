@@ -11,6 +11,8 @@
       </div>
     <q-separator style="margin:15px" />
 
+
+
   <!-- Estructura de la tabla -->
   <q-table class="my-sticky-header-table q-ma-lg" :rows="row" :columns="columns" header>
   <!-- Agrega botones por cada registro de botones -->
@@ -20,7 +22,7 @@
        <template v-if="column.name !== 'acciones'">{{ props.row[column.name] }}</template>
        <template v-else>
          <q-btn-group>
-            <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" label="accion.nombre" @click="accion.funcion()" />
+          <q-btn v-for="(accion, index) in props.row.acciones" :key="accion.nombre" :label="accion.nombre" :class="`boton-${index}`" @click="accion.funcion()" />
          </q-btn-group>
        </template>
       </q-td>
@@ -106,7 +108,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
     <!-- Botones del modal -->
     <div class="col-1 text-center">
     <q-separator style="margin:8px"/>
-    <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Cancelar" @click="showModalEliminar=false" flat class="q-ml-sm q-mr-md" />
     <q-btn label="Aceptar" type="submit" @click="eliminarMateria()" color="negative"/>
     </div>
 
@@ -167,7 +169,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 <!-- Botones del modal -->
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+<q-btn label="Cancelar" @click="showModalModificar=false" flat class="q-ml-sm q-mr-md" />
 <q-btn label="Actualizar" type="submit" @click="showModalAsegurarModificar=true" color="negative"/>
 </div>
   </div>
@@ -183,7 +185,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
     <!-- Botones del modal -->
     <div class="col-1 text-center">
     <q-separator style="margin:8px"/>
-    <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Cancelar" @click="showModalAsegurarModificar=false" flat class="q-ml-sm q-mr-md" />
     <q-btn label="Aceptar" type="submit" @click=modificarMateria() color="negative"/>
     </div>
 
@@ -364,5 +366,14 @@ const eliminarMateria = async () => {
     font-weight: bold;
     color: white;
   }
+
+  button.boton-0 {
+  background-color: blue;
+  color: white;
 }
+
+button.boton-1 {
+  background-color: red;
+  color: black;
+}}
 </style>

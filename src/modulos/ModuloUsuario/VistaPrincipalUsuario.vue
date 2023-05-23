@@ -20,7 +20,8 @@
        <template v-if="column.name !== 'acciones'">{{ props.row[column.name] }}</template>
        <template v-else>
          <q-btn-group>
-            <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" label="accion.nombre" @click="accion.funcion()" />
+           <!--<q-btn v-for="(accion, index) in props.row.acciones" :key="accion.nombre" dense :class="`boton-${index}`" @click="accion.funcion()"><q-icon :name="accion.icono" /></q-btn> -->
+           <q-btn v-for="(accion, index) in props.row.acciones" :key="accion.nombre" :label="accion.nombre" :class="`boton-${index}`" @click="accion.funcion()" />
          </q-btn-group>
        </template>
       </q-td>
@@ -43,10 +44,6 @@
   <div class="row col-12">
     <!-- Columna 1 del modal agregar Materia -->
     <div class="col-6 col-6-full">
-
-<!-- Input para ingresar la especialidad-->
-<q-input v-model="rolId" label="Rol de usuario *" hint="Ingrese el rol del usuario" lazy-rules dense style="padding: 0px 10px 45px 10px"
-:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el nombre de la materia-->
 <q-input v-model="nombre" label="nombre *" hint="Ingrese el nombre" lazy-rules dense style="padding: 0px 10px 45px 10px"
@@ -99,7 +96,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 
     <MiModal v-model:show="showModalEliminar">
         <div class ="col-1 text-center ">
-          <h5 style="margin:0px"> ¿Deseas eliminar esta materia?</h5>
+          <h5 style="margin:0px"> ¿Deseas eliminar este usuario?</h5>
         </div>
 
 
@@ -107,40 +104,37 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
     <!-- Botones del modal -->
     <div class="col-1 text-center">
     <q-separator style="margin:8px"/>
-    <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
-    <q-btn label="Aceptar" type="submit" @click="eliminarMateria()" color="negative"/>
+    <q-btn label="Cancelar" @click="showModalEliminar=false" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Aceptar" type="submit" @click="eliminarUsuario()" color="negative"/>
     </div>
 
 </MiModal>
+
 
 <!----------------MODAL ACTUALIZAR---------------------->
 
 
 <MiModal v-model:show="showModalModificar">
     <div class ="col-12 text-center ">
-      <h5 style="margin:0px"> Actualizar Materia</h5>
+      <h5 style="margin:0px"> Actualizar Usuario</h5>
     </div>
 
 
   <q-separator style="margin:15px"/>
 
   <div class="row col-12">
-    <!-- Columna 1 del modal agregar Materia -->
+    <!-- Columna 1 del modal agregar usuario -->
     <div class="col-6 col-6-full">
 
-<!-- Input para ingresar la especialidad-->
-<q-input v-model="rolId" label="Rol de usuario *" hint="Ingrese el rol del usuario" lazy-rules dense style="padding: 0px 10px 45px 10px"
-:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
-
-<!-- Input para ingresar el nombre de la materia-->
+<!-- Input para ingresar el nombre -->
 <q-input v-model="nombre" label="nombre *" hint="Ingrese el nombre" lazy-rules dense style="padding: 0px 10px 45px 10px"
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
-<!-- Input para ingresar el area de la materia-->
+<!-- Input para ingresar el nombre del usuario-->
 <q-input v-model="username" label="Nombre usuario *" hint="Ingrese el nombre de usuario" lazy-rules dense style="padding: 0px 10px 45px 10px"
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
-<!-- Input para ingresar el semestre de la materia-->
+<!-- Input para ingresar la contraseña-->
 <q-input v-model="password" label="Contraseña *" hint="Ingrese una contraseña" lazy-rules dense style="padding: 0px 10px 45px 10px"
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 </div>
@@ -168,7 +162,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 <!-- Botones del modal -->
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+<q-btn label="Cancelar" @click="showModalModificar=false" flat class="q-ml-sm q-mr-md" />
 <q-btn label="Actualizar" type="submit" @click="showModalAsegurarModificar=true" color="negative"/>
 </div>
   </div>
@@ -184,7 +178,7 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
     <!-- Botones del modal -->
     <div class="col-1 text-center">
     <q-separator style="margin:8px"/>
-    <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+    <q-btn label="Cancelar" @click="showModalAsegurarModificar=false" flat class="q-ml-sm q-mr-md" />
     <q-btn label="Aceptar" type="submit" @click=modificarUsuario() color="negative"/>
     </div>
 
@@ -212,14 +206,13 @@ const row = ref([])
 //Constantes para inputs de creación
 const showModal = ref(false)
 //const especialidad = ref('')
-const rolId = ref('')
+const usuarioId = ref('')
 const nombre = ref('')
 const username = ref('')
 const password = ref('')
 const showModalEliminar = ref(false)
 const idEliminar = ref('')
 const showModalModificar = ref(false)
-const materiaId = ref('')
 const showModalAsegurarModificar = ref(false)
 function openModal(){
   showModal.value = !showModal.value
@@ -227,7 +220,6 @@ function openModal(){
 
 // Columnas de la tabla
 const columns = [
-  { name: 'rolId', align: 'center', label: 'Rol',align: 'center', field: 'rolId', sortable: true },
   { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
   { name: 'username', align: 'center', label: 'Nombre de usuario',align: 'center', field: 'username', sortable: true },
   { name: 'password', required: true, align: 'center', label: 'Contraseña',align: 'center', field: 'password', sortable: true },
@@ -239,13 +231,12 @@ const columns = [
     console.log(data)
         data.data.map((el) => {
          var obj = {
-          rolId: el.rolId,
           nombre: el.nombre,
           username: el.username,
           password: el.password,
           acciones: [
-            { nombre: 'Editar', funcion: () =>  {datosModificarMateria(el), console.log(el)}},
-            { nombre: 'Eliminar', funcion: () => {idEliminar.value=el.materiaId, showModalEliminar.value=true} }
+            { nombre: 'Editar', funcion: () =>  {datosModificarUsuario(el), console.log(el)}},
+            { nombre: 'Eliminar', funcion: () => {idEliminar.value=el.usuarioId, showModalEliminar.value=true} }
           ],
         };
         row.value.push(obj);
@@ -255,9 +246,9 @@ const columns = [
    returnData();
 
 //Eliminar datos de la tabla
-const eliminarMateria = async () => {
+const eliminarUsuario = async () => {
     const data = {
-      materiaId: idEliminar.value,
+      usuarioId: idEliminar.value,
       status: 0,
       //this.data.splice(this.data.indexOf(data),1)
     }
@@ -275,17 +266,17 @@ const eliminarMateria = async () => {
    //Agregar registros a la tabla
    const agregarUsuario = async () => {
 
-      if(rolId.value == "" || nombre.value == "" || username.value == "" || password.value == ""){
+      if(nombre.value == "" || username.value == "" || password.value == ""){
         console.log("Debe llenar todos los campos")
       }
 
       else{
         const data = {
-          usuarioId: usuarioId.value,
+          //usuarioId: usuarioId.value,
           nombre: nombre.value,
           username: username.value,
           password: password.value,
-          rolId: 11,
+          rolId: 1,
           status:1
         }
         console.log(data)
@@ -304,26 +295,22 @@ const eliminarMateria = async () => {
 
 
    //Llena el modal de editar con los valores de la materia
-   const datosModificarMateria = async(el) =>{
+   const datosModificarUsuario = async(el) =>{
     showModalModificar.value = true
           nombre.value = el.nombre,
-          area.value = el.area,
-          semestre.value = el.semestre,
-          competencia.value = el.competencia,
-          urlVideo.value = el.urlVideo,
-          urlPrograma.value = el.urlPrograma,
-          materiaId.value = el.materiaId
-
+          username.value = el.username,
+          password.value = el.password,
+          usuarioId.value = el.usuarioId
    }
 
    //Modificar los valores de la materia
-   const modificarMateria = async () =>{
+   const modificarUsuario = async () =>{
       const data = {
           usuarioId: usuarioId.value,
           nombre: nombre.value,
           username: username.value,
           password: password.value,
-          rolId: 11,
+          rolId: 1,
           status:1
       }
 
@@ -333,7 +320,7 @@ const eliminarMateria = async () => {
         showModalAsegurarModificar.value = false
         returnData();
       }catch(e){
-        toast.error("No se pudo modificar la materia");
+        toast.error("No se pudo modificar el usuario");
       }
       }
 
@@ -352,5 +339,15 @@ const eliminarMateria = async () => {
     font-weight: bold;
     color: white;
   }
+
+  .boton-0 {
+  background-color: blue;
+  color: white;
+}
+
+.boton-1 {
+  background-color: red;
+  color: black;
+}
 }
 </style>

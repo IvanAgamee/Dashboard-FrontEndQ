@@ -44,10 +44,10 @@
         <q-img class="absolute-top" src="../assets/img/portada-perfil5.png" style="height: 150px">
          <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="../assets/img/foto-perfil.png">
+              <img src="../assets/img/foto-perfil.jpg">
             </q-avatar>
-            <div class="text-weight-bold">Ivan Agame</div>
-            <div>@ivanagamee</div>
+            <div class="text-weight-bold">Yeli Jimenez</div>
+            <div>@yelijimenez</div>
           </div>
         </q-img>
       </q-drawer>

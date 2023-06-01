@@ -10,10 +10,8 @@
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="black" color="accent" size="md" label="Agregar docente" @click="openModal" dense ellipsis/>
       </div>
     <q-separator style="margin:15px" />
-
   <!-- Estructura de la tabla -->
   <q-table class="my-sticky-header-table q-ma-lg" :rows="row" :columns="columns" header>
-
   <!-- Agrega botones por cada registro de la tabla -->
   <template v-slot:body="props">
     <q-tr :props="props">
@@ -21,7 +19,9 @@
        <template v-if="column.name !== 'acciones'">{{ props.row[column.name] }}</template>
        <template v-else>
          <q-btn-group>
-            <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" label="accion.nombre" @click="accion.funcion()" />
+            <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" @click="accion.funcion()" 
+            :class="{'btn-editar': accion.nombre === 'Editar', 'btn-eliminar': accion.nombre === 'Eliminar'}" 
+            :icon="accion.nombre === 'Editar' ? 'fa-solid fa-pencil' : 'fa-solid fa-trash'"  size="11px" /> 
          </q-btn-group>
        </template>
       </q-td>
@@ -32,16 +32,11 @@
   </q-card>
 
     <MiModal v-model:show="showModal">
-
     <div class="col-12 text-center ">
       <h5 style="margin:0px">Agregar Docente</h5> 
     </div>
-      <q-separator style="margin:15px" />  
-
-
-
+    <q-separator style="margin:15px" />  
     <div class="row col-12">
-
       <!-- Columna 1 del modal agregar Docente -->
               <div class="col-6 col-6-full">
               <!-- Input para ingresar el nombre -->
@@ -54,7 +49,6 @@
               <q-input v-model="infoAcademica" label="Información academica *" hint="Ingrese su informacion academica *" lazy-rules dense style="padding: 0px 10px 45px 10px"
               :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
               </div>
-
       <!-- Columna 2 del modal agregar Docente -->
               <div class="col-6 col-6-full">
               <!-- Input para agregar materias -->
@@ -67,7 +61,6 @@
               <q-input v-model="fotoPerfil" label="Url de la imagen *" hint="Ingrese el Url de su foto de perfil" lazy-rules dense style="padding: 0px 10px 45px 10px"
               :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
               </div>
-
        <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
@@ -81,29 +74,22 @@
       <div class="col-12 text-center ">
       <h5 style="margin:0px">Esta seguro que desea eliminar este Docente?</h5> 
       </div>
-      <q-separator style="margin:15px" />  
       <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
+                <q-btn label="Cancelar" @click="showModalEliminar=!showModalEliminar" flat class="q-ml-sm q-mr-md" />
                 <q-btn label="Aceptar" type="submit" @click="eliminarDocente()" color="secondary"/>
             </div>
-
     </MiModal>
 
 
 
     <MiModal v-model:show="showModalModificar">
-
     <div class="col-12 text-center ">
       <h5 style="margin:0px">Editar docente</h5> 
     </div>
       <q-separator style="margin:15px" />  
-
-
-
     <div class="row col-12">
-
       <!-- Columna 1 del modal agregar Docente -->
               <div class="col-6 col-6-full">
               <!-- Input para ingresar el nombre -->
@@ -116,7 +102,6 @@
               <q-input v-model="infoAcademica" label="Información academica *" hint="Ingrese su informacion academica *" lazy-rules dense style="padding: 0px 10px 45px 10px"
               :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
               </div>
-
       <!-- Columna 2 del modal agregar Docente -->
               <div class="col-6 col-6-full">
               <!-- Input para agregar materias -->
@@ -129,7 +114,6 @@
               <q-input v-model="fotoPerfil" label="Url de la imagen *" hint="Ingrese el Url de su foto de perfil" lazy-rules dense style="padding: 0px 10px 45px 10px"
               :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
               </div>
-
        <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
@@ -152,9 +136,6 @@ import MiModal from '../../components/MiModal.vue'
 import apiDocente from '../ModuloDocente/apiDocente.js'
 // outside of a Vue file
 import { Loading,Notify, QSpinnerGears } from 'quasar'
-
-Notify.create('Danger, Will Robinson! Danger!')
-
 // Declaraciones de constantes
 const row = ref([])
 
@@ -176,16 +157,12 @@ function openModal () {
   showModal.value = !showModal.value
 }
 
-
-
 // Columnas de la tabla
 const columns = [
+  { name: 'id', align: 'center', label: 'ID Docente',align: 'center', field: 'id', sortable: true },
   { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
   { name: 'contacto', align: 'center', label: 'Contacto',align: 'center', field: 'contacto', sortable: true },
   { name: 'materias', align: 'center', label: 'Materias',align: 'center', field: 'materias', sortable: true },
-  { name: 'descripcion', align: 'center', label: 'Descripcion',align: 'center', field: 'descripcion', sortable: true},
-  { name: 'informacionAcademica', align: 'center', label: 'Información Academica',align: 'center', field: 'informacionAcademica', sortable: true },
-  { name: 'urlImagen', align: 'center', label: 'Url de Imagen',align: 'center', field: 'urlImagen', sortable: true },
   { name: 'acciones', align: 'center', label: 'Acciones',align: 'center', field: 'acciones', sortable: true }]
 
 // Llenado de la tabla con información del backend
@@ -194,15 +171,13 @@ const columns = [
     console.log(data)
         data.data.map((el) => {
          var obj = {
+          id: el.docenteId,
           nombre: el.nombre,
           contacto: el.contacto,
           materias: el.materias.length > 40 ? el.materias.substring(0, 40) + "..." : el.materias,
-          descripcion: el.descripcion.length > 40 ? el.descripcion.substring(0, 40) + "..." : el.descripcion,
-          informacionAcademica: el.informacionAcademica.length > 40 ? el.informacionAcademica.substring(0, 40) + "..." : el.informacionAcademica,
-          urlImagen: el.urlImagen.length > 40 ? el.urlImagen.substring(0, 40) + "..." : el.urlImagen,
           acciones: [
-            { nombre: 'Editar', funcion: () => {datosDocenteModificar(el), console.log(el)} },
-            { nombre: 'Eliminar', funcion: () =>{  idEliminar.value=el.docenteId, showModalEliminar.value=true}   }
+            { nombre: 'Editar', funcion: () => {datosDocenteModificar(el)}, class: 'btn-primary' },
+            { nombre: 'Eliminar', funcion: () =>{  idEliminar.value=el.docenteId, showModalEliminar.value=true} , class: 'btn-negative'  }
           ],
         };
         row.value.push(obj);
@@ -308,12 +283,18 @@ if (nombre.value != "" ) {
   Notify.create('El nombre del docente es obligatorio')
 }
 
-      
+Notify.create({
+  message: 'Danger, Will Robinson! Danger!',
+  position: 'top-right',
+  color: 'positive',
+});
     }
 </script>
 
 // Diseño de la tabla - Estilos de la tabla
 <style lang="scss">
+@import '../../css/quasar.variables.scss';
+
 .my-sticky-header-table {
   thead tr:first-child th {
     background-color: $table;
@@ -321,4 +302,15 @@ if (nombre.value != "" ) {
     color: white;
   }
 }
+
+.btn-editar {
+  background-color: $secondary;
+  color: white;
+}
+
+.btn-eliminar {
+  background-color: $negative;
+  color: white;
+}
+
 </style>

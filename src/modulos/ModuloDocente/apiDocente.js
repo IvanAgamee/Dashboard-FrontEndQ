@@ -12,7 +12,7 @@ const getModulos = async () => {
 
   const getDocentes = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/docente/getDocentes');
+      const response = await axios.get('http://localhost:9001/api/docente/getDocentes');
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al obtener los datos');
@@ -22,7 +22,7 @@ const getModulos = async () => {
 
   const createDocente = async (data) => {
     try {
-      const response = await axios.post('http://localhost:9000/api/docente/crudDocente', data);
+      const response = await axios.post('http://localhost:9001/api/docente/crudDocente', data);
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al crear el docente');

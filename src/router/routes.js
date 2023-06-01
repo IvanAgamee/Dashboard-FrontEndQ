@@ -11,6 +11,16 @@ const routes = [
       { path: '/archivoEjemplo', component: () => import('../modulos/ModuloAlumno/Archivoejemplo.vue') }
     ]
   },
+  {
+    path: '/login',
+    component: () => import('../layouts/LoginLayout.vue'),
+    children: [
+      {
+        path: 'loginPrincipal',
+        component: () => import('../modulos/ModuloLogin/VistaPrincipal.vue')
+      },
+    ],
+  },
 
   {
     path: '/:catchAll(.*)*',

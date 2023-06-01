@@ -1,14 +1,29 @@
 import { store } from 'quasar/wrappers'
 import { createPinia } from 'pinia'
+import { defineStore } from "pinia";
 
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Store instance.
- */
+export const useUserStore  = defineStore({
+  id:'user',
+  state:()=> ({
+    userData:JSON.parse(localStorage.getItem('user')) || {},
+  }),
+  actions: {
+    setUser(user) {
+      this.userData = { ...user };
+      localStorage.setItem('user',JSON.stringify(user));
+    },
+    logout() {
+      this.reset()
+      localStorage.removeItem('user');
+    },
+    reset() {
+      this.userData = {};
+    }
+  },
+  getters: {
+    
+  }
+})
 
 export default store((/* { ssrContext } */) => {
   const pinia = createPinia()

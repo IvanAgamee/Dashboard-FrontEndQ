@@ -13,24 +13,29 @@
           <q-list padding>
           
     <!-- Elementos del Menú -->
-         <q-item clickable v-ripple to="/about" active-class="my-menu-link"> 
+         <q-item clickable v-ripple to="/home" active-class="my-menu-link"> 
               <q-item-section avatar> <q-icon name="home" /> </q-item-section>
               <q-item-section> Inicio </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="/home" active-class="my-menu-link" exact>
+            <q-item clickable v-ripple to="/vistaDocente" active-class="my-menu-link">
               <q-item-section avatar> <q-icon name="fa-solid fa-chalkboard-user" size="20px" /> </q-item-section>
               <q-item-section> Docentes </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="/about" active-class="my-menu-link"> 
+            <q-item clickable v-ripple to="/vistaMateria" active-class="my-menu-link"> 
               <q-item-section avatar> <q-icon name="fa-solid fa-book" size="20px" /> </q-item-section>
               <q-item-section> Materias </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="" active-class="my-menu-link">
-              <q-item-section avatar> <q-icon name="fa-solid fa-graduation-cap" size="20px" /> </q-item-section>
+            <q-item clickable v-ripple to="/vistaCarrera" active-class="my-menu-link">
+              <q-item-section avatar> <q-icon name="fa-solid fa-university" size="20px" /> </q-item-section>
               <q-item-section> Carreras </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple to="/vistaUsuario" active-class="my-menu-link">
+              <q-item-section avatar> <q-icon name="fa-solid fa-user" size="20px" /> </q-item-section>
+              <q-item-section> Usuarios </q-item-section>
             </q-item>
 
           </q-list>
@@ -39,10 +44,10 @@
         <q-img class="absolute-top" src="../assets/img/portada-perfil5.png" style="height: 150px">
          <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="../assets/img/foto-perfil.png">
+              <img src="../assets/img/fotoPerfilMG.png">
             </q-avatar>
-            <div class="text-weight-bold">Ivan Agame</div>
-            <div>@ivanagamee</div>
+            <div class="text-weight-bold">Marck Gabriel</div>
+            <div>@marckgabriel</div>
           </div>
         </q-img>
       </q-drawer>
@@ -55,7 +60,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import EssentialLinkProps from 'components/EssentialLink.vue';
 
 const leftDrawerOpen = ref(false)
 const drawer = ref(false)

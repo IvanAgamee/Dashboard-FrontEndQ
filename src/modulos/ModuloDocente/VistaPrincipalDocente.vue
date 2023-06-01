@@ -7,7 +7,7 @@
     <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de docentes</h6>
-        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="black" color="accent" size="md" label="Agregar docente" @click="openModal" dense ellipsis/>
+        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar docente" @click="openModal" dense ellipsis/>
       </div>
     <q-separator style="margin:15px" />
   <!-- Estructura de la tabla -->
@@ -64,11 +64,25 @@
        <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="openModal" flat class="q-ml-sm q-mr-md" />
-                <q-btn label="Enviar" type="submit" @click=" " color="secondary"/>
+                <q-btn label="Cancelar" @click="ShowModal=false" class="q-ml-sm q-mr-md" color="negative"/>
+                <q-btn label="Enviar" type="submit" @click="showModalConfirmarAgregar=true" color="positive"/>
             </div>
       </div>
     </MiModal>
+
+    <!----------------MODAL CONFIRMAR AGREGAR DOCENTE---------------------->
+<MiModal v-model:show="showModalConfirmarAgregar">
+    <div class ="col-12 text-center ">
+    <h5 style="margin:0px"> ¿Esta seguro que desea agregar al docente?</h5>
+  </div>
+  <q-separator style="margin:15px"/>
+  <!-- Botones del modal -->
+<div class="col-12 text-center">
+<q-separator style="margin:8px"/>
+<q-btn label="Cancelar" @click="showModalConfirmarAgregar=false" class="q-ml-sm q-mr-md" color="negative"/>
+<q-btn label="Enviar" type="submit" @click="agregarDocente()" color="positive"/>
+</div>
+</MiModal>
 
     <MiModal v-model:show="showModalEliminar">
       <div class="col-12 text-center ">
@@ -81,8 +95,6 @@
                 <q-btn label="Aceptar" type="submit" @click="eliminarDocente()" color="secondary"/>
             </div>
     </MiModal>
-
-
 
     <MiModal v-model:show="showModalModificar">
     <div class="col-12 text-center ">
@@ -117,11 +129,26 @@
        <!-- Botones del modal -->
               <div class="col-12 text-center ">
               <q-separator style="margin:8px" />
-                <q-btn label="Cancelar" @click="showModalModificar=false" flat class="q-ml-sm q-mr-md" />
-                <q-btn label="Enviar" type="submit" @click="modificarDocente()" color="secondary"/>
+                <q-btn label="Cancelar" @click="showModalModificar=false" class="q-ml-sm q-mr-md" color="negative"/>
+                <q-btn label="Enviar" type="submit" @click="showModalConfirmarModificar=true" color="positive"/>
             </div>
       </div>
     </MiModal>
+
+    <!----------------MODAL CONFIRMAR ACTUALIZAR DOCENTE---------------------->
+<MiModal v-model:show="showModalConfirmarModificar">
+        <div class ="col-1 text-center ">
+          <h5 style="margin:0px"> ¿Estas seguro que quieres modificar los datos de esta materia?</h5>
+        </div>
+
+    <!-- Botones del modal -->
+    <div class="col-1 text-center">
+    <q-separator style="margin:8px"/>
+    <q-btn label="Cancelar" @click="showModalConfirmarModificar=false" class="q-ml-sm q-mr-md" color="negative"/>
+    <q-btn label="Aceptar" type="submit" @click=modificarDocente() color="positive"/>
+    </div>
+
+</MiModal>
   
  </q-page>
 </template>
@@ -141,6 +168,8 @@ const row = ref([])
 
 // Constantes para inputs de creación
 const showModal = ref(false)
+const showModalConfirmarAgregar = ref(false)
+const showModalConfirmarModificar = ref(false)
 const showModalEliminar = ref(false)
 const showModalModificar = ref(false)
 const nombre = ref('')
@@ -150,7 +179,7 @@ const materias = ref('')
 const contacto = ref('')
 const fotoPerfil = ref('')
 const docenteId = ref('')
-const idEliminar = ref()
+const idEliminar = ref('')
 
 // Abrir y cerrar modal
 function openModal () {
@@ -186,11 +215,13 @@ const columns = [
    };
    returnData();
 
-// Eliminar registros de la tabla
-  const eliminarDocente = async () => {
-    const data = {
-          docenteId: idEliminar.value,
-          status: 0 }
+
+//Eliminar registros de la tabla 
+ const eliminarDocente = async () => {
+  const data = {
+    docenteId: idEliminar.value,
+    status: 0
+  }
       try{
       Loading.show({  spinner: QSpinnerGears,})
       await apiDocente.createDocente(data);
@@ -226,14 +257,18 @@ const columns = [
         }
         console.log(data)
         try{
+          Loading.show({  spinner: QSpinnerGears,})
           await apiDocente.createDocente(data);
-          openModal();
+          showModal.value = false;
+          showModalConfirmarAgregar.value = false;
+          Loading.hide()
           nombre.value = "",
           descripcion.value = "", 
           infoAcademica.value =  "",
           materias.value =  "",
           contacto.value = "",
           fotoPerfil.value =  "",
+          Notify.create('Se ha realizado correctamente')
           returnData();
         }catch(e){
           console.log(e)
@@ -273,8 +308,9 @@ if (nombre.value != "" ) {
         Loading.show({  spinner: QSpinnerGears,})
         await apiDocente.createDocente(data);
         showModalModificar.value = false
+        showModalConfirmarModificar.value = false
         Loading.hide()
-         Notify.create('Se ha realizado correctamente')
+        Notify.create('Se ha realizado correctamente')
         returnData();
       }catch(e){
         toast.error("No se pudo modificar el docente");

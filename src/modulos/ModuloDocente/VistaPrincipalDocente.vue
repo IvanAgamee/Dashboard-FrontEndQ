@@ -157,6 +157,7 @@
 <script setup>
 // Importaciones de Vue
 import {ref} from "vue"
+import authStore from '../../stores/userStore.js';
 // Importaciones de componentes
 import MiModal from '../../components/MiModal.vue'
 // Llamadas al backend
@@ -165,6 +166,7 @@ import apiDocente from '../ModuloDocente/apiDocente.js'
 import { Loading,Notify, QSpinnerGears } from 'quasar'
 // Declaraciones de constantes
 const row = ref([])
+const UserStore = authStore();
 
 // Constantes para inputs de creación
 const showModal = ref(false)
@@ -199,6 +201,8 @@ const columns = [
     const data = await apiDocente.getDocentes();
     console.log(data)
         data.data.map((el) => {
+          console.log(el)
+          console.log(authStore().getUserRolesId)
          var obj = {
           id: el.docenteId,
           nombre: el.nombre,

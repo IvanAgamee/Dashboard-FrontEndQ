@@ -1,15 +1,15 @@
 <template>
   <div class="parent clearfix">
-  <div class="bg-illustration"/>    
+    <div class="bg-illustration" />
     <div class="login">
       <div class="container">
-      <h1>Login to access </h1> 
-      <div class="login-form">
-        <form action="">
-        <q-input v-model="email" type="text" label="Label" />
-        <q-input v-model="password" type="text" label="Label" />
+        <h1 class="q-mb-lg">Login to access</h1>
+        <div class="login-form">
+          <form action="">
+            <q-input v-model="email" type="text" label="Label" />
+            <q-input v-model="password" type="text" label="Label" />
 
-        <q-btn label="Iniciar Sesión" @click="submitLogin"/>
+            <q-btn class="q-mb-lg" label="Iniciar Sesión" @click="submitLogin" />
           </form>
         </div>
       </div>
@@ -18,33 +18,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import apiLogin from '../modulos/ModuloLogin/apiLogin.js'
-import { useUserStore } from '../stores/index.js';
-import { Loading, QSpinnerFacebook } from 'quasar'
-const userStore = useUserStore();
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import apiLogin from "../modulos/ModuloLogin/apiLogin.js";
+import authStore from '../stores/userStore.js';
+import { Loading, QSpinnerFacebook } from "quasar";
+
+const UserStore = authStore();
 const router = useRouter();
-const email = ref('')
-const password = ref('')
+const email = ref("ivan@gmail.com");
+const password = ref("123456789");
 
 const submitLogin = async () => {
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
   const isValidPassword = password.value.length >= 8;
 
   var obj = {
-          username: email.value,
-          password: password.value,
-        };
+    username: email.value,
+    password: password.value,
+  };
 
   const response = await apiLogin.loginAuth(obj);
-  if (!response.sucess) {
+  console.log(response.success)
+  if (response.success) {
+    console.log("aqui")
+    authStore().setUserData(response.data)
     router.push({
-    path:'home',
-      })
-      userStore.setUser(response);
-  } 
-  console.log(response) }
+      path: "/home",
+    });
+  }
+};
 </script>
 
 <style scoped>
@@ -113,14 +116,14 @@ img {
   background-size: cover;
   float: left;
   -webkit-animation: bgslide 2.3s forwards;
-          animation: bgslide 2.3s forwards;
+  animation: bgslide 2.3s forwards;
 }
 .bg-illustration img {
   width: 248px;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   height: auto;
   margin: 19px 0 0 25px;
 }
@@ -151,10 +154,9 @@ img {
   }
 }
 
-
 .login {
   max-height: 100vh;
-  overflow-Y: auto;
+  overflow-y: auto;
   float: left;
   margin: 0 auto;
   width: calc(100% - 1194px);
@@ -175,10 +177,10 @@ img {
   display: grid;
 }
 
-.login .container .login-form form button[type=submit]:hover::after {
+.login .container .login-form form button[type="submit"]:hover::after {
   opacity: 1;
 }
-.login .container .login-form form button[type=submit]::after {
+.login .container .login-form form button[type="submit"]::after {
   content: "";
   position: absolute;
   z-index: -1;
@@ -200,7 +202,7 @@ img {
   position: relative;
   margin-top: -30px;
 }
-.login .container .remember-form input[type=checkbox] {
+.login .container .remember-form input[type="checkbox"] {
   margin-top: 9px;
 }
 .login .container .remember-form span {
@@ -208,7 +210,7 @@ img {
   font-weight: normal;
   position: absolute;
   top: 32px;
-  color: #3B3B3B;
+  color: #3b3b3b;
   margin-left: 15px;
 }
 .login .container .forget-pass {
@@ -220,7 +222,7 @@ img {
   font-size: 16px;
   position: relative;
   font-weight: normal;
-  color: #918F8F;
+  color: #918f8f;
 }
 .login .container .forget-pass a::after {
   content: "";
@@ -247,7 +249,7 @@ img {
   .bg-illustration {
     width: 50%;
     -webkit-animation: none;
-            animation: none;
+    animation: none;
   }
 
   .login {
@@ -286,7 +288,7 @@ img {
     background: url("../assets/img/IMG_4439.jpg") center center;
     background-size: cover;
     -webkit-animation: slideIn 0.8s ease-in-out forwards;
-            animation: slideIn 0.8s ease-in-out forwards;
+    animation: slideIn 0.8s ease-in-out forwards;
     width: 100%;
     height: 190px;
     text-align: center;
@@ -326,7 +328,7 @@ img {
   }
   .login .container {
     -webkit-animation: slideIn 0.8s ease-in-out forwards;
-            animation: slideIn 0.8s ease-in-out forwards;
+    animation: slideIn 0.8s ease-in-out forwards;
     width: 85%;
     float: none;
   }
@@ -340,7 +342,7 @@ img {
   .login .container .login-form form input {
     height: 45px;
   }
-  .login .container .login-form form button[type=submit] {
+  .login .container .login-form form button[type="submit"] {
     height: 45px;
     margin-top: 100px;
   }
@@ -365,7 +367,7 @@ img {
     font-size: 16px;
     position: relative;
     font-weight: normal;
-    color: #918F8F;
+    color: #918f8f;
   }
   .forget-pass a::after {
     content: "";

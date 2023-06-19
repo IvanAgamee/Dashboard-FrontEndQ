@@ -47,30 +47,30 @@
 
 <!-- Input para ingresar el nombre de la materia-->
 <q-input v-model="nombre" label="Nombre *" hint="Ingrese el nombre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+:rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el area de la materia-->
 <q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+:rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el semestre de la materia-->
 <q-input v-model="semestre" label="Semestre *" hint="Ingrese el semestre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+type="number" max="11" step="1" :rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 </div>
 
 <!-- Columna 2 del modal agregar Materia -->
 <div class="col-6 col-6-full">
 <!-- Input para ingresar la competencia de la materia-->
 <q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+:rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el url del vídeo de la materia-->
 <q-input v-model="urlVideo" label="URL del Vídeo *" hint="Ingrese el URL del Vídeo" lazy-rules dense style="padding: 0px 10px 45px 10px"
-:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+:rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el url del programa de la materia-->
 <q-input v-model="urlPrograma" label="URL del Programa *" hint="Ingrese el URL del Programa" lazy-rules dense style="padding: 0px 10px 45px 10px"
-:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+:rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el estatus de la materia
 <q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
@@ -132,30 +132,30 @@ type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este 
 
               <!-- Input para ingresar el nombre de la materia-->
               <q-input v-model="nombre" label="Nombre *" hint="Ingrese el nombre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+              :rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
               <!-- Input para ingresar el area de la materia-->
               <q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+              :rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
               <!-- Input para ingresar el semestre de la materia-->
               <q-input v-model="semestre" label="Semestre *" hint="Ingrese el semestre de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-              type="number" max="11" step="1" :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+              type="number" max="11" step="1" :rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
               </div>
 
               <!-- Columna 2 del modal agregar Materia -->
               <div class="col-6 col-6-full">
               <!-- Input para ingresar la competencia de la materia-->
               <q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+              :rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
               <!-- Input para ingresar el url del vídeo de la materia-->
               <q-input v-model="urlVideo" label="URL del Vídeo *" hint="Ingrese el URL del Vídeo" lazy-rules dense style="padding: 0px 10px 45px 10px"
-              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+              :rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
               <!-- Input para ingresar el url del programa de la materia-->
               <q-input v-model="urlPrograma" label="URL del Programa *" hint="Ingrese el URL del Programa" lazy-rules dense style="padding: 0px 10px 45px 10px"
-              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+              :rules="[ val => val && val?.length > 0 || 'Este campo es obligatorio']"/>
 
               <!-- Input para ingresar el estatus de la materia
               <q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
@@ -248,9 +248,9 @@ const columns = [
           nombre: el.nombre,
           area: el.area,
           semestre: el.semestre,
-          competencia: el.competencia.length > 40 ? el.competencia.substring(0, 40) + "..." : el.competencia,
-          urlVideo: el.urlVideo.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
-          urlPrograma: el.urlPrograma.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
+          competencia: el.competencia?.length > 40 ? el.competencia.substring(0, 40) + "..." : el.competencia,
+          urlVideo: el.urlVideo?.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
+          urlPrograma: el.urlPrograma?.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
           acciones: [
             { nombre: "Editar", funcion: () => {datosModificarMateria(el), console.log(el)} },
             { nombre: 'Eliminar', funcion: () =>{idEliminar.value=el.materiaId, showModalEliminar.value = true} }

@@ -27,6 +27,7 @@ const useLocalStorage = defineStore({
       if (userData) {
         this.userData = userData;
       }
+
     },
     hasUserRoleId(id) {
       if (this.userData?.roles && this.userData?.roles.length) {
@@ -39,12 +40,60 @@ const useLocalStorage = defineStore({
     getUserIsLogged(state) {
       return !!state.userData && !!state.token;
     },
-    getUserFullName(state) {
-      return state.userData?.fullName ? state.userData?.fullName : '';
+    getUser(state) {
+      return state.userData.nombre;
+    },
+    getUsername(state) {
+      return state.userData.username;
     },
     getUserRolesId(state) {
-    return state.userData.rolId;
-    }},
+      return state.userData.rolId;
+    },
+    getUserDepartamento(state) {
+      return state.userData.departamentoId;
+    },
+    /*
+    Funcion para obtener las carreras del usuario, en caso de ser más de una
+    se retorna solo el primer indice, si no se devuevle un array de ellos
+    */
+    getUserCarreras(state) {
+      const obj = state.userData.departamento.carrera;
+      const id = obj.map((obj) => obj);
+      if (id.length === 1) {
+        return id[0];
+      }
+      else {
+        return id;
+      }
+    },
+    /*
+    Función para rellenar la información necesaria para los select de carreras presentes en
+    vista Materia y docentes
+    */
+    fillSelectCarreras() {
+      const carreras = [];
+      const carrerasObj = this.getUserCarreras;
+      if (carrerasObj.length > 1) {
+        for (const value of carrerasObj) {
+          const carrera = {
+            nombre: value.nombre,
+            id: value.carreraId
+          }
+          carreras.push(carrera);
+        }
+      }
+      else {
+        carreras.push(
+          {
+            nombre: carrerasObj.nombre,
+            id: carrerasObj.carreraId
+          }
+        )
+      }
+
+      return carreras;
+    }
+  }
 });
 
 export default useLocalStorage;

@@ -3,7 +3,7 @@
 <!-- Q-page: Es el componente que envuelve a toda nuestra página -->
   <q-page padding>
   <!-- Q-card es el cuadro blanco dentro de la pagina -->
-    <q-card class="q-pt-lg q-pb-lg"> 
+    <q-card class="q-pt-lg q-pb-lg">
     <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de usuarios</h6>
@@ -26,7 +26,7 @@
       </q-td>
     </q-tr>
   </template>
-  
+
    </q-table>
   </q-card>
 <!----------------MODAL AGREGAR USUARIO---------------------->
@@ -94,9 +94,9 @@
 <MiModal v-model:show="showModalModificar">
 
 <div class="col-12 text-center ">
-  <h5 style="margin:0px">Editar materia</h5> 
+  <h5 style="margin:0px">Editar materia</h5>
 </div>
-  <q-separator style="margin:15px" />  
+  <q-separator style="margin:15px" />
 
 <div class="row col-12">
 
@@ -184,6 +184,7 @@ const columns = [
 
 // Llenado de la tabla con información del backend
  const returnData =  async () =>{
+  row.value=[];
     const data = await apiUsuario.getUsuarios();
     console.log(data)
         data.data.map((el) => {
@@ -196,13 +197,13 @@ const columns = [
             { nombre: 'Eliminar', funcion: () =>{idEliminar.value=el.usuarioId, showModalEliminar.value = true} }
           ],
         };
-        row.value.push(obj);
+       row.value.push(obj);
         });
        return data;
    };
    returnData();
 
-   //Eliminar registros de la tabla 
+   //Eliminar registros de la tabla
  const eliminarUsuarios = async () => {
   const data = {
     usuarioId: idEliminar.value,

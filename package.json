@@ -2,10 +2,11 @@
   "name": "dashboardfrontend",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "productName": "TecNM Dashboard",
   "author": "Ivan Agame <l18020734@veracruz.tecnm.mx>",
   "private": true,
   "scripts": {
+    "start": "quasar dev",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {

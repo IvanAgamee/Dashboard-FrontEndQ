@@ -1,8 +1,9 @@
 import axios from 'axios';
-
+import { api } from '../../boot/axios.js'
+console.log(process.env.URL_BACK)
 const getModulos = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/modulo/getModulos');
+      const response = await api.get('modulo/getModulos');
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al obtener los datos');
@@ -12,7 +13,7 @@ const getModulos = async () => {
 
   const getUsuarios = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/usuario/getUsers');
+      const response = await api.get('usuario/getUsers');
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al obtener los datos');
@@ -22,7 +23,7 @@ const getModulos = async () => {
 
   const getUsuariosById = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/usuario/getUserById');
+      const response = await api.get('usuario/getUserById');
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al obtener los datos');
@@ -32,7 +33,7 @@ const getModulos = async () => {
 
   const createUsuarios = async (data) => {
     try {
-      const response = await axios.post('http://localhost:9000/api/usuario/crudUser', data);
+      const response = await api.post('usuario/crudUser', data);
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al obtener los datos');

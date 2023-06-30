@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getModulos = async () => {
   try {
-    const response = await axios.get('http://localhost:9000/api/modulo/getModulos');
+    const response = await api.get('modulo/getModulos');
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -12,7 +12,7 @@ const getModulos = async () => {
 
 const getCarreras = async () => {
   try {
-    const response = await axios.get('http://localhost:9000/api/carrera/getCarreras');
+    const response = await api.get('carrera/getCarreras');
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -22,7 +22,7 @@ const getCarreras = async () => {
 
 const getCarrerasByDepartment = async (data) => {
   try {
-    const response = await axios.post('http://localhost:9000/api/carrera/getCarrerasByDepartment', data);
+    const response = await api.post('carrera/getCarrerasByDepartment', data);
     return response.data;
   }
   catch (error) {
@@ -32,7 +32,7 @@ const getCarrerasByDepartment = async (data) => {
 
 const createCarreras = async (data) => {
   try {
-    const response = await axios.post('http://localhost:9000/api/carrera/crudCarrera', data);
+    const response = await api.post('carrera/crudCarrera', data);
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');

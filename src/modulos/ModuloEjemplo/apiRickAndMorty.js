@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getModulos = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/modulo/getModulos');
+      const response = await api.get('modulo/getModulos');
       return response.data;
     } catch (error) {
         console.log('Se produjo un error al obtener los datos');

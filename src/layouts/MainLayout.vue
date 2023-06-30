@@ -13,27 +13,27 @@
         <q-list padding>
 
           <!-- Elementos del Menú -->
-          <q-item clickable v-ripple to="/home" active-class="my-menu-link">
+          <q-item clickable v-ripple @click="navegar('/dashboardInicio')" :class="{'my-menu-link': selectedOption === '/dashboardInicio'}">
             <q-item-section avatar> <q-icon name="home" /> </q-item-section>
             <q-item-section> Inicio </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/vistaDocente" active-class="my-menu-link">
+          <q-item clickable v-ripple @click="navegar('/vistaDocente')" :class="{'my-menu-link': selectedOption === '/vistaDocente'}">
             <q-item-section avatar> <q-icon name="fa-solid fa-chalkboard-user" size="20px" /> </q-item-section>
             <q-item-section> Docentes </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/vistaMateria" active-class="my-menu-link">
+          <q-item clickable v-ripple @click="navegar('/vistaMateria')" :class="{'my-menu-link': selectedOption === '/vistaMateria'}">
             <q-item-section avatar> <q-icon name="fa-solid fa-book" size="20px" /> </q-item-section>
             <q-item-section> Materias </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/vistaCarrera" active-class="my-menu-link">
+          <q-item clickable v-ripple @click="navegar('/vistaCarrera')" :class="{'my-menu-link': selectedOption === '/vistaCarrera'}">
             <q-item-section avatar> <q-icon name="fa-solid fa-university" size="20px" /> </q-item-section>
             <q-item-section> Carreras </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/vistaUsuario" active-class="my-menu-link">
+          <q-item clickable v-ripple @click="navegar('/vistaUsuario')" :class="{'my-menu-link': selectedOption === '/vistaUsuario'}">
             <q-item-section avatar> <q-icon name="fa-solid fa-user" size="20px" /> </q-item-section>
             <q-item-section> Usuarios </q-item-section>
           </q-item>
@@ -65,7 +65,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { ref } from 'vue';
 import UserStore from 'src/stores/userStore';
 import EssentialLinkProps from 'components/EssentialLink.vue';
@@ -76,7 +75,8 @@ import { useRouter } from 'vue-router';
 const $q = useQuasar();
 const leftDrawerOpen = ref(false)
 const router = useRouter();
-const drawer = ref(false)
+const drawer = ref(false);
+const selectedOption = ref()
 const toggleLeftDrawer = () => leftDrawerOpen.value = !leftDrawerOpen.value;
 
 const carrerasOptions = UserStore().fillSelectCarreras;
@@ -95,6 +95,9 @@ const showLogout = () => {
     })
 }
 
+const navegar = (ruta) => {
+  selectedOption.value=ruta
+  router.push({path:ruta,});}
 </script>
 
 <style lang="scss">
@@ -102,7 +105,6 @@ const showLogout = () => {
   color: black;
   background: $accent,
 }
-
 .cabecera {
   z-index: 1000;
 }

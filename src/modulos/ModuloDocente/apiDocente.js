@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { api } from '../../boot/axios.js';
 
 const getModulos = async () => {
   try {
-    const response = await axios.get('http://localhost:9000/api/modulo/getModulos');
+    const response = await api.get('modulo/getModulos');
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -10,19 +11,29 @@ const getModulos = async () => {
   }
 }
 
-const getDocentes = async () => {
-  try {
-    const response = await axios.get('http://localhost:9000/api/docente/getDocentes');
-    return response.data;
-  } catch (error) {
-    console.log('Se produjo un error al obtener los datos');
-    throw error;
+  const getDocentes = async () => {
+    try {
+      const response = await api.get('docente/getDocentes');
+      return response.data;
+    } catch (error) {
+        console.log('Se produjo un error al obtener los datos');
+      throw error;
+    }
   }
-}
+
+  const getDocenteById = async (data) => {
+    try {
+      const response = await api.post('docente/getDocenteById',data);
+      return response.data;
+    } catch (error) {
+        console.log('Se produjo un error al obtener los datos');
+      throw error;
+    }
+  }
 
 const getDocentesByCarreraId = async (data) => {
   try {
-    const response = await axios.post('http://localhost:9000/api/docente/getDocentesByCarreraId', data);
+    const response = await api.post('docente/getDocentesByCarreraId', data);
     return response.data;
   } catch (error) {
     console.log(error)
@@ -33,7 +44,7 @@ const getDocentesByCarreraId = async (data) => {
 
 const createDocente = async (data) => {
   try {
-    const response = await axios.post('http://localhost:9000/api/docente/crudDocente', data);
+    const response = await api.post('docente/crudDocente', data);
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al crear el docente');
@@ -42,5 +53,5 @@ const createDocente = async (data) => {
 }
 
 export default {
-  getModulos, getDocentes, createDocente, getDocentesByCarreraId
+  getModulos, getDocentes, createDocente, getDocentesByCarreraId, getDocenteById
 }

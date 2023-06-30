@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { api } from '../../boot/axios.js';
 
 const getModulos = async () => {
   try {
-    const response = await axios.get('http://localhost:9000/api/modulo/getModulos');
+    const response = await api.get('modulo/getModulos');
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -12,7 +13,7 @@ const getModulos = async () => {
 
 const getMaterias = async () => {
   try {
-    const response = await axios.get('http://localhost:9000/api/materia/getMaterias');
+    const response = await api.get('materia/getMaterias');
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -22,7 +23,7 @@ const getMaterias = async () => {
 
 const getMateriasByCarreraId = async (data) => {
   try {
-    const response = await axios.post('http://localhost:9000/api/materia/getMateriasByCarreraId', data);
+    const response = await api.post('materia/getMateriasByCarreraId', data);
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -32,7 +33,7 @@ const getMateriasByCarreraId = async (data) => {
 
 const createMaterias = async (data) => {
   try {
-    const response = await axios.post('http://localhost:9000/api/materia/crudMateria', data);
+    const response = await api.post('materia/crudMateria', data);
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');

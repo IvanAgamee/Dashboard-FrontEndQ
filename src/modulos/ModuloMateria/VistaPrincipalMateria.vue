@@ -238,13 +238,10 @@ function openModal() {
 
 // Columnas de la tabla
 const columns = [
-  { name: 'especialidad', align: 'center', label: 'Especialidad', align: 'center', field: 'especialidad', sortable: true },
   { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true },
+  { name: 'especialidad', align: 'center', label: 'Especialidad', align: 'center', field: 'especialidad', sortable: true },
   { name: 'area', align: 'center', label: 'Area', align: 'center', field: 'area', sortable: true },
-  { name: 'semestre', required: true, align: 'center', label: 'Semestre', align: 'center', field: 'semestre', sortable: true },
   { name: 'competencia', required: true, align: 'center', label: 'Competencia', align: 'center', field: 'competencia', sortable: true },
-  { name: 'urlVideo', align: 'center', label: 'Url de Video', align: 'center', field: 'urlVideo', sortable: true },
-  { name: 'urlPrograma', required: true, align: 'center', label: 'Url de Programa', align: 'center', field: 'urlPrograma', sortable: true },
   { name: 'acciones', align: 'center', label: 'Acciones', align: 'center', field: 'acciones', sortable: true }]
 
 const carrerasOptions = UserStore().fillSelectCarreras;

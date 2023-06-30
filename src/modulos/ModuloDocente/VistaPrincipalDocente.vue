@@ -3,20 +3,17 @@
     <q-card class="q-pt-lg q-pb-lg">
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de docentes</h6>
-        <q-select filled color="blue-10" v-model="carreras.label" :options="carrerasOptions" label="Carrera"
-          transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"
-          @update:model-value="leerCarreraId" />
+        <q-select filled color="blue-10" v-model="selectedCarrera" :options="optionsCarreras" label="Carrera"
+          transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"/>
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar docente"
           @click="irAgregarDocente()" dense ellipsis />
       </div>
       <q-separator style="margin:15px" />
+      <q-input class="q-ma-lg" v-model="search" label="Buscar un docente" dense outlined clearable> <template v-slot:prepend>
+            <q-icon name="search" />
+            </template> </q-input>
       <!-- Estructura de la tabla -->
-        <video width="" height="" controls>
-    
-  </video>
-
-  <iframe src="https://www.youtube.com/embed/Y3NULCmQ5zg"></iframe>
-      <q-table class="my-sticky-header-table q-ma-lg" :rows="row" :columns="columns" header >
+      <q-table class="my-sticky-header-table q-ma-lg" :rows="filteredRows" :columns="columns" header :rows-per-page-options="[10, 20, 50]">
         <!-- Agrega botones por cada registro de la tabla -->
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -38,11 +35,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, watch, computed } from "vue"
 import { useQuasar } from 'quasar';
 import authStore from '../../stores/userStore.js';
 import MiModal from '../../components/MiModal.vue'
 import apiDocente from '../ModuloDocente/apiDocente.js'
+import swal from 'sweetalert';
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
@@ -50,25 +48,10 @@ const router = useRouter();
 const $q = useQuasar();
 const row = ref([])
 const UserStore = authStore();
-//select carreras
-const carrerasOptions = UserStore.fillSelectCarreras;
-const carreras = ref(
-  {
-    label: carrerasOptions[0].nombre,
-    value: carrerasOptions[0].id,
-    options: carrerasOptions
-  });
+const search = ref();
 
-const irAgregarDocente = async () => {
-Loading.show({ spinner: QSpinnerGears, })
-router.push({path: "/agregarDocente",});
-Loading.hide()
-}
-
-const leerCarreraId = () => {
-  row.value = [];
-  returnData(2);
-}
+const optionsCarreras = UserStore.getCarreras;
+const selectedCarrera = ref(UserStore.getCarreras[0])
 
 // Columnas de la tabla
 const columns = [
@@ -78,22 +61,23 @@ const columns = [
   { name: 'materias', align: 'center', label: 'Materias', align: 'center', field: 'materias', sortable: true },
   { name: 'acciones', align: 'center', label: 'Acciones', align: 'center', field: 'acciones', sortable: true }]
 
-// Llenado de la tabla con información del backend
-const returnData = async (mode) => {
-Loading.show({ spinner: QSpinnerGears, })
-  let id = 0;
-  switch (mode) {
-    case 1: {
-      id = carreras.value.value;
-      break;
-    }
-    case 2: {
-      id = carreras.value.label.id;
-      break;
-    }
+const filteredRows = computed(() => {
+  if (search.value) {
+    const searchTerm = search.value.toLowerCase();
+    return row.value.filter(row => {
+      return Object.values(row).some(value =>
+        String(value).toLowerCase().includes(searchTerm)
+      );
+    });
   }
-  const obj = {
-    carreraId: id}
+  return row.value;
+});
+
+// Llenado de la tabla a traves del parametro id de carrera
+const returnData = async (id) => {
+row.value = [];
+Loading.show({ spinner: QSpinnerGears, })
+  const obj = {carreraId: id}
   const data = await apiDocente.getDocentesByCarreraId(obj);
   data.data.map((el) => {
     var obj = {
@@ -102,25 +86,34 @@ Loading.show({ spinner: QSpinnerGears, })
       contacto: el.contacto,
       materias: el.materias.length > 40 ? el.materias.substring(0, 40) + "..." : el.materias,
       acciones: [
-        { nombre: 'Editar', funcion: () => { navegarEditarDocente(el) }, class: 'btn-primary' },
-        { nombre: 'Eliminar', funcion: () => { idEliminar.value = el.docenteId, eliminarDocente() }, class: 'btn-negative' }
+        { nombre: 'Editar', funcion: () => {navegarEditarDocente(el)}, class: 'btn-primary' },
+        { nombre: 'Eliminar', funcion: () => {eliminarDocente(el.docenteId)}, class: 'btn-negative' }
       ],
     };
     row.value.push(obj);
   });
   Loading.hide()
-  return data;
 };
-returnData(1);
+returnData(selectedCarrera.value.carreraId)
+
+// Observar cambios en el select
+ watch(selectedCarrera, (newVal, oldVal) => {
+ returnData(newVal.carreraId)});
+
+// Navegar con spinners
+const irAgregarDocente = async () => {
+Loading.show({ spinner: QSpinnerGears, })
+router.push({path: "/agregarDocente",});
+Loading.hide()
+}
 
 const navegarEditarDocente =  (el) => {
-  console.log(el.docenteId)
 Loading.show({ spinner: QSpinnerGears, })
 router.push({name: "editDocente",params: { id: el.docenteId }});
 Loading.hide()}
 
 //Eliminar registros de la tabla
-const eliminarDocente = async () => {
+const eliminarDocente = async (id) => {
     $q.dialog({
       title: 'Eliminar Docente',
       message: '¿Estas seguro de eliminar este docente?',
@@ -128,60 +121,27 @@ const eliminarDocente = async () => {
       color: 'blue'
     }).onOk( async() => {
     const data = {
-    docenteId: idEliminar.value,
+    docenteId: id,
     status: 0}
     Loading.show({ spinner: QSpinnerGears, })
-    await apiDocente.createDocente(data);
+    const response = await apiDocente.createDocente(data);
+    swal({
+    position: 'top-end',
+    icon: response.success==true ? 'success' : 'error',
+    title: response.success==true ? '¡Se ha eliminado el docente!' 
+    : '¡Ha ocurrido un error! Intentelo de nuevo',
+    showConfirmButton: false,
+    timer: 1500})
     Loading.hide()
-    Notify.create('Se ha realizado correctamente')
-    returnData();
+    filteredRows;
+    row.value = [];
+    returnData(selectedCarrera.value.carreraId);
     })
   }
-
-// Agregar registros a la tabla
-// const agregarDocente = async () => {
-
-//   if (nombre.value == "") {
-//     console.log("Debe llenar todos los campos")
-//   }
-
-//   else {
-//     const data = {
-//       nombre: nombre.value,
-//       descripcion: descripcion.value,
-//       informacionAcademica: infoAcademica.value,
-//       materias: materias.value,
-//       contacto: contacto.value,
-//       urlImagen: fotoPerfil.value,
-//       carreraId: 11,
-//       status: 1,
-//     }
-//     console.log(data)
-//     try {
-//       Loading.show({ spinner: QSpinnerGears, })
-//       await apiDocente.createDocente(data);
-//       showModal.value = false;
-//       showModalConfirmarAgregar.value = false;
-//       Loading.hide()
-//       nombre.value = "",
-//         descripcion.value = "",
-//         infoAcademica.value = "",
-//         materias.value = "",
-//         contacto.value = "",
-//         fotoPerfil.value = "",
-//         Notify.create('Se ha realizado correctamente')
-//       returnData();
-//     } catch (e) {
-//       console.log(e)
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss">
 @import '../../css/quasar.variables.scss';
-
-
 .my-sticky-header-table {
   thead tr:first-child th {
     background-color: $table;

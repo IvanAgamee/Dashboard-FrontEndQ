@@ -19,11 +19,11 @@
             <q-input rounded outlined dense v-model="objDocente.nombre" type="text" label="Nombre completo del docente" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Añade una pequeña descripción del docente.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras son: 250 palabras</div>
-            <q-input v-model="objDocente.descripcion" rounded outlined type="textarea" class="q-mx-lg"
+            <q-input v-model="objDocente.descripcion" rows="3" rounded outlined type="textarea" class="q-mx-lg"
             color="red-12" label="Descripción"/>
             <div class="text-left q-mt-lg q-mx-lg">Ahora escribe un resumen de su informacion academica.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras son: 250 palabras</div>
-            <q-input v-model="objDocente.informacionAcademica" rounded outlined type="textarea" class="q-mx-lg"
+            <q-input v-model="objDocente.informacionAcademica" rows="15" rounded outlined type="textarea" class="q-mx-lg"
             color="red-12" label="Información academica"/>
             <div class="text-right">
             <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoGral()" />
@@ -55,7 +55,10 @@
           <q-tab-panel name="materias">
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora selecciona cuidadosamente las materias que imparte este docente</div>
             <div class="text-left q-ma-lg">Debe marcar las casillas correspondientes a cada materia.</div>
-             <q-table bordered title="Materias" :rows="rows" :columns="columns" row-key="nombre"
+            <q-input class="q-ma-lg" v-model="search" label="Busca una materia individualmente" dense outlined clearable> <template v-slot:prepend>
+            <q-icon name="search" />
+            </template> </q-input>
+             <q-table bordered title="Materias" :rows="filteredRows" :columns="columns" row-key="nombre"
              class="q-ma-lg"  selection="multiple" v-model:selected="selectedMaterias"/>
              <div class="text-right">
             <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='archivos'" />
@@ -69,7 +72,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import UserStore from 'src/stores/userStore';
 import apiMateria from '../ModuloMateria/apiMateria.js'
 import apiDocente from '../ModuloDocente/apiDocente.js'
@@ -82,6 +85,7 @@ const tab = ref('infoGeneral')
 const optSelectCarrera = ref(UserStore().fillSelectCarreras)
 const selectedCarrera = ref(null)
 const rows = ref([])
+const search = ref('');
 const selectedMaterias = ref([])
 const objDocente = ref({
   nombre: '',
@@ -99,10 +103,21 @@ const columns = [
   { name: 'area', align: 'left', label: 'Area', field: row => row.area},
   { name: 'especialidad', align: 'left', label: 'Especialidad', field: row => row.especialidad},]
 
-const dataMaterias = async () => {
-Loading.show({ spinner: QSpinnerGears, })
-const idCarrera = {"carreraId": selectedCarrera.value.id}
-const data = await apiMateria.getMateriasByCarreraId(idCarrera);
+const filteredRows = computed(() => {
+  if (search.value) {
+    const searchTerm = search.value.toLowerCase();
+    return rows.value.filter(row => {
+      return Object.values(row).some(value =>
+        String(value).toLowerCase().includes(searchTerm)
+      );
+    });
+  }
+  return rows.value;
+});
+
+onMounted(async () => {
+  Loading.show({ spinner: QSpinnerGears });
+  const data = await apiMateria.getMaterias();
   data.data.map((el) => {
     var materia = {
       id: el.materiaId,
@@ -112,18 +127,22 @@ const data = await apiMateria.getMateriasByCarreraId(idCarrera);
     };
     rows.value.push(materia);
   });
-  Loading.hide()
-  return data;
-} 
+  Loading.hide();
+});
 
 // Agregar registros a la tabla
 const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
-  objDocente.value.materias = selectedMaterias?.value.map(materia => materia.id),
-  objDocente.value.carreraId = selectedCarrera?.value?.id, 
-  response = await apiDocente.createDocente(objDocente.value);
-  console.log(response)
-  swal("Good job!", "You clicked the button!", "success");
+  objDocente.value.materias = selectedMaterias?.value.map(materia => materia.nombre).join(', ');
+  objDocente.value.carreraId = selectedCarrera?.value?.id;
+  const response = await apiDocente.createDocente(objDocente.value);
+  swal({
+  position: 'top-end',
+  icon: response.success==true ? 'success' : 'error',
+  title: response.success==true ? '¡Se ha agregado correctamente el docente!' 
+  : '¡Ha ocurrido un error! Intentelo de nuevo',
+  showConfirmButton: false,
+  timer: 1500})
   router.push({path: "/vistaDocente",});
   Loading.hide()
 }

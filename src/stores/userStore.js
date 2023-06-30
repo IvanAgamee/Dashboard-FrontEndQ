@@ -52,6 +52,9 @@ const useLocalStorage = defineStore({
     getUserDepartamento(state) {
       return state.userData.departamentoId;
     },
+    getCarreras(state) {
+      return state.userData.departamento.carrera;
+    },
     /*
     Funcion para obtener las carreras del usuario, en caso de ser más de una
     se retorna solo el primer indice, si no se devuevle un array de ellos

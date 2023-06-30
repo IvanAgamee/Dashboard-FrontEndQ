@@ -45,6 +45,7 @@ const getDocentesByCarreraId = async (data) => {
 const createDocente = async (data) => {
   try {
     const response = await api.post('docente/crudDocente', data);
+    console.log(response)
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al crear el docente');

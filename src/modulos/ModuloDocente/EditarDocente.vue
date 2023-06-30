@@ -18,11 +18,11 @@
             <q-input rounded outlined dense v-model="objDocente.nombre" type="text" label="Nombre completo del docente" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Edición de la descripción del docente.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras son: 250 palabras</div>
-            <q-input v-model="objDocente.descripcion" rounded outlined type="textarea" class="q-mx-lg"
+            <q-input v-model="objDocente.descripcion" rows="3" rounded outlined type="textarea" class="q-mx-lg"
             color="red-12" label="Descripción"/>
             <div class="text-left q-mt-lg q-mx-lg">Edición del resumen de su informacion academica.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras son: 250 palabras</div>
-            <q-input v-model="objDocente.informacionAcademica" rounded outlined type="textarea" class="q-mx-lg"
+            <q-input v-model="objDocente.informacionAcademica" rows="15" rounded outlined type="textarea" class="q-mx-lg"
             color="red-12" label="Información academica"/>
             <div class="text-right">
             <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoGral()" />
@@ -55,11 +55,11 @@
           <q-tab-panel name="materias">
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora edite cuidadosamente las materias que imparte este docente, en caso de ser necesario</div>
             <div class="text-left q-ma-lg">Debe marcar las casillas correspondientes a cada materia.</div>
-             <q-table bordered title="Materias" :rows="rows" :columns="columns" row-key="nombre"
-             class="q-ma-lg"  selection="multiple" v-model:selected="selectedMaterias"/>
+            <q-input v-model="objDocente.materias" rows="15" rounded outlined type="textarea" class="q-mx-lg"
+            color="red-12" label="Información academica"/>
              <div class="text-right">
-            <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='archivos'" />
-            <q-btn class="q-mt-lg" color="primary" icon="check" label="Finalizar" @click="validarInputMaterias()" />    
+              <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='archivos'" />
+              <q-btn class="q-mt-lg" color="primary" icon="check" label="Finalizar" @click="validarInputMaterias()" />    
              </div>
           </q-tab-panel>
         </q-tab-panels>
@@ -121,6 +121,7 @@ objDocente.value.informacionAcademica = data.data.informacionAcademica;
 objDocente.value.contacto = data.data.contacto;
 objDocente.value.urlImagen = data.data.urlImagen;
 objDocente.value.carreraId = data.data.urlImagen;
+objDocente.value.materias = data.data.materias;
 
   Loading.hide()
   return data;

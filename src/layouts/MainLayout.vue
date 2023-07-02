@@ -13,27 +13,37 @@
         <q-list padding>
 
           <!-- Elementos del Menú -->
-          <q-item clickable v-ripple @click="navegar('/dashboardInicio')" :class="{'my-menu-link': selectedOption === '/dashboardInicio'}">
+          <q-item clickable v-ripple @click="navegar('/dashboardInicio')"
+            :class="{ 'my-menu-link': selectedOption === '/dashboardInicio' }">
             <q-item-section avatar> <q-icon name="home" /> </q-item-section>
             <q-item-section> Inicio </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple @click="navegar('/vistaDocente')" :class="{'my-menu-link': selectedOption === '/vistaDocente'}">
+          <q-item clickable v-ripple @click="navegar('/vistaDocente')"
+            :class="{ 'my-menu-link': selectedOption === '/vistaDocente' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-chalkboard-user" size="20px" /> </q-item-section>
             <q-item-section> Docentes </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple @click="navegar('/vistaMateria')" :class="{'my-menu-link': selectedOption === '/vistaMateria'}">
+          <q-item clickable v-ripple @click="navegar('/vistaMateria')"
+            :class="{ 'my-menu-link': selectedOption === '/vistaMateria' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-book" size="20px" /> </q-item-section>
             <q-item-section> Materias </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple @click="navegar('/vistaCarrera')" :class="{'my-menu-link': selectedOption === '/vistaCarrera'}">
+          <q-item clickable v-ripple @click="navegar('/vistaCarrera')"
+            :class="{ 'my-menu-link': selectedOption === '/vistaCarrera' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-university" size="20px" /> </q-item-section>
             <q-item-section> Carreras </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple @click="navegar('/vistaUsuario')" :class="{'my-menu-link': selectedOption === '/vistaUsuario'}">
+          <q-item clickable v-ripple @click="navegar('/vistaComunidad')"
+            :class="{ 'my-menu-link': selectedOption === '/vistaComunidad' }">
+            <q-item-section avatar> <q-icon name="fa-solid fa-people-group" size="20px" /> </q-item-section>
+            <q-item-section> Comunidades </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple @click="navegar('/vistaUsuario')"
+            :class="{ 'my-menu-link': selectedOption === '/vistaUsuario' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-user" size="20px" /> </q-item-section>
             <q-item-section> Usuarios </q-item-section>
           </q-item>
@@ -96,8 +106,9 @@ const showLogout = () => {
 }
 
 const navegar = (ruta) => {
-  selectedOption.value=ruta
-  router.push({path:ruta,});}
+  selectedOption.value = ruta
+  router.push({ path: ruta, });
+}
 </script>
 
 <style lang="scss">
@@ -105,6 +116,7 @@ const navegar = (ruta) => {
   color: black;
   background: $accent,
 }
+
 .cabecera {
   z-index: 1000;
 }

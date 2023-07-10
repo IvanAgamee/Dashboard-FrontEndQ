@@ -7,16 +7,17 @@
       <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de materias</h6>
-        <q-select filled color="blue-10" v-model="carreras.label" :options="carrerasOptions" label="Carrera"
-          transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"
-          @update:model-value="leerCarreraId" />
+        <q-select filled color="blue-10" v-model="selectedCarrera" :options="optionsCarreras" label="Carrera"
+          transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"/>
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar materia"
-          @click="openModal" dense ellipsis />
+          @click="irAgregarMateria()" dense ellipsis />
       </div>
       <q-separator style="margin:15px" />
-
+      <q-input class="q-ma-lg" v-model="search" label="Buscar una materia" dense outlined clearable> <template v-slot:prepend>
+       <q-icon name="search" />
+      </template> </q-input>
       <!-- Estructura de la tabla -->
-      <q-table class="my-sticky-header-table q-ma-lg" :rows="row" :columns="columns" header>
+      <q-table class="my-sticky-header-table q-ma-lg" :rows="filteredRows" :columns="columns" :rows-per-page-options="[10, 20, 50]">
         <!-- Agrega botones por cada registro de botones -->
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -24,8 +25,9 @@
               <template v-if="column.name !== 'acciones'">{{ props.row[column.name] }}</template>
               <template v-else>
                 <q-btn-group>
-                  <q-btn v-for="(accion, index) in props.row.acciones" :key="accion.nombre" :label="accion.nombre"
-                    :class="`boton-${index}`" @click="accion.funcion()" />
+                  <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" @click="accion.funcion()"
+                    :class="{ 'btn-editar': accion.nombre === 'Editar', 'btn-eliminar': accion.nombre === 'Eliminar' }"
+                    :icon="accion.nombre === 'Editar' ? 'fa-solid fa-pencil' : 'fa-solid fa-trash'" size="11px" />
                 </q-btn-group>
               </template>
             </q-td>
@@ -202,7 +204,7 @@
 // JavaScript de la página - Estructura de la página
 <script setup>
 // Importaciones de Vue
-import { ref } from "vue"
+import { ref, computed, watch } from "vue"
 // Importaciones de componentes
 import { QBtn, QTable, QCard } from 'quasar'
 import MiModal from '../../components/MiModal.vue'
@@ -212,10 +214,15 @@ import apiMateria from '../ModuloMateria/apiMateria.js'
 // outside of a Vue file
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { Warning } from "postcss"
-import UserStore from 'src/stores/userStore';
+import authStore from '../../stores/userStore.js';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const UserStore = authStore();
 
 // Declaraciones de constantes
 const row = ref([])
+const search = ref();
 //Constantes para inputs de creación
 const showModal = ref(false)
 const showModalEliminar = ref(false)
@@ -231,6 +238,11 @@ const urlVideo = ref('')
 const urlPrograma = ref('')
 const idEliminar = ref('')
 const materiaId = ref('')
+
+const optionsCarreras = UserStore.getCarreras;
+const selectedCarrera = ref(UserStore?.getCarreras[0])
+
+
 //Abrir y cerrar modal
 function openModal() {
   showModal.value = !showModal.value
@@ -239,21 +251,36 @@ function openModal() {
 // Columnas de la tabla
 const columns = [
   { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true },
-  { name: 'especialidad', align: 'center', label: 'Especialidad', align: 'center', field: 'especialidad', sortable: true },
-  { name: 'area', align: 'center', label: 'Area', align: 'center', field: 'area', sortable: true },
+  // { name: 'especialidad', align: 'center', label: 'Especialidad', align: 'center', field: 'especialidad', sortable: true },
   { name: 'competencia', required: true, align: 'center', label: 'Competencia', align: 'center', field: 'competencia', sortable: true },
+  { name: 'area', align: 'center', label: 'Area', align: 'center', field: 'area', sortable: true },
   { name: 'acciones', align: 'center', label: 'Acciones', align: 'center', field: 'acciones', sortable: true }]
 
-const carrerasOptions = UserStore().fillSelectCarreras;
+// const carrerasOptions = UserStore().fillSelectCarreras;
 
-const carreras = ref(
-  {
-    label: carrerasOptions[0].nombre,
-    value: carrerasOptions[0].id,
-    options: carrerasOptions
+// const carreras = ref(
+//   {
+//     label: carrerasOptions[0].nombre,
+//     value: carrerasOptions[0].id,
+//     options: carrerasOptions
+//   }
+// );
+
+// Observar cambios en el select
+ watch(selectedCarrera, (newVal, oldVal) => {
+ returnData(newVal.carreraId)});
+
+const filteredRows = computed(() => {
+  if (search.value) {
+    const searchTerm = search.value.toLowerCase();
+    return row.value.filter(row => {
+      return Object.values(row).some(value =>
+        String(value).toLowerCase().includes(searchTerm)
+      );
+    });
   }
-);
-
+  return row.value;
+});
 
 const leerCarreraId = () => {
   row.value = [];
@@ -261,26 +288,10 @@ const leerCarreraId = () => {
 }
 
 // Llenado de la tabla con información del backend
-const returnData = async (mode) => {
-  let id = 0;
-
-  switch (mode) {
-
-    case 1: {
-      id = carreras.value.value;
-      break;
-    }
-
-    case 2: {
-      id = carreras.value.label.id;
-      break;
-    }
-  }
-
-  const obj = {
-    carreraId: id
-  }
-
+const returnData = async (id) => {
+  Loading.show({ spinner: QSpinnerGears, })
+  const obj = { carreraId: id}
+  row.value = [];
   const data = await apiMateria.getMateriasByCarreraId(obj);
   data.data.map((el) => {
     var obj = {
@@ -288,7 +299,7 @@ const returnData = async (mode) => {
       nombre: el.nombre,
       area: el.area,
       semestre: el.semestre,
-      competencia: el.competencia?.length > 40 ? el.competencia.substring(0, 40) + "..." : el.competencia,
+      competencia: el.competencia?.length > 60 ? el.competencia.substring(0, 60) + "..." : el.competencia,
       urlVideo: el.urlVideo?.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
       urlPrograma: el.urlPrograma?.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
       acciones: [
@@ -298,9 +309,9 @@ const returnData = async (mode) => {
     };
     row.value.push(obj);
   });
-  return data;
+  Loading.hide()
 };
-returnData(1);
+returnData(selectedCarrera.value.carreraId);
 
 //Eliminar registros de la tabla
 const eliminarMaterias = async () => {
@@ -320,6 +331,13 @@ const eliminarMaterias = async () => {
     console.log(e)
     returnData();
   }
+}
+
+// Navegar con spinners
+const irAgregarMateria = async () => {
+Loading.show({ spinner: QSpinnerGears, })
+router.push({path: "/agregarMateria",});
+Loading.hide()
 }
 
 //Agregar registros a la tabla
@@ -414,13 +432,13 @@ const modificarMateria = async () => {
   }
 }
 
-.boton-0 {
-  background-color: #0099FF;
-  color: black;
+.btn-editar {
+  background-color: $secondary;
+  color: white;
 }
 
-.boton-1 {
-  background-color: red;
-  color: black;
+.btn-eliminar {
+  background-color: $negative;
+  color: white;
 }
 </style>

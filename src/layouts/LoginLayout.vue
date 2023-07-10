@@ -1,151 +1,73 @@
 <template>
-
-  <q-dialog v-model="alert">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">modelValue</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
-  <div class="row">
-    <div class="col container-img">
-      <div class="img-panel">
-
-      </div>
-    </div>
-
-
-    <div class="col">
-      <div class="login-bg">
-        <div class="text-center">
-          <h4 class="text-center text-weight-medium">INICIO SESI&Oacute;N</h4>
-          <hr style="height:0.5em; width: 80vh; background-color: black;">
-        </div>
-
-        <div class="q-gutter-y-md q-pa-md">
-          <div class="login-content">
-            <q-input color="indigo-10" v-model="email" label="usuario" filled :dense="dense"  :rules="[val => !!val || 'El campo no debe de estar vacio']"
-              :input-style="{ fontSize: '2em' }">
-              <template v-slot:prepend>
-                <q-icon name="account_circle"></q-icon>
-              </template>
-            </q-input>
-
-            <br>
-            <q-input color="indigo-10" v-model="password" label="contrase&ntilde;a"  :rules="[val => !!val || 'El campo no debe de estar vacio']" :input-style="{ fontSize: '1.8em' } "
-              filled :type="isPwd ? 'txt' : 'password'">
-              <template v-slot:prepend>
-                <q-icon name="lock"></q-icon>
-              </template>
-              <template v-slot:append>
-                <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
-                  @click="isPwd = !isPwd"></q-icon>
-              </template>
-            </q-input>
-            <br>
-            <q-btn color="light-blue-10" label="Iniciar Sesi&oacute;n" size="lg" @click="validateFields"></q-btn>
-            <br>
-          </div>
+  <q-layout view="lHh Lpr lff">
+    <div class="background1">
+      <div class="background">
+        <div class="login-container">
+        <div class="text-h4 text-weight-bolder q-py-md text-white">¡Bienvenido!</div>
+          <!-- <q-img src="" class="q-mt-sm" style="height: 30px; max-width: 150px" /> <br> <br> -->
+          <q-separator color="white q-my-sm" />
+          <q-img src="../assets/img/login/logoDash1.svg" style="height: 100px; max-width: 300px" />
+          <q-separator color="white q-ma-md" />
+          <q-page-container>
+            <router-view></router-view>
+          </q-page-container>
         </div>
       </div>
     </div>
-  </div>
+  </q-layout>
 </template>
 
-
-
-<script>
-
-import { ref } from "vue";
-import apiLogin from "../modulos/ModuloLogin/apiLogin.js";
-import authStore from '../stores/userStore.js';
-import router from "src/router";
-import { useRouter } from 'vue-router';
-import { useQuasar } from "quasar";
-
-export default {
-  setup() {
-    const $q = useQuasar()
-    const router = useRouter();
-    const email = ref(null)
-    const password = ref(null)
-    const validateFields = async () => {
-
-      var obj = {
-        username: email.value,
-        password: password.value,
-      }
-      console.table(obj);
-      const response = await apiLogin.loginAuth(obj);
-      if (response.success) {
-        authStore().setUserData(response.data)
-        router.push({
-          path: "/home",
-        });
-      }
-
-      else{
-        alert()
-      }
-    };
-
-    function alert(){
-      $q.dialog({
-        title: 'Error: Credenciales no aceptadas!',
-        message: 'Sus credenciales no son válidas si no cuenta con ellas o las ha olvidado, contacte al administrador'
-      }).onOk( () => {
-        console.log("ok");
-      }
-    )}
-
-    return {
-      email,
-      password,
-      validateFields,
-      alert
-    }
-  },
-}
+<script setup lang="ts">
 
 </script>
 
+<style lang="scss">
+// @import 'src/ui/css/quasar.variables'
 
-<style lang="scss" scoped>
-.img-panel {
-  background-image: url("../assets/img/login/login-tecnm-panel.jpg");
-  background-repeat: no-repeat;
+.my-menu-link {
+  color: black;
+  background: $accent;
+}
+
+.cabecera {
+  z-index: 1000;
+}
+
+.background1 {
+  background-color: black;
+  z-index: -1;
+}
+
+.background {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.background::before {
+  content: '';
+  background-image: url('../assets/img/login/recorrido.jpg');
   background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
+  z-index: 0;
+  opacity: 0.5;
 }
 
-
-.login-bg {
-  margin-top: 10%;
-  background-color: $lightPanel;
-  height: 90vh;
-
-}
-
-.login-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.login-container {
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+  max-width: 400px;
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  background-color: rgba(12, 44, 96, 0.9);
+  border-radius: 0px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   text-align: center;
-  margin-top: 4em;
-}
-
-.input-txt-field {
-  font-size: 5em;
 }
 </style>
-

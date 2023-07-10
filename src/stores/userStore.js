@@ -53,14 +53,14 @@ const useLocalStorage = defineStore({
       return state.userData.departamentoId;
     },
     getCarreras(state) {
-      return state.userData.departamento.carrera;
+      return state.userData?.departamento?.carrera;
     },
     /*
     Funcion para obtener las carreras del usuario, en caso de ser más de una
     se retorna solo el primer indice, si no se devuevle un array de ellos
     */
     getUserCarreras(state) {
-      const obj = state.userData.departamento.carrera;
+      const obj = state.userData?.departamento?.carrera;
       const id = obj.map((obj) => obj);
       if (id.length === 1) {
         return id[0];

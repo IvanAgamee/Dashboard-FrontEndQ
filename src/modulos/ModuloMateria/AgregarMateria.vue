@@ -34,9 +34,15 @@
             Le recordamos que este contacto será público (No es obligatorio)</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puede agregar un número telefonico o un correo electronico.</div>
             <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Contacto del docente" class="q-mx-lg" />
+            <div style="height: 20px;">
+              
+            </div>
             <q-video
-            loading=lazy
-            :ratio="4/3"
+            loading="lazy"
+            class="q-ma-lg"
+            :ratio="16/9"
+            style="height: 150px;weight:150px"
+            
             :src="objDocente.contacto"
             frameborder="0"
             allowfullscreen
@@ -72,7 +78,7 @@ const objDocente = ref({
   descripcion: '',
   informacionAcademica: '',
   materias: '',
-  contacto: '',
+  contacto: 'https://www.youtube.com/embed/xjYwd-XI56g',
   urlImagen: '',
   carreraId: '',
   status: 1,

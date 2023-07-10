@@ -10,8 +10,8 @@
       </div>
       <q-separator style="margin:15px" />
       <q-input class="q-ma-lg" v-model="search" label="Buscar un docente" dense outlined clearable> <template v-slot:prepend>
-            <q-icon name="search" />
-            </template> </q-input>
+      <q-icon name="search" />
+      </template> </q-input>
       <!-- Estructura de la tabla -->
       <q-table class="my-sticky-header-table q-ma-lg" :rows="filteredRows" :columns="columns" header :rows-per-page-options="[10, 20, 50]">
         <!-- Agrega botones por cada registro de la tabla -->

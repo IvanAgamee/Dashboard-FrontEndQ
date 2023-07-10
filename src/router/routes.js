@@ -24,7 +24,7 @@ const routes = [
     component: () => import('../layouts/LoginLayout.vue'),
     children: [
       {
-        path: 'loginPrincipal',
+        path: 'index',
         component: () => import('../modulos/ModuloLogin/VistaPrincipal.vue')
       },
     ],

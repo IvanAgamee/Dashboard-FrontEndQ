@@ -6,9 +6,9 @@
     <q-card class="q-pt-lg q-pb-lg">
       <!-- Area del titulo y boton agregar -->
       <div class="row">
-        <h6 class="col q-ma-sm q-ml-lg">Registro de carreras</h6>
-        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar carrera"
-          @click="openModal" dense ellipsis />
+        <h6 class="col q-ma-sm q-ml-lg">Carreras autorizadas</h6>
+        <!-- <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar carrera" -->
+          <!-- @click="openModal" dense ellipsis /> -->
       </div>
       <q-separator style="margin:15px" />
 
@@ -53,8 +53,9 @@ const row = ref([])
 // Columnas de la tabla
 const columns = [
   { name: 'nombre', required: true, label: 'Nombre de la carrera', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true },
-  { name: 'departamentoNombre', align: 'center', label: 'Nombre del departamento', align: 'center', field: 'departamento', sortable: true },
-  { name: 'acciones', align: 'center', label: 'Acciones', align: 'center', field: 'acciones', sortable: true }]
+  { name: 'departamentoNombre', align: 'center', label: 'Nombre del departamento', align: 'center', field: 'departamento', sortable: true }
+  // { name: 'acciones', align: 'center', label: 'Acciones', align: 'center', field: 'acciones', sortable: true }
+  ]
 
 
 // Llenado de la tabla con información del backend

@@ -155,7 +155,11 @@ import MiModal from '../../components/MiModal.vue'
 import apiUsuario from '../ModuloUsuario/apiUsuario.js'
 // outside of a Vue file
 import { Loading,Notify, QSpinnerGears } from 'quasar'
+import UserStore from 'src/stores/userStore';
 
+
+
+const prueba = ref(UserStore().getUserIsAdmin)
 // Declaraciones de constantes
 const row = ref([])
 
@@ -296,6 +300,7 @@ const datosModificarUsuario = async(el) =>{
 
 // Diseño de la tabla - Estilos de la tabla
 <style lang="scss">
+@import '../../css/quasar.variables.scss';
 .my-sticky-header-table {
   thead tr:first-child th {
     background-color: $table;
@@ -303,13 +308,14 @@ const datosModificarUsuario = async(el) =>{
     color: white;
   }
 }
-.boton-0 {
-  background-color: #0099FF;
-  color: black;
+
+.btn-editar {
+  background-color: $secondary;
+  color: white;
 }
 
-.boton-1 {
-  background-color: red;
-  color: black;
+.btn-eliminar {
+  background-color: $negative;
+  color: white;
 }
 </style>

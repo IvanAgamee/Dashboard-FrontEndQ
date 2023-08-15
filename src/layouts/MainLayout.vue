@@ -100,7 +100,7 @@ const showLogout = () => {
     }).onOk(() => {
       UserStore().clear();
       router.push({
-        path: '/login',
+        path: '/login/index',
       });
     })
 }

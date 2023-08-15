@@ -5,8 +5,8 @@ const useLocalStorage = defineStore({
   id: 'localStorage',
   state: () => ({
     authAccount: null,
-    token: JSON.parse(localStorage.getItem('token') || 'null'),
-    userData: JSON.parse(localStorage.getItem('userData') || 'null'),
+    token: JSON.parse(localStorage.getItem('token') || null),
+    userData: JSON.parse(localStorage.getItem('userData') || null),
   }),
   actions: {
     setUserData(userData) {
@@ -37,8 +37,11 @@ const useLocalStorage = defineStore({
     },
   },
   getters: {
+    getUserIsAdmin(state) {
+      console.log(state);
+    },
     getUserIsLogged(state) {
-      return !!state.userData && !!state.token;
+      return !!state.userData;
     },
     getUser(state) {
       return state.userData.nombre;
@@ -59,43 +62,43 @@ const useLocalStorage = defineStore({
     Funcion para obtener las carreras del usuario, en caso de ser más de una
     se retorna solo el primer indice, si no se devuevle un array de ellos
     */
-    getUserCarreras(state) {
-      const obj = state.userData?.departamento?.carrera;
-      const id = obj.map((obj) => obj);
-      if (id.length === 1) {
-        return id[0];
-      }
-      else {
-        return id;
-      }
-    },
+    // getUserCarreras(state) {
+    //   const obj = state.userData?.departamento?.carrera;
+    //   const id = obj.map((obj) => obj);
+    //   if (id.length === 1) {
+    //     return id[0];
+    //   }
+    //   else {
+    //     return id;
+    //   }
+    // },
     /*
     Función para rellenar la información necesaria para los select de carreras presentes en
     vista Materia y docentes
     */
-    fillSelectCarreras() {
-      const carreras = [];
-      const carrerasObj = this.getUserCarreras;
-      if (carrerasObj.length > 1) {
-        for (const value of carrerasObj) {
-          const carrera = {
-            nombre: value.nombre,
-            id: value.carreraId
-          }
-          carreras.push(carrera);
-        }
-      }
-      else {
-        carreras.push(
-          {
-            nombre: carrerasObj.nombre,
-            id: carrerasObj.carreraId
-          }
-        )
-      }
+    // fillSelectCarreras() {
+    //   const carreras = [];
+    //   const carrerasObj = this.getUserCarreras;
+    //   if (carrerasObj.length > 1) {
+    //     for (const value of carrerasObj) {
+    //       const carrera = {
+    //         nombre: value.nombre,
+    //         id: value.carreraId
+    //       }
+    //       carreras.push(carrera);
+    //     }
+    //   }
+    //   else {
+    //     carreras.push(
+    //       {
+    //         nombre: carrerasObj.nombre,
+    //         id: carrerasObj.carreraId
+    //       }
+    //     )
+    //   }
 
-      return carreras;
-    }
+    //   return carreras;
+    // }
   }
 });
 

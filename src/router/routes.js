@@ -3,8 +3,8 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: '/home', component: () => import('../modulos/EjemploVista.vue') },
+      { path: '', component: () => import('../modulos/Modulo Dashboard/dashboardInicio.vue') },
+      { path: '/home', component: () => import('../modulos/Modulo Dashboard/dashboardInicio.vue') },
       { path: '/vistaDocente', component: () => import('../modulos/ModuloDocente/VistaPrincipalDocente.vue') },
       { path: '/agregarMateria', component: () => import('../modulos/ModuloMateria/AgregarMateria.vue') },
       { path: '/vistaMateria', component: () => import('../modulos/ModuloMateria/VistaPrincipalMateria.vue') },

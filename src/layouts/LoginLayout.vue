@@ -65,8 +65,8 @@
   padding: 20px;
   margin-top: 50px;
   margin-bottom: 50px;
-  background-color: rgba(12, 44, 96, 0.9);
-  border-radius: 0px;
+  background-color: rgba(22, 24, 76, 0.9);
+  border-radius: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   text-align: center;
 }

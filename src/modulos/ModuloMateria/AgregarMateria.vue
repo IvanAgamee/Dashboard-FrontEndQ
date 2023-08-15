@@ -19,34 +19,40 @@
             <div class="text-left q-mt-lg q-mx-lg">Seleccione el area al que pertenece la materia.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Esta area puede ser null</div>
             <q-input rounded outlined dense v-model="objDocente.nombre" type="text" label="Area de la materia" class="q-mx-lg" />
+            <div class="text-left q-ma-md q-mt-lg">Seleccione el semestre al que pertenece la materia.</div>
+            <q-input rounded outlined dense v-model="objDocente.nombre" type="text" label="Area de la materia" class="q-mx-lg" />
+            <div class="text-left q-mt-lg q-mx-lg">A continuación escribe la competencia de la materia.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras son: 250 palabras</div>
+            <q-input v-model="objDocente.informacionAcademica" rows="10" rounded outlined type="textarea" class="q-mx-lg"
+            color="red-12" label="Competencias de la materia"/>
+            
             <div class="text-right">
             <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoGral()" />
             </div>
             </q-tab-panel>
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
-            <div class="text-h6 text-left q-ma-md">¡Bien hecho! Continue llenando la siguiente información:</div>
-            <div class="text-left q-mt-lg q-mx-lg">Adémas le pedimos que proporcione un contacto de este docente.
-            Le recordamos que este contacto será público (No es obligatorio)</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puede agregar un número telefonico o un correo electronico.</div>
-            <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Contacto del docente" class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Adémas le pedimos que proporcione un contacto de este docente.
-            Le recordamos que este contacto será público (No es obligatorio)</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puede agregar un número telefonico o un correo electronico.</div>
-            <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Contacto del docente" class="q-mx-lg" />
-            <div style="height: 20px;">
-              
-            </div>
+            <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! En esta sección se adjuntaran los archivos relacionados a la materia :</div>
+            <div class="text-left q-mt-lg q-mx-lg">Ingresa el link del Url del programa</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como obtener este Url da click aqui.</div>
+            <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Url del programa" class="q-mx-lg" />
+            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del Url del video de la materia</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como obtener este Url da click aqui. Si
+            el video se ha ingresado correctamente, aparecera inmediatamente debajo de este formulario</div>
+            <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Url del video de la materia" class="q-mx-lg" />
+
+            <div style="flex max-width: 650px; justify-content: center;" class="q-pa-lg q-ma-lg">
             <q-video
-            loading="lazy"
-            class="q-ma-lg"
-            :ratio="16/9"
-            style="height: 150px;weight:150px"
-            
-            :src="objDocente.contacto"
-            frameborder="0"
-            allowfullscreen
+              loading="lazy"
+              class="q-ma-lg"
+              :ratio="16/9"
+              style=""
+              :src="objDocente.contacto"
+              frameborder="0"
+              allowfullscreen
             />
+          </div>
+            
             <div class="text-right">
             <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='infoGeneral'" />
             <q-btn class="q-mt-lg" color="primary" icon="check" label="Siguiente" @click="validarInputAdjuntos()" />

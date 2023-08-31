@@ -70,7 +70,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import UserStore from 'src/stores/userStore';
+import authStore from '../../stores/userStore.js';
 import apiMateria from '../ModuloMateria/apiMateria.js'
 import apiDocente from '../ModuloDocente/apiDocente.js'
 import swal from 'sweetalert';
@@ -78,8 +78,9 @@ import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const UserStore = authStore();
 const tab = ref('infoGeneral')
-const optSelectCarrera = ref(UserStore().fillSelectCarreras)
+const optSelectCarrera = ref(UserStore.getCarreras)
 const selectedCarrera = ref(null)
 const rows = ref([])
 const selectedMaterias = ref([])
@@ -113,7 +114,7 @@ var id = {
 console.log(id)
 const data = await apiDocente.getDocenteById(id);
 console.log(data)
-
+console.log(data.data)
 objDocente.value.nombre = data.data.nombre ;
 objDocente.value.descripcion = data.data.descripcion;
 objDocente.value.informacionAcademica = data.data.informacionAcademica;

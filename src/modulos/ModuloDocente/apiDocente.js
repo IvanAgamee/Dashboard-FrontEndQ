@@ -53,6 +53,26 @@ const createDocente = async (data) => {
   }
 }
 
+const uploadImageDocente = async (file, docenteNombre, nameCarrer) => {
+  
+  const formData = new FormData();
+  formData.append('docenteNombre', docenteNombre);
+  formData.append('file', file);
+    
+  try {
+    const response = await api.post(`docente/uploadDocenteImage?carreraId=${nameCarrer}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log('Se produjo un error al subir la imagen');
+    throw error;
+  }
+}
+
 export default {
-  getModulos, getDocentes, createDocente, getDocentesByCarreraId, getDocenteById
+  getModulos, getDocentes, createDocente, getDocentesByCarreraId, getDocenteById, uploadImageDocente
 }

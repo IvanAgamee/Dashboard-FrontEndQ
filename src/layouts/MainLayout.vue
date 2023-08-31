@@ -61,7 +61,8 @@
             <img src="../assets/img/ericmontalvo.png">
           </q-avatar>
           <div class="text-weight-bold">{{ UserStore().getUser }}</div>
-          <div>@{{ UserStore().getUsername }}</div>
+          <div>@{{ UserStore().getUsername }} <q-btn size="8px" class="q-px-sm" icon="settings" @click="onClick" /></div>
+          
         </div>
       </q-img>
     </q-drawer>

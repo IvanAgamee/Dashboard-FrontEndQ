@@ -43,7 +43,7 @@
             <div class="text-left q-mt-lg q-mx-lg">Añade una foto del docente. Recuerda que esta foto será visualizada en la pagina oficial de la carrera, por ello
             es importante cuidar la calidad de la misma.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">La foto puede ser en formato png y jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="model" label="Seleccione un archivo de su computador">
+            <q-file dense class="q-mx-lg" outlined v-model="fileImageDocente" label="Seleccione un archivo de su computador">
             <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
             <div class="text-right">
@@ -72,8 +72,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import UserStore from 'src/stores/userStore';
+import { ref, computed, onMounted, watch } from 'vue'
+import authStore from '../../stores/userStore.js';
 import apiMateria from '../ModuloMateria/apiMateria.js'
 import apiDocente from '../ModuloDocente/apiDocente.js'
 import swal from 'sweetalert';
@@ -81,11 +81,13 @@ import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const UserStore = authStore();
 const tab = ref('infoGeneral')
-const optSelectCarrera = ref(UserStore().fillSelectCarreras)
+const optSelectCarrera = ref(UserStore.getCarreras)
 const selectedCarrera = ref(null)
 const rows = ref([])
 const search = ref('');
+const fileImageDocente = ref();
 const selectedMaterias = ref([])
 const objDocente = ref({
   nombre: '',
@@ -97,6 +99,11 @@ const objDocente = ref({
   carreraId: '',
   status: 1,
 });
+
+ watch(fileImageDocente, async(newVal, oldVal) => {
+  const response = await apiDocente.uploadImageDocente(fileImageDocente.value,'Ivan Agame',1)
+  objDocente.value.urlImagen = !!response.fileData.nameFile ? response.fileData.nameFile : null
+ });
 
 const columns = [
   { name: 'nombre', align: 'left', label: 'Nombre', field: row => row.nombre},
@@ -127,15 +134,18 @@ onMounted(async () => {
     };
     rows.value.push(materia);
   });
+
   Loading.hide();
 });
 
 // Agregar registros a la tabla
 const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
+
+  objDocente.value.carreraId = selectedCarrera.value.carreraId
   objDocente.value.materias = selectedMaterias?.value.map(materia => materia.nombre).join(', ');
-  objDocente.value.carreraId = selectedCarrera?.value?.id;
   const response = await apiDocente.createDocente(objDocente.value);
+
   swal({
   position: 'top-end',
   icon: response.success==true ? 'success' : 'error',
@@ -158,8 +168,8 @@ const validarInputAdjuntos = () => {
   if (!!!selectedCarrera.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {
-    dataMaterias()
     tab.value='materias'
+    // dataMaterias()
   }}
 
   const validarInputMaterias = () => {
@@ -169,3 +179,4 @@ const validarInputAdjuntos = () => {
     agregarDocente()
   }}
 </script>
+

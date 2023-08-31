@@ -20,7 +20,9 @@
        <template v-if="column.name !== 'acciones'">{{ props.row[column.name] }}</template>
        <template v-else>
          <q-btn-group>
-            <q-btn v-for="(accion, index) in props.row.acciones" :key="accion.nombre" :label="accion.nombre" :class="`boton-${index}`" @click="accion.funcion()" />
+            <q-btn v-for="accion in props.row.acciones" :key="accion.nombre" @click="accion.funcion()"
+                    :class="{ 'btn-editar': accion.nombre === 'Editar', 'btn-eliminar': accion.nombre === 'Eliminar' }"
+                    :icon="accion.nombre === 'Editar' ? 'fa-solid fa-pencil' : 'fa-solid fa-trash'" size="11px" />
          </q-btn-group>
        </template>
       </q-td>

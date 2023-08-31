@@ -2,7 +2,7 @@ import { api } from '../../boot/axios.js';
 
 const getTotalUsers = async () => {
   try {
-    const response = await api.get('grafica/getTotalUsuarios');
+    const response = await api.get('main/getTotalUsuarios');
     return response.data.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -12,7 +12,7 @@ const getTotalUsers = async () => {
 
 const getTotalDocentes = async () => {
     try {
-      const response = await api.get('grafica/getTotalDocentes');
+      const response = await api.get('main/getTotalDocentes');
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');
@@ -22,7 +22,7 @@ const getTotalDocentes = async () => {
 
   const getTotalDocentesById = async (id) => {
     try {
-      const response = await api.get(`grafica/getTotalDocentesByCarreraID?carreraId=${id}`);
+      const response = await api.get(`main/getTotalDocentesByCarreraID?carreraId=${id}`);
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');
@@ -32,7 +32,7 @@ const getTotalDocentes = async () => {
 
   const getTotalMaterias = async () => {
     try {
-      const response = await api.get('grafica/getTotalMaterias');
+      const response = await api.get('main/getTotalMaterias');
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');
@@ -42,7 +42,7 @@ const getTotalDocentes = async () => {
 
   const getTotalMateriasById = async (id) => {
     try {
-      const response = await api.get(`grafica/getTotalMateriasByCarreraId?carreraId=${id}`);
+      const response = await api.get(`main/getTotalMateriasByCarreraId?carreraId=${id}`);
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');
@@ -52,7 +52,7 @@ const getTotalDocentes = async () => {
 
   const getTotalCarreras = async () => {
     try {
-      const response = await api.get('grafica/getTotalCarreras');
+      const response = await api.get('main/getTotalCarreras');
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');
@@ -62,7 +62,7 @@ const getTotalDocentes = async () => {
 
   const getTotalComunidades = async () => {
     try {
-      const response = await api.get('grafica/getTotalComunidades');
+      const response = await api.get('main/getTotalComunidades');
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');

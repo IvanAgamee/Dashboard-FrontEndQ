@@ -150,7 +150,6 @@ const eliminarComunidad = async (id) => {
 
 <style lang="scss">
 @import '../../css/quasar.variables.scss';
-
 .my-sticky-header-table {
   thead tr:first-child th {
     background-color: $table;
@@ -169,3 +168,4 @@ const eliminarComunidad = async (id) => {
   color: white;
 }
 </style>
+

@@ -56,6 +56,7 @@ const useLocalStorage = defineStore({
       return state.userData.departamentoId;
     },
     getCarreras(state) {
+      console.log(state)
       return state.userData?.departamento?.carrera;
     },
     /*

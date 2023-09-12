@@ -49,6 +49,9 @@ const useLocalStorage = defineStore({
     getUsername(state) {
       return state.userData.username;
     },
+    getUserId(state) {
+      return state.userData.usuarioId;
+    },
     getUserRolesId(state) {
       return state.userData.rolId;
     },

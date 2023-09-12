@@ -15,15 +15,15 @@
             correctamente una nueva materia.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El nombre debe estar escrito de la 
             siguiente manera: Fundamentos de programación</div>
-            <q-input rounded outlined dense v-model="objDocente.nombre" type="text" label="Nombre de la materia" class="q-mx-lg" />
+            <q-input rounded outlined dense v-model="objMateria.nombre" type="text" label="Nombre de la materia" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Seleccione el area al que pertenece la materia.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Esta area puede ser null</div>
-            <q-input rounded outlined dense v-model="objDocente.nombre" type="text" label="Area de la materia" class="q-mx-lg" />
+            <q-input rounded outlined dense v-model="objMateria.area" type="text" label="Area de la materia" class="q-mx-lg" />
             <div class="text-left q-ma-md q-mt-lg">Seleccione el semestre al que pertenece la materia.</div>
-            <q-input rounded outlined dense v-model="objDocente.nombre" type="text" label="Area de la materia" class="q-mx-lg" />
+            <q-input rounded outlined dense v-model="objMateria.semestre" type="number" min="1" max="12" label="Semestre de la materia" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">A continuación escribe la competencia de la materia.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras son: 250 palabras</div>
-            <q-input v-model="objDocente.informacionAcademica" rows="10" rounded outlined type="textarea" class="q-mx-lg"
+            <q-input v-model="objMateria.competencia" rows="10" rounded outlined type="textarea" class="q-mx-lg"
             color="red-12" label="Competencias de la materia"/>
             
             <div class="text-right">
@@ -35,27 +35,24 @@
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! En esta sección se adjuntaran los archivos relacionados a la materia :</div>
             <div class="text-left q-mt-lg q-mx-lg">Ingresa el link del Url del programa</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como obtener este Url da click aqui.</div>
-            <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Url del programa" class="q-mx-lg" />
+            <q-input rounded outlined dense v-model="objMateria.urlPrograma" type="text" label="Url del programa" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del Url del video de la materia</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como obtener este Url da click aqui. Si
             el video se ha ingresado correctamente, aparecera inmediatamente debajo de este formulario</div>
-            <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Url del video de la materia" class="q-mx-lg" />
-
-            <div style="flex max-width: 650px; justify-content: center;" class="q-pa-lg q-ma-lg">
+            <q-input rounded outlined dense v-model="objMateria.urlVideo" type="text" label="Url del video de la materia" class="q-mx-lg" />
+            <div v-if="!!objMateria.urlVideo" style="flex max-width: 650px; justify-content: center;" class="q-pa-lg q-ma-lg">
             <q-video
               loading="lazy"
               class="q-ma-lg"
               :ratio="16/9"
               style=""
-              :src="objDocente.contacto"
+              :src="objMateria.urlVideo"
               frameborder="0"
-              allowfullscreen
-            />
-          </div>
-            
+              allowfullscreen/>
+            </div>
             <div class="text-right">
             <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='infoGeneral'" />
-            <q-btn class="q-mt-lg" color="primary" icon="check" label="Siguiente" @click="validarInputAdjuntos()" />
+            <q-btn class="q-mt-lg" color="primary" icon="check" label="Guardar" @click="validarInputAdjuntos()" />
             </div>
           </q-tab-panel>
         </q-tab-panels>
@@ -74,21 +71,24 @@ import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const tab = ref('archivos')
+const tab = ref('infoGeneral')
 const optSelectCarrera = ref(UserStore().fillSelectCarreras)
+const optSemestres = ref({})
+
 const selectedCarrera = ref(null)
 const rows = ref([])
 const selectedMaterias = ref([])
-const objDocente = ref({
-  nombre: '',
-  descripcion: '',
-  informacionAcademica: '',
-  materias: '',
-  contacto: 'https://www.youtube.com/embed/xjYwd-XI56g',
-  urlImagen: '',
-  carreraId: '',
-  status: 1,
-});
+const objMateria = ref({
+        "nombre": "",
+        "area": null,
+        "semestre": null,
+        "competencia": "",
+        "especialidadId": null,
+        "urlVideo": null,
+        "urlPrograma": "",
+        "carreraId": null,
+        "status": 1
+    });
 
 const columns = [
   { name: 'nombre', align: 'left', label: 'Nombre', field: row => row.nombre},

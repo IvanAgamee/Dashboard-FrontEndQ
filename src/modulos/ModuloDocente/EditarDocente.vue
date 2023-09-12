@@ -31,6 +31,14 @@
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
             <div class="text-h6 text-left q-ma-md">¡Bien hecho! Continue editando la siguiente información:</div>
+            <q-img v-if="!!fileImageDocente" :src="fileImageDocente"
+            no-native-menu
+            height="200px"
+            style="max-width: 220px">
+            <div class="absolute-bottom text-subtitle1 text-center">
+              Imagen del docente
+            </div>
+            </q-img>
             <div class="text-left q-mt-lg q-mx-lg">Edición de la carrera a la que pertenece el docente</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede editar docentes de las carreras
             a las que su usuario tiene permiso.</div>
@@ -43,7 +51,7 @@
             es importante cuidar la calidad de la misma.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que si editas la foto, se sobrescribira 
             la foto actual y no será posible recuperarla. La foto puede ser en formato png y jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="model" label="Da click aqui y seleccione un archivo de su computador">
+            <q-file dense class="q-mx-lg" outlined v-model="inputFile" @change="uploadImageFunc" label="Da click aqui si desea editar la imagen">
             <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
             <div class="text-right">
@@ -69,10 +77,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import authStore from '../../stores/userStore.js';
 import apiMateria from '../ModuloMateria/apiMateria.js'
 import apiDocente from '../ModuloDocente/apiDocente.js'
+import apiUpload from '../Apis/apiUpload.js'
 import swal from 'sweetalert';
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
@@ -84,6 +93,9 @@ const optSelectCarrera = ref(UserStore.getCarreras)
 const selectedCarrera = ref(null)
 const rows = ref([])
 const selectedMaterias = ref([])
+const fileImageDocente = ref()
+const inputFile = ref()
+const envRoute = ref("http://localhost:3010/imagenes/")
 const props = defineProps({
     id:{
         type:String,
@@ -91,6 +103,7 @@ const props = defineProps({
     }
   })
 const objDocente = ref({
+  docenteId: 0,
   nombre: '',
   descripcion: '',
   informacionAcademica: '',
@@ -111,49 +124,57 @@ Loading.show({ spinner: QSpinnerGears, })
 var id = {
     docenteId: props.id
 }
-console.log(id)
+
 const data = await apiDocente.getDocenteById(id);
-console.log(data)
-console.log(data.data)
+
+selectedCarrera.value = optSelectCarrera.value.find(carrera => carrera.carreraId === data.data.carreraId);
+
+objDocente.value.docenteId = data.data.docenteId
+objDocente.value.carreraId = data.data.carreraId
 objDocente.value.nombre = data.data.nombre ;
 objDocente.value.descripcion = data.data.descripcion;
 objDocente.value.informacionAcademica = data.data.informacionAcademica;
 // objDocente.value.materias: data.data.
 objDocente.value.contacto = data.data.contacto;
 objDocente.value.urlImagen = data.data.urlImagen;
-objDocente.value.carreraId = data.data.urlImagen;
+// objDocente.value.carreraId = data.data.urlImagen;
 objDocente.value.materias = data.data.materias;
-
+inputFile.value = data.data.urlImagen; 
+fileImageDocente.value = createRouteImage(data.data.pathFile,data.data.urlImagen);
   Loading.hide()
   return data;
 } 
 dewataMaterias()
 
-const dataMaterias = async () => {
-Loading.show({ spinner: QSpinnerGears, })
-const idCarrera = {"carreraId": selectedCarrera.value.id}
-const data = await apiMateria.getMateriasByCarreraId(idCarrera);
-  data.data.map((el) => {
-    var materia = {
-      id: el.materiaId,
-      nombre: el.nombre,
-      area: el.area == null ? "Sin especialidad" : el.area,
-      especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad.nombre,
-    };
-    rows.value.push(materia);
-  });
-  Loading.hide()
-  return data;
-} 
+const createRouteImage = (pathFile,nameFile) => {
+  return envRoute.value + pathFile + "/" + nameFile;
+}
+
+ watch(inputFile, async(newVal, oldVal) => {
+  if (typeof(inputFile.value) !== 'string') {
+    
+  const id = selectedCarrera.value.carreraId;  
+  const response = await apiDocente.uploadImageDocente(inputFile.value,objDocente.value.nombre,id)
+
+  fileImageDocente.value = createRouteImage(response.fileData.pathFile,response.fileData.nameFile);
+
+  objDocente.value.urlImagen = !!response.fileData.nameFile ? response.fileData.nameFile : null
+  }
+ });
 
 // Agregar registros a la tabla
 const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
-  objDocente.value.materias = selectedMaterias?.value.map(materia => materia.id),
-  objDocente.value.carreraId = selectedCarrera?.value?.id, 
-  response = await apiDocente.createDocente(objDocente.value);
-  console.log(response)
-  swal("Good job!", "You clicked the button!", "success");
+  objDocente.value.carreraId = selectedCarrera?.value?.id;
+  const response = await apiDocente.createDocente(objDocente.value);
+  console.log("dfo0"+response)
+  swal({
+  position: 'top-end',
+  icon: response.success==true ? 'success' : 'error',
+  title: response.success==true ? '¡Se ha editado correctamente el docente!' 
+  : '¡Ha ocurrido un error! Intentelo de nuevo',
+  showConfirmButton: false,
+  timer: 1500})
   router.push({path: "/vistaDocente",});
   Loading.hide()
 }
@@ -169,7 +190,6 @@ const validarInputAdjuntos = () => {
   if (!!!selectedCarrera.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {
-    dataMaterias()
     tab.value='materias'
   }}
 

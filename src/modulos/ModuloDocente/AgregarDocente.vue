@@ -32,6 +32,14 @@
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
             <div class="text-h6 text-left q-ma-md">¡Bien hecho! Continue llenando la siguiente información:</div>
+            <q-img v-if="fileImageDocente != null" :src="fileImageDocente"
+            no-native-menu
+            height="200px"
+            style="max-width: 220px">
+            <div class="absolute-bottom text-subtitle1 text-center">
+              Imagen del docente
+            </div>
+            </q-img>
             <div class="text-left q-mt-lg q-mx-lg">Seleccione la carrera a la que pertenece el docente que se va agregar</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar docentes a las carreras
             a las que su usuario tiene permiso.</div>
@@ -43,7 +51,7 @@
             <div class="text-left q-mt-lg q-mx-lg">Añade una foto del docente. Recuerda que esta foto será visualizada en la pagina oficial de la carrera, por ello
             es importante cuidar la calidad de la misma.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">La foto puede ser en formato png y jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="fileImageDocente" label="Seleccione un archivo de su computador">
+            <q-file dense class="q-mx-lg" outlined v-model="inputFile" label="Seleccione un archivo de su computador">
             <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
             <div class="text-right">
@@ -87,7 +95,9 @@ const optSelectCarrera = ref(UserStore.getCarreras)
 const selectedCarrera = ref(null)
 const rows = ref([])
 const search = ref('');
-const fileImageDocente = ref();
+const inputFile = ref()
+const fileImageDocente = ref(null);
+const envRoute = ref("http://localhost:3010/imagenes/")
 const selectedMaterias = ref([])
 const objDocente = ref({
   nombre: '',
@@ -100,10 +110,27 @@ const objDocente = ref({
   status: 1,
 });
 
- watch(fileImageDocente, async(newVal, oldVal) => {
-  const response = await apiDocente.uploadImageDocente(fileImageDocente.value,'Ivan Agame',1)
-  objDocente.value.urlImagen = !!response.fileData.nameFile ? response.fileData.nameFile : null
+ watch(inputFile, async(newVal, oldVal) => {
+  if (typeof(inputFile.value) !== 'string') {
+    console.log(selectedCarrera.value)
+    if (!!selectedCarrera.value) {
+        const id = selectedCarrera.value.carreraId;  
+        const response = await apiDocente.uploadImageDocente(inputFile.value,objDocente.value.nombre,id)
+
+        fileImageDocente.value = createRouteImage(response.fileData.pathFile,response.fileData.nameFile);
+
+        objDocente.value.urlImagen = !!response.fileData.nameFile ? response.fileData.nameFile : null
+    } else {
+        Notify.create({ type: 'negative', message: 'Seleccione primero una carrera', position: 'top'})
+        inputFile.value = null
+    }
+
+  }
  });
+
+const createRouteImage = (pathFile,nameFile) => {
+  return envRoute.value + pathFile + "/" + nameFile;
+}
 
 const columns = [
   { name: 'nombre', align: 'left', label: 'Nombre', field: row => row.nombre},

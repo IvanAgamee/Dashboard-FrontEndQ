@@ -21,9 +21,9 @@ const getMaterias = async () => {
   }
 }
 
-const getMateriasByCarreraId = async (data) => {
+const getMateriasByProgramaId = async (data) => {
   try {
-    const response = await api.post('materia/getMateriasByCarreraId', data);
+    const response = await api.post('materia/getMateriasByProgramaId', data);
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -42,5 +42,5 @@ const createMaterias = async (data) => {
 }
 
 export default {
-  getModulos, getMaterias, createMaterias, getMateriasByCarreraId
+  getModulos, getMaterias, createMaterias, getMateriasByProgramaId
 }

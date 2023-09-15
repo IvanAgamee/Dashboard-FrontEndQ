@@ -7,7 +7,7 @@
       <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de materias</h6>
-        <q-select filled color="blue-10" v-model="selectedCarrera" :options="optionsCarreras" label="Carrera"
+        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" label="Programa"
           transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"/>
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar materia"
           @click="irAgregarMateria()" dense ellipsis />
@@ -76,8 +76,8 @@ const urlPrograma = ref('')
 const idEliminar = ref('')
 const materiaId = ref('')
 
-const optionsCarreras = UserStore.getCarreras;
-const selectedCarrera = ref(UserStore?.getCarreras[0])
+const optionsProgramas = UserStore.getProgramas;
+const selectedPrograma = ref(UserStore?.getProgramas[0])
 
 
 //Abrir y cerrar modal
@@ -93,19 +93,19 @@ const columns = [
   { name: 'area', align: 'center', label: 'Area', align: 'center', field: 'area', sortable: true },
   { name: 'acciones', align: 'center', label: 'Acciones', align: 'center', field: 'acciones', sortable: true }]
 
-// const carrerasOptions = UserStore().fillSelectCarreras;
+// const programasOptions = UserStore().fillSelectProgramas;
 
-// const carreras = ref(
+// const programas = ref(
 //   {
-//     label: carrerasOptions[0].nombre,
-//     value: carrerasOptions[0].id,
-//     options: carrerasOptions
+//     label: programasOptions[0].nombre,
+//     value: programasOptions[0].id,
+//     options: programasOptions
 //   }
 // );
 
 // Observar cambios en el select
- watch(selectedCarrera, (newVal, oldVal) => {
- returnData(newVal.carreraId)});
+ watch(selectedPrograma, (newVal, oldVal) => {
+ returnData(newVal.programaId)});
 
 const filteredRows = computed(() => {
   if (search.value) {
@@ -119,7 +119,7 @@ const filteredRows = computed(() => {
   return row.value;
 });
 
-const leerCarreraId = () => {
+const leerProgramaId = () => {
   row.value = [];
   returnData(2);
 }
@@ -127,9 +127,9 @@ const leerCarreraId = () => {
 // Llenado de la tabla con información del backend
 const returnData = async (id) => {
   Loading.show({ spinner: QSpinnerGears, })
-  const obj = { carreraId: id}
+  const obj = { programaId: id}
   row.value = [];
-  const data = await apiMateria.getMateriasByCarreraId(obj);
+  const data = await apiMateria.getMateriasByProgramaId(obj);
   data.data.map((el) => {
     var obj = {
       especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad.nombre,
@@ -148,7 +148,7 @@ const returnData = async (id) => {
   });
   Loading.hide()
 };
-returnData(selectedCarrera.value.carreraId);
+returnData(selectedPrograma.value.programaId);
 
 //Eliminar registros de la tabla
 const eliminarMaterias = async () => {
@@ -192,7 +192,7 @@ const agregarMateria = async () => {
       competencia: competencia.value,
       urlVideo: urlVideo.value,
       urlPrograma: urlPrograma.value,
-      carreraId: 11,
+      programaId: 11,
       status: 1
     }
     console.log(data)
@@ -238,7 +238,7 @@ const modificarMateria = async () => {
     competencia: competencia.value,
     urlVideo: urlVideo.value,
     urlPrograma: urlPrograma.value,
-    carreraId: 11,
+    programaId: 11,
     status: 1
   }
 

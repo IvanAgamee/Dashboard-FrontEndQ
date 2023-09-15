@@ -43,7 +43,7 @@
             <div class="text-left q-mt-lg q-mx-lg">Seleccione la carrera a la que pertenece el docente que se va agregar</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar docentes a las carreras
             a las que su usuario tiene permiso.</div>
-            <q-select rounded outlined dense option-label="nombre" :options="optSelectCarrera" v-model="selectedCarrera" type="text" label="Carreras" class="q-mx-lg" />
+            <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Adémas le pedimos que proporcione un contacto de este docente.
             Le recordamos que este contacto será público (No es obligatorio)</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puede agregar un número telefonico o un correo electronico.</div>
@@ -91,8 +91,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const UserStore = authStore();
 const tab = ref('infoGeneral')
-const optSelectCarrera = ref(UserStore.getCarreras)
-const selectedCarrera = ref(null)
+const optSelectPrograma = ref(UserStore.getProgramas)
+const selectedPrograma = ref(null)
 const rows = ref([])
 const search = ref('');
 const inputFile = ref()
@@ -106,15 +106,15 @@ const objDocente = ref({
   materias: '',
   contacto: '',
   urlImagen: '',
-  carreraId: '',
+  programaId: '',
   status: 1,
 });
 
  watch(inputFile, async(newVal, oldVal) => {
   if (typeof(inputFile.value) !== 'string') {
-    console.log(selectedCarrera.value)
-    if (!!selectedCarrera.value) {
-        const id = selectedCarrera.value.carreraId;  
+    console.log(selectedPrograma.value)
+    if (!!selectedPrograma.value) {
+        const id = selectedPrograma.value.programaId;  
         const response = await apiDocente.uploadImageDocente(inputFile.value,objDocente.value.nombre,id)
 
         fileImageDocente.value = createRouteImage(response.fileData.pathFile,response.fileData.nameFile);
@@ -169,7 +169,7 @@ onMounted(async () => {
 const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
 
-  objDocente.value.carreraId = selectedCarrera.value.carreraId
+  objDocente.value.programaId = selectedPrograma.value.programaId
   objDocente.value.materias = selectedMaterias?.value.map(materia => materia.nombre).join(', ');
   const response = await apiDocente.createDocente(objDocente.value);
 
@@ -192,7 +192,7 @@ const validarInputInfoGral = () => {
   }}
 
 const validarInputAdjuntos = () => {
-  if (!!!selectedCarrera.value) {
+  if (!!!selectedPrograma.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {
     tab.value='materias'

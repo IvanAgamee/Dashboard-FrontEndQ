@@ -10,9 +10,9 @@ const getModulos = async () => {
   }
 }
 
-const getCarreras = async () => {
+const getProgramas = async () => {
   try {
-    const response = await api.get('carrera/getCarreras');
+    const response = await api.get('programa/getProgramas');
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -20,9 +20,9 @@ const getCarreras = async () => {
   }
 }
 
-const getCarrerasByDepartment = async (data) => {
+const getProgramasByDepartment = async (data) => {
   try {
-    const response = await api.post('carrera/getCarrerasByDepartment', data);
+    const response = await api.post('programa/getProgramasByDepartment', data);
     return response.data;
   }
   catch (error) {
@@ -30,9 +30,9 @@ const getCarrerasByDepartment = async (data) => {
   }
 }
 
-const createCarreras = async (data) => {
+const createProgramas = async (data) => {
   try {
-    const response = await api.post('carrera/crudCarrera', data);
+    const response = await api.post('programa/crudPrograma', data);
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al obtener los datos');
@@ -41,5 +41,5 @@ const createCarreras = async (data) => {
 }
 
 export default {
-  getModulos, getCarreras, getCarrerasByDepartment, createCarreras
+  getModulos, getProgramas, getProgramasByDepartment, createProgramas
 }

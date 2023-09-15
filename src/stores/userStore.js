@@ -58,16 +58,16 @@ const useLocalStorage = defineStore({
     getUserDepartamento(state) {
       return state.userData.departamentoId;
     },
-    getCarreras(state) {
+    getProgramas(state) {
       console.log(state)
-      return state.userData?.departamento?.carrera;
+      return state.userData?.departamento?.programa;
     },
     /*
     Funcion para obtener las carreras del usuario, en caso de ser más de una
     se retorna solo el primer indice, si no se devuevle un array de ellos
     */
-    // getUserCarreras(state) {
-    //   const obj = state.userData?.departamento?.carrera;
+    // getUserProgramas(state) {
+    //   const obj = state.userData?.departamento?.programa;
     //   const id = obj.map((obj) => obj);
     //   if (id.length === 1) {
     //     return id[0];
@@ -80,28 +80,28 @@ const useLocalStorage = defineStore({
     Función para rellenar la información necesaria para los select de carreras presentes en
     vista Materia y docentes
     */
-    // fillSelectCarreras() {
-    //   const carreras = [];
-    //   const carrerasObj = this.getUserCarreras;
-    //   if (carrerasObj.length > 1) {
-    //     for (const value of carrerasObj) {
-    //       const carrera = {
+    // fillSelectProgramas() {
+    //   const programas = [];
+    //   const programasObj = this.getUserProgramas;
+    //   if (programasObj.length > 1) {
+    //     for (const value of programasObj) {
+    //       const programa = {
     //         nombre: value.nombre,
-    //         id: value.carreraId
+    //         id: value.programaId
     //       }
-    //       carreras.push(carrera);
+    //       programas.push(programa);
     //     }
     //   }
     //   else {
-    //     carreras.push(
+    //     programas.push(
     //       {
-    //         nombre: carrerasObj.nombre,
-    //         id: carrerasObj.carreraId
+    //         nombre: programasObj.nombre,
+    //         id: programasObj.programaId
     //       }
     //     )
     //   }
 
-    //   return carreras;
+    //   return programas;
     // }
   }
 });

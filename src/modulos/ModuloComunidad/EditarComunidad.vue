@@ -33,8 +33,8 @@
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar
               comunidades a las carreras
               a las que su usuario tiene permiso.
-              <q-select rounded outlined dense option-label="nombre" :options="optSelectCarrera" v-model="selectedCarrera"
-                type="text" label="Carreras" class="q-mx-lg" />
+              <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma"
+                type="text" label="Programas" class="q-mx-lg" />
             </div>
             <div class="text-right">
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
@@ -89,8 +89,8 @@ import swal from 'sweetalert';
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
-const optSelectCarrera = ref(UserStore().fillSelectCarreras)
-const selectedCarrera = ref();
+const optSelectPrograma = ref(UserStore().fillSelectProgramas)
+const selectedPrograma = ref();
 
 const router = useRouter();
 const tab = ref('infoGeneral')
@@ -101,7 +101,7 @@ const objComunidad = ref({
   queHacemos: '',
   logo: 'logo.png',
   fotosComunidad: 'fotos.png',
-  carreraId: '',
+  programaId: '',
   status: 1,
 });
 
@@ -119,8 +119,8 @@ const llenarDatosComunidad = async () => {
   objComunidad.value.queHacemos = data.data.queHacemos;
   objComunidad.value.logo = data.data.logo;
   objComunidad.value.fotoComunidad = data.data.fotoComunidad;
-  objComunidad.value.carreraId = data.data.carreraId;
-  selectedCarrera.value = optSelectCarrera.value.find(carrera => carrera.id === objComunidad.value.carreraId);
+  objComunidad.value.programaId = data.data.programaId;
+  selectedPrograma.value = optSelectPrograma.value.find(programa => programa.id === objComunidad.value.programaId);
   Loading.hide()
   return data;
 }
@@ -128,7 +128,7 @@ llenarDatosComunidad()
 
 
 
-console.log(selectedCarrera.value);
+console.log(selectedPrograma.value);
 const props = defineProps({
   id: {
     type: String,
@@ -144,8 +144,8 @@ const columns = [
 */
 
 
-watch(selectedCarrera, (newVal, oldVal) => {
-  objComunidad.value.carreraId = newVal.id;
+watch(selectedPrograma, (newVal, oldVal) => {
+  objComunidad.value.programaId = newVal.id;
 });
 
 

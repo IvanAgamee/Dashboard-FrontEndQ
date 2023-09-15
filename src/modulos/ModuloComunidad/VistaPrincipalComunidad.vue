@@ -3,7 +3,7 @@
     <q-card class="q-pt-lg q-pb-lg">
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de Comunidades</h6>
-        <q-select filled color="blue-10" v-model="selectedCarrera" :options="optionsCarreras" label="Carrera"
+        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" label="Programa"
           transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id" />
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar Comunidad"
           @click="irAgregarDocente()" dense ellipsis />
@@ -52,8 +52,8 @@ const row = ref([])
 const UserStore = authStore();
 const search = ref();
 
-const optionsCarreras = UserStore.getCarreras;
-const selectedCarrera = ref(UserStore.getCarreras[0])
+const optionsProgramas = UserStore.getProgramas;
+const selectedPrograma = ref(UserStore.getProgramas[0])
 
 // Columnas de la tabla
 const columns = [
@@ -80,7 +80,7 @@ const filteredRows = computed(() => {
 const returnData = async (id) => {
   row.value = [];
   Loading.show({ spinner: QSpinnerGears, })
-  const data = await apiComunidad.getComunidadByCarreraId(id);
+  const data = await apiComunidad.getComunidadByProgramaId(id);
   data.data.map((el) => {
     var obj = {
       id: el.comunidadId,
@@ -98,11 +98,11 @@ const returnData = async (id) => {
   Loading.hide()
 };
 
-returnData(selectedCarrera.value.carreraId)
+returnData(selectedPrograma.value.programaId)
 
 // Observar cambios en el select
-watch(selectedCarrera, (newVal, oldVal) => {
-  returnData(newVal.carreraId)
+watch(selectedPrograma, (newVal, oldVal) => {
+  returnData(newVal.programaId)
 });
 
 // Navegar con spinners
@@ -143,7 +143,7 @@ const eliminarComunidad = async (id) => {
     Loading.hide()
     filteredRows;
     row.value = [];
-    returnData(selectedCarrera.value.carreraId);
+    returnData(selectedPrograma.value.programaId);
   })
 }
 </script>

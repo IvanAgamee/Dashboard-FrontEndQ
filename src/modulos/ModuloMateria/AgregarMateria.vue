@@ -72,10 +72,10 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const tab = ref('infoGeneral')
-const optSelectCarrera = ref(UserStore().fillSelectCarreras)
+const optSelectPrograma = ref(UserStore().fillSelectProgramas)
 const optSemestres = ref({})
 
-const selectedCarrera = ref(null)
+const selectedPrograma = ref(null)
 const rows = ref([])
 const selectedMaterias = ref([])
 const objMateria = ref({
@@ -86,7 +86,7 @@ const objMateria = ref({
         "especialidadId": null,
         "urlVideo": null,
         "urlPrograma": "",
-        "carreraId": null,
+        "programaId": null,
         "status": 1
     });
 
@@ -97,8 +97,8 @@ const columns = [
 
 const dataMaterias = async () => {
 Loading.show({ spinner: QSpinnerGears, })
-const idCarrera = {"carreraId": selectedCarrera.value.id}
-const data = await apiMateria.getMateriasByCarreraId(idCarrera);
+const idPrograma = {"programaId": selectedPrograma.value.id}
+const data = await apiMateria.getMateriasByProgramaId(idPrograma);
   data.data.map((el) => {
     var materia = {
       id: el.materiaId,
@@ -116,7 +116,7 @@ const data = await apiMateria.getMateriasByCarreraId(idCarrera);
 const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
   objDocente.value.materias = selectedMaterias?.value.map(materia => materia.id),
-  objDocente.value.carreraId = selectedCarrera?.value?.id, 
+  objDocente.value.programaId = selectedPrograma?.value?.id, 
   response = await apiDocente.createDocente(objDocente.value);
   console.log(response)
   swal("Good job!", "You clicked the button!", "success");
@@ -132,7 +132,7 @@ const validarInputInfoGral = () => {
   }}
 
 const validarInputAdjuntos = () => {
-  if (!!!selectedCarrera.value) {
+  if (!!!selectedPrograma.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {
     dataMaterias()

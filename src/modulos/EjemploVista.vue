@@ -50,9 +50,9 @@
                   :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
                   <q-input
                   
-                  v-model="carrera"
-                  label="Carrera(s) *"
-                  hint="Carrera(s) en las que imparte clases"
+                  v-model="programa"
+                  label="Programa(s) *"
+                  hint="Programa(s) en las que imparte clases"
                   lazy-rules
                   dense
                   style="padding: 0px 10px 45px 10px"
@@ -112,7 +112,7 @@ const showModal = ref(false)
 // Constantes para inputs creación/edición
 const nombre = ref('')
 const contacto = ref('')
-const carrera = ref('')
+const programa = ref('')
 const descripcion = ref('')
 const informacionAcademica = ref('')
 const materias = ref('')
@@ -128,7 +128,7 @@ function openModal () {
 const columns = [
   { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true},
   { name: 'contacto', align: 'center', label: 'Contacto',align: 'center', field: 'contacto', sortable: true },
-  { name: 'carrera', label: 'Carrera',align: 'center', field: 'carrera', sortable: true },
+  { name: 'programa', label: 'Programa',align: 'center', field: 'programa', sortable: true },
   { name: 'descripcion', label: 'Descripción', field: 'descripcion',align: 'center' },
   { name: 'informacionAcademica', label: 'Información academica',align: 'center', field: 'informacionAcademica' },
   { name: 'fotoPerfil', label: 'Foto perfil', field: 'fotoPerfil',align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
@@ -139,9 +139,9 @@ row.value = [
 {
   nombre: 'Ivan Agame Malpica',
   contacto: '2299063184',
-  carrera: 'Ingenieria en Sistemas Computacionales',
+  programa: 'Ingenieria en Sistemas Computacionales',
   descripcion: 'Programador con 10 años de experiencia en cowbol',
-  informacionAcademica: 'Egresado de la carrera del Cetis 15',
+  informacionAcademica: 'Egresado de la programa del Cetis 15',
   fotoPerfil: 'www.fotodeperfil.com',
   acciones: [
     { nombre: 'Editar', funcion: () => console.log('Editar') },
@@ -154,7 +154,7 @@ function addRow () {
   row.value.push({
     nombre: nombre.value,
     contacto: contacto.value,
-    carrera: carrera.value,
+    programa: programa.value,
     descripcion: descripcion.value,
     informacionAcademica: informacionAcademica.value,
     fotoPerfil: fotodeperfil.value,

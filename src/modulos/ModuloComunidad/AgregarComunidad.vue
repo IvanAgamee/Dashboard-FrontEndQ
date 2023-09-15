@@ -35,8 +35,8 @@
                 <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar
                   comunidades a las carreras
                   a las que su usuario tiene permiso.</div>
-                <q-select rounded outlined dense option-label="nombre" :options="optSelectCarrera"
-                  v-model="selectedCarrera" type="text" label="Carreras" class="q-mx-lg" option-value="id" />
+                <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma"
+                  v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" option-value="id" />
               </div>
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
                 @click="validarInputInfoGral()" />
@@ -88,20 +88,20 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const tab = ref('infoGeneral')
-const optSelectCarrera = ref(UserStore().fillSelectCarreras);
-console.log(optSelectCarrera.value);
-const selectedCarrera = ref(UserStore().getCarreras[0]);
+const optSelectPrograma = ref(UserStore().fillSelectProgramas);
+console.log(optSelectPrograma.value);
+const selectedPrograma = ref(UserStore().getProgramas[0]);
 const objComunidad = ref({
   nombre: '',
   quienesSomos: '',
   queHacemos: '',
   logo: 'logo.png',
   fotosComunidad: 'fotos.png',
-  carreraId: '',
+  programaId: '',
   status: 1,
 });
-watch(selectedCarrera, (newVal, oldVal) => {
-  objComunidad.value.carreraId = newVal.id;
+watch(selectedPrograma, (newVal, oldVal) => {
+  objComunidad.value.programaId = newVal.id;
 });
 // Agregar registros a la tabla
 const agregarComunidad = async () => {

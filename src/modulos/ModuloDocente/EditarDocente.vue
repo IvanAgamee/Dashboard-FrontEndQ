@@ -42,7 +42,7 @@
             <div class="text-left q-mt-lg q-mx-lg">Edición de la carrera a la que pertenece el docente</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede editar docentes de las carreras
             a las que su usuario tiene permiso.</div>
-            <q-select rounded outlined dense option-label="nombre" :options="optSelectCarrera" v-model="selectedCarrera" type="text" label="Carreras" class="q-mx-lg" />
+            <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Edición del contacto de este docente.
             Le recordamos que este contacto será público (No es obligatorio)</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerde que puede ser un número telefonico o un correo electronico.</div>
@@ -89,8 +89,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const UserStore = authStore();
 const tab = ref('infoGeneral')
-const optSelectCarrera = ref(UserStore.getCarreras)
-const selectedCarrera = ref(null)
+const optSelectPrograma = ref(UserStore.getProgramas)
+const selectedPrograma = ref(null)
 const rows = ref([])
 const selectedMaterias = ref([])
 const fileImageDocente = ref()
@@ -110,7 +110,7 @@ const objDocente = ref({
   materias: '',
   contacto: '',
   urlImagen: '',
-  carreraId: '',
+  programaId: '',
   status: 1,
 });
 
@@ -127,17 +127,17 @@ var id = {
 
 const data = await apiDocente.getDocenteById(id);
 
-selectedCarrera.value = optSelectCarrera.value.find(carrera => carrera.carreraId === data.data.carreraId);
+selectedPrograma.value = optSelectPrograma.value.find(programa => programa.programaId === data.data.programaId);
 
 objDocente.value.docenteId = data.data.docenteId
-objDocente.value.carreraId = data.data.carreraId
+objDocente.value.programaId = data.data.programaId
 objDocente.value.nombre = data.data.nombre ;
 objDocente.value.descripcion = data.data.descripcion;
 objDocente.value.informacionAcademica = data.data.informacionAcademica;
 // objDocente.value.materias: data.data.
 objDocente.value.contacto = data.data.contacto;
 objDocente.value.urlImagen = data.data.urlImagen;
-// objDocente.value.carreraId = data.data.urlImagen;
+// objDocente.value.programaId = data.data.urlImagen;
 objDocente.value.materias = data.data.materias;
 inputFile.value = data.data.urlImagen; 
 fileImageDocente.value = createRouteImage(data.data.pathFile,data.data.urlImagen);
@@ -153,7 +153,7 @@ const createRouteImage = (pathFile,nameFile) => {
  watch(inputFile, async(newVal, oldVal) => {
   if (typeof(inputFile.value) !== 'string') {
     
-  const id = selectedCarrera.value.carreraId;  
+  const id = selectedPrograma.value.programaId;  
   const response = await apiDocente.uploadImageDocente(inputFile.value,objDocente.value.nombre,id)
 
   fileImageDocente.value = createRouteImage(response.fileData.pathFile,response.fileData.nameFile);
@@ -165,7 +165,7 @@ const createRouteImage = (pathFile,nameFile) => {
 // Agregar registros a la tabla
 const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
-  objDocente.value.carreraId = selectedCarrera?.value?.id;
+  objDocente.value.programaId = selectedPrograma?.value?.id;
   const response = await apiDocente.createDocente(objDocente.value);
   console.log("dfo0"+response)
   swal({
@@ -187,7 +187,7 @@ const validarInputInfoGral = () => {
   }}
 
 const validarInputAdjuntos = () => {
-  if (!!!selectedCarrera.value) {
+  if (!!!selectedPrograma.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {
     tab.value='materias'

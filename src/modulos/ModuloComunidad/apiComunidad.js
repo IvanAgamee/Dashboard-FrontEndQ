@@ -35,11 +35,11 @@ const getComunidadById = async (comunidadId) => {
   }
 }
 
-const getComunidadByCarreraId = async (carreraId) => {
+const getComunidadByProgramaId = async (programaId) => {
   try {
-    const response = await api.get('comunidad/getComunidadByCarreraId', {
+    const response = await api.get('comunidad/getComunidadByProgramaId', {
       params: {
-        carreraId: carreraId
+        programaId: programaId
       }
     });
     return response.data;
@@ -64,5 +64,5 @@ const createComunidades = async (data) => {
 }
 
 export default {
-  getModulos, getComunidades, createComunidades, getComunidadByCarreraId, getComunidadById
+  getModulos, getComunidades, createComunidades, getComunidadByProgramaId, getComunidadById
 }

@@ -22,7 +22,7 @@ const getTotalDocentes = async () => {
 
   const getTotalDocentesById = async (id) => {
     try {
-      const response = await api.get(`main/getTotalDocentesByCarreraID?carreraId=${id}`);
+      const response = await api.get(`main/getTotalDocentesByProgramaID?programaId=${id}`);
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');
@@ -42,7 +42,7 @@ const getTotalDocentes = async () => {
 
   const getTotalMateriasById = async (id) => {
     try {
-      const response = await api.get(`main/getTotalMateriasByCarreraId?carreraId=${id}`);
+      const response = await api.get(`main/getTotalMateriasByProgramaId?programaId=${id}`);
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');
@@ -50,9 +50,9 @@ const getTotalDocentes = async () => {
     }
   }
 
-  const getTotalCarreras = async () => {
+  const getTotalProgramas = async () => {
     try {
-      const response = await api.get('main/getTotalCarreras');
+      const response = await api.get('main/getTotalProgramas');
       return response.data.data;
     } catch (error) {
       console.log('Se produjo un error al obtener los datos');
@@ -74,7 +74,7 @@ const getTotalDocentes = async () => {
 export default {
     getTotalUsers,
     getTotalComunidades,
-    getTotalCarreras,
+    getTotalProgramas,
     getTotalMateriasById,
     getTotalMaterias,
     getTotalDocentesById,

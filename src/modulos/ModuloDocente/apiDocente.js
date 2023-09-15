@@ -31,9 +31,9 @@ const getModulos = async () => {
     }
   }
 
-const getDocentesByCarreraId = async (data) => {
+const getDocentesByProgramaId = async (data) => {
   try {
-    const response = await api.post('docente/getDocentesByCarreraId', data);
+    const response = await api.post('docente/getDocentesByProgramaId', data);
     return response.data;
   } catch (error) {
     console.log(error)
@@ -60,7 +60,7 @@ const uploadImageDocente = async (file, docenteNombre, nameCarrer) => {
   formData.append('file', file);
     
   try {
-    const response = await api.post(`docente/uploadDocenteImage?carreraId=${nameCarrer}`, formData, {
+    const response = await api.post(`docente/uploadDocenteImage?programaId=${nameCarrer}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -74,5 +74,5 @@ const uploadImageDocente = async (file, docenteNombre, nameCarrer) => {
 }
 
 export default {
-  getModulos, getDocentes, createDocente, getDocentesByCarreraId, getDocenteById, uploadImageDocente
+  getModulos, getDocentes, createDocente, getDocentesByProgramaId, getDocenteById, uploadImageDocente
 }

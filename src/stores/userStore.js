@@ -59,51 +59,54 @@ const useLocalStorage = defineStore({
       return state.userData.departamentoId;
     },
     getProgramas(state) {
-      console.log(state)
-      return state.userData?.departamento?.programa;
+  //    console.log(state)
+      return state.userData?.departamento?.programaEstudio;
     },
     /*
     Funcion para obtener las carreras del usuario, en caso de ser más de una
     se retorna solo el primer indice, si no se devuevle un array de ellos
     */
-    // getUserProgramas(state) {
-    //   const obj = state.userData?.departamento?.programa;
-    //   const id = obj.map((obj) => obj);
-    //   if (id.length === 1) {
-    //     return id[0];
-    //   }
-    //   else {
-    //     return id;
-    //   }
-    // },
+    /*
+     getUserProgramas(state) {
+       const obj = state.userData?.departamento?.programa;
+       console.log(obj);
+       const id = obj.map((obj) => obj);
+       if (id.length === 1) {
+         return id[0];
+       }
+       else {
+         return id;
+       }
+     }
+     */
     /*
     Función para rellenar la información necesaria para los select de carreras presentes en
     vista Materia y docentes
     */
-    // fillSelectProgramas() {
-    //   const programas = [];
-    //   const programasObj = this.getUserProgramas;
-    //   if (programasObj.length > 1) {
-    //     for (const value of programasObj) {
-    //       const programa = {
-    //         nombre: value.nombre,
-    //         id: value.programaId
-    //       }
-    //       programas.push(programa);
-    //     }
-    //   }
-    //   else {
-    //     programas.push(
-    //       {
-    //         nombre: programasObj.nombre,
-    //         id: programasObj.programaId
-    //       }
-    //     )
-    //   }
+    /*fillSelectProgramas() {
+       const programas = [];
+       const programasObj = this.getUserProgramas;
+       if (programasObj.length > 1) {
+         for (const value of programasObj) {
+           const programa = {
+             nombre: value.nombre,
+             id: value.programaId
+           }
+           programas.push(programa);
+         }
+       }
+       else {
+         programas.push(
+           {
+             nombre: programasObj.nombre,
+             id: programasObj.programaId
+           }
+         )
+      }
 
-    //   return programas;
-    // }
+       return programas;
+     }*/
   }
-});
+})
 
 export default useLocalStorage;

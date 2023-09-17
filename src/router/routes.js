@@ -17,7 +17,11 @@ const routes = [
       { path: '/agregarDocente', component: () => import('../modulos/ModuloDocente/AgregarDocente.vue') },
       { name: 'editDocente', path: '/editarDocente/:id', component: () => import('../modulos/ModuloDocente/EditarDocente.vue'), props: true, },
       { path: '/archivoEjemplo', component: () => import('../modulos/ModuloAlumno/Archivoejemplo.vue') },
-      { path: '/miPerfil', component: () => import('../modulos/ModuloMiPerfil/miPerfil.vue') }
+      { path: '/miPerfil', component: () => import('../modulos/ModuloMiPerfil/miPerfil.vue') },
+      { path: '/vistaSeccion', component: () => import('../modulos/ModuloSecciones/VistaPrincipalSecciones.vue')},
+      { path: '/agregarSeccion', component: () => import('../modulos/ModuloSecciones/AgregarSeccion.vue')},
+      { name: 'editarSeccion',path: '/editarSeccion', component: () => import('../modulos/ModuloSecciones/EditarSeccion.vue'),  props: true}
+
     ]
   },
   {

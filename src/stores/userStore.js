@@ -59,8 +59,7 @@ const useLocalStorage = defineStore({
       return state.userData.departamentoId;
     },
     getProgramas(state) {
-      console.log(state)
-      return state.userData?.departamento?.programa;
+      return state.userData?.departamento?.programaEstudio;
     },
     /*
     Funcion para obtener las carreras del usuario, en caso de ser más de una

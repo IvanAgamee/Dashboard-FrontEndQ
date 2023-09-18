@@ -83,7 +83,7 @@ const props = defineProps({
 
 const router = useRouter();
 const tab = ref('infoGeneral')
-const optSelectCarrera = ref(UserStore().getCarreras)
+const optSelectCarrera = ref(UserStore().getProgramas)
 const optSemestres = ref({})
 const selectedCarrera = ref(null)
 

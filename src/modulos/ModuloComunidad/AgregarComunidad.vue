@@ -53,7 +53,7 @@
               es importante cuidar la calidad de la misma.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">La foto puede ser en formato png
               o jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="model"
+            <q-file dense class="q-mx-lg" outlined v-model="inputLogo" standout @change="uploadImageFunc"
               label="Da click aqui y seleccione un archivo de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
@@ -62,8 +62,8 @@
               la pagina oficial de la carrera, por ello
               es importante cuidar la calidad de las mismas. La fotos puede ser en formato png o jpg.</div>
 
-            <q-file dense class="q-mx-lg" outlined v-model="model"
-              label="Da click aqui y seleccione un archivo de su computador">
+            <q-file dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="3"
+              label="Da click aqui y seleccione dos archivos de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 
@@ -91,6 +91,10 @@ const UserStore = authStore();
 const tab = ref('infoGeneral')
 const optSelectPrograma = ref(UserStore.getProgramas)
 const selectedPrograma = ref(null)
+const inputFiles = ref()
+const inputLogo = ref()
+const fileImageComunidad = ref()
+const envRoute = ref("http://localhost:3010/imagenes/")
 const objComunidad = ref({
   nombre: '',
   quienesSomos: '',
@@ -103,6 +107,29 @@ const objComunidad = ref({
 watch(selectedPrograma, (newVal, oldVal) => {
   objComunidad.value.programaId = newVal.programaId;
 });
+
+watch(inputFiles, async (newVal, oldVal) => {
+  if (typeof (inputFiles.value) !== 'string') {
+    const id = objComunidad.value.programaId;
+    const response = await apiComunidad.uploadFiles(inputFiles.value, objComunidad.value.nombre, id)
+
+    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
+    const fotosComunidad = response.filenames.join(',');
+    objComunidad.value.fotosComunidad = !!response.filenames ? fotosComunidad : null
+  }
+});
+
+watch(inputLogo, async (newVal, oldVal) => {
+  if (typeof (inputLogo.value) !== 'string') {
+    const id = objComunidad.value.programaId;
+    console.log(inputLogo.value)
+    const response = await apiComunidad.uploadFiles([inputLogo.value], objComunidad.value.nombre, id)
+
+    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames[0]);
+    objComunidad.value.logo = !!response.filenames ? response.filenames[0] : null
+  }
+});
+
 // Agregar registros a la tabla
 const agregarComunidad = async () => {
   Loading.show({ spinner: QSpinnerGears, })

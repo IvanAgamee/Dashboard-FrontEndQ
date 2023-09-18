@@ -33,8 +33,8 @@
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar
               comunidades a las carreras
               a las que su usuario tiene permiso.
-              <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma"
-                type="text" label="Programas" class="q-mx-lg" />
+              <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma"
+                v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" />
             </div>
             <div class="text-right">
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
@@ -53,8 +53,8 @@
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que si editas la foto,
               se sobrescribira
               la foto actual y no será posible recuperarla. La foto puede ser en formato png o jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="model"
-              label="Da click aqui y seleccione un archivo de su computador">
+            <q-file dense class="q-mx-lg" outlined v-model="inputLogo" standout
+              @change="uploadImageFunc" label="Da click aqui y seleccione un archivo de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 
@@ -65,8 +65,7 @@
               fotos,
               se sobrescribiran
               las fotos actuales y no será posible recuperarlas. La fotos puede ser en formato png o jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="model"
-              label="Da click aqui y seleccione un archivo de su computador">
+            <q-file dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="3" label="Da click aqui y seleccione dos archivos de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 
@@ -91,7 +90,11 @@ import { useRouter } from 'vue-router';
 
 const optSelectPrograma = ref(UserStore().getProgramas)
 const selectedPrograma = ref();
+const inputFiles = ref()
+const inputLogo = ref()
+const envRoute = ref("http://localhost:3010/imagenes/")
 
+const fileImageComunidad = ref()
 const router = useRouter();
 const tab = ref('infoGeneral')
 const objComunidad = ref({
@@ -116,9 +119,11 @@ const llenarDatosComunidad = async () => {
   objComunidad.value.quienesSomos = data.data.quienesSomos;
   objComunidad.value.queHacemos = data.data.queHacemos;
   objComunidad.value.logo = data.data.logo;
-  objComunidad.value.fotoComunidad = data.data.fotoComunidad;
+  objComunidad.value.fotosComunidad = data.data.fotosComunidad.join(',');
   objComunidad.value.programaId = data.data.programaId;
+  inputFiles.value = data.data.fotoComunidad;
   selectedPrograma.value = optSelectPrograma.value.find(programa => programa.id === objComunidad.value.programaId);
+  fileImageComunidad.value = createRouteImage(data.data.pathFile, data.data.urlImagen);
   Loading.hide()
   return data;
 }
@@ -133,18 +138,35 @@ const props = defineProps({
   }
 })
 
-/*
-const columns = [
-  { name: 'nombre', align: 'left', label: 'Nombre', field: row => row.nombre },
-  { name: 'area', align: 'left', label: 'Area', field: row => row.area },
-  { name: 'especialidad', align: 'left', label: 'Especialidad', field: row => row.especialidad },]
-*/
-
+const createRouteImage = (pathFile, nameFile) => {
+  return envRoute.value + pathFile + "/" + nameFile;
+}
 
 watch(selectedPrograma, (newVal, oldVal) => {
   objComunidad.value.programaId = newVal.id;
 });
 
+watch(inputFiles, async (newVal, oldVal) => {
+  if (typeof (inputFiles.value) !== 'string') {
+    const id = objComunidad.value.programaId;
+    const response = await apiComunidad.uploadFiles(inputFiles.value, objComunidad.value.nombre, id)
+
+    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
+    const fotosComunidad = response.filenames.join(',');
+    objComunidad.value.fotosComunidad = !!response.filenames ? fotosComunidad : null
+  }
+});
+
+watch(inputLogo, async (newVal, oldVal) => {
+  if (typeof (inputLogo.value) !== 'string') {
+    const id = objComunidad.value.programaId;
+    console.log(inputLogo.value)
+    const response = await apiComunidad.uploadFiles([inputLogo.value], objComunidad.value.nombre, id)
+
+    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames[0]);
+    objComunidad.value.logo = !!response.filenames ?  response.filenames[0] : null
+  }
+});
 
 const agregarComunidad = async () => {
   Loading.show({ spinner: QSpinnerGears, })

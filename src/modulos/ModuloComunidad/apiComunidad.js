@@ -63,6 +63,30 @@ const createComunidades = async (data) => {
   }
 }
 
+const uploadFiles  = async (files, comunidadNombre, programaId) => {
+  
+  const formData = new FormData();
+  formData.append('comunidadNombre', comunidadNombre);
+
+  for (let i = 0; i < files.length; i++) {
+    formData.append('files', files[i]);
+  }
+  
+  try {
+    const response = await api.post(`comunidad/uploadFiles?programaId=${programaId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log('Se produjo un error al subir la imagen');
+    throw error;
+  }
+}
+
+
 export default {
-  getModulos, getComunidades, createComunidades, getComunidadByProgramaId, getComunidadById
+  getModulos, getComunidades, createComunidades, getComunidadByProgramaId, getComunidadById, uploadFiles
 }

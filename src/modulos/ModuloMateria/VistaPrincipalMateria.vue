@@ -140,7 +140,7 @@ const returnData = async (id) => {
       urlVideo: el.urlVideo?.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
       urlPrograma: el.urlPrograma?.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
       acciones: [
-        { nombre: "Editar", funcion: () => { datosModificarMateria(el), console.log(el) } },
+        { nombre: 'Editar', funcion: () => {navegarEditarDocente(el)}},
         { nombre: 'Eliminar', funcion: () => { idEliminar.value = el.materiaId, showModalEliminar.value = true } }
       ],
     };
@@ -149,6 +149,11 @@ const returnData = async (id) => {
   Loading.hide()
 };
 returnData(selectedPrograma.value.programaId);
+
+const navegarEditarDocente =  (el) => {
+Loading.show({ spinner: QSpinnerGears, })
+router.push({name: "editMateria",params: { id: el.materiaId }});
+Loading.hide()}
 
 //Eliminar registros de la tabla
 const eliminarMaterias = async () => {

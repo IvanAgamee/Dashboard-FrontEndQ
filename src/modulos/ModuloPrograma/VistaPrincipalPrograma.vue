@@ -6,7 +6,7 @@
     <q-card class="q-pt-lg q-pb-lg">
       <!-- Area del titulo y boton agregar -->
       <div class="row">
-        <h6 class="col q-ma-sm q-ml-lg">Programas autorizadas</h6>
+        <h6 class="col q-ma-sm q-ml-lg">Programas autorizados</h6>
         <!-- <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar carrera" -->
           <!-- @click="openModal" dense ellipsis /> -->
       </div>

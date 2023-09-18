@@ -88,28 +88,34 @@ const optSemestres = ref({})
 const selectedCarrera = ref(null)
 
 const objMateria = ref({
+        "materiaId": null,
         "nombre": "",
         "area": null,
         "semestre": null,
         "competencia": "",
-        "especialidadId": null,
+        "especialidad": null,
         "urlVideo": null,
         "urlPrograma": "",
-        "carreraId": null,
+        "programaId": null,
         "status": 1
     });
 
 // Aqui construye la asignacion de valores a edit materia
 const loadDataMateriaById = async () => {
 Loading.show({ spinner: QSpinnerGears, })
- var id = {
-    docenteId: props.id
- }
 
- const data = await apiDocente.getDocenteById(id);
+ const data = await apiMateria.getMateriaById(props.id);
+
+ objMateria.value.materiaId= data.materiaId
+ objMateria.value.nombre= data.nombre
+ objMateria.value.area= data.area
+ objMateria.value.semestre= data.semestre
+ objMateria.value.competencia= data.competencia
+ objMateria.value.especialidad= data.especialidad
+ objMateria.value.urlVideo= data.urlVideo
+ objMateria.value.urlPrograma= data.urlPrograma
+ selectedCarrera.value = optSelectCarrera.value.find(programa => programa.programaId === data.programaId);
  
- selectedCarrera.value = optSelectCarrera.value.find(carrera => carrera.carreraId === data.data.carreraId);
-
  Loading.hide()
  return data;
 } 
@@ -123,19 +129,10 @@ const agregarMateria = async () => {
   Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'}) }
 
   else {
-    const data = {
-      nombre: objMateria.value.nombre,
-      area: objMateria.value.area,
-      semestre: objMateria.value.semestre,
-      competencia: objMateria.value.competencia,
-      urlVideo: objMateria.value.urlVideo,
-      urlPrograma: objMateria.value.urlPrograma,
-      carreraId: selectedCarrera.value.carreraId,
-      status: 1
-    }
+    objMateria.value.programaId = selectedCarrera.value.programaId
     try {
       Loading.show({ spinner: QSpinnerGears, })
-      await apiMateria.createMaterias(data);
+      await apiMateria.createMaterias(objMateria.value);
       Notify.create('Se ha realizado correctamente')
       router.push({path: "/vistaMateria",});
     } catch (e) {

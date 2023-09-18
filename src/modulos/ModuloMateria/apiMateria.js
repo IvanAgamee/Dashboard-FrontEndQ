@@ -41,6 +41,16 @@ const createMaterias = async (data) => {
   }
 }
 
+const getMateriaById = async (id) => {
+  try {
+    const response = await api.get(`materia/getMateriaById?materiaId=${id}`);
+    return response.data?.data;
+  } catch (error) {
+      console.log('Se produjo un error al obtener los datos');
+    throw error;
+  }
+}
+
 export default {
-  getModulos, getMaterias, createMaterias, getMateriasByProgramaId
+  getModulos, getMaterias, createMaterias, getMateriasByProgramaId, getMateriaById
 }

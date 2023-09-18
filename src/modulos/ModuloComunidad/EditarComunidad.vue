@@ -46,6 +46,20 @@
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora edite cuidadosamente los elementos
               multimedia de la comunidad
             </div>
+            <div class="q-pa-md">
+            <q-carousel
+            animated
+            v-model="slide"
+            arrows
+            navigation
+            infinite
+            >
+            <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+            <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+            <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+            <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+            </q-carousel>
+            </div>
             <div class="text-left q-mt-lg q-mx-lg">Cambiar Imagen del logo de la comunidad. Recuerda que esta foto será
               visualizada en
               la pagina oficial de la carrera, por ello
@@ -97,6 +111,11 @@ const envRoute = ref("http://localhost:3010/imagenes/")
 const fileImageComunidad = ref()
 const router = useRouter();
 const tab = ref('infoGeneral')
+const arrayImg = ref({
+  img1: '',
+  img2: '',
+  img3: ''
+});
 const objComunidad = ref({
   comunidadId: '',
   nombre: '',
@@ -114,6 +133,8 @@ const llenarDatosComunidad = async () => {
     comunidadId: props.id
   }
   const data = await apiComunidad.getComunidadById(id.comunidadId);
+  console.log(data.data.fotosComunidad[0])
+  arrayImg.value.img1 = data.data.fotosComunidad[0]
   objComunidad.value.comunidadId = id.comunidadId;
   objComunidad.value.nombre = data.data.nombre;
   objComunidad.value.quienesSomos = data.data.quienesSomos;

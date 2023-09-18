@@ -10,7 +10,7 @@
         <div class="text-center">
             <q-img
              class="rounded-image q-ma-sm q-mb-lg"
-             src="https://cdn.quasar.dev/img/parallax2.jpg"
+             src="../../assets/img/grupo.png"
              no-native-menu
              height="270px"
              style="max-width: 280px"
@@ -26,10 +26,10 @@
           <div class="col-6">
             <p class="text-subtitle2 text-left q-ml-lg"> Usuario: </p>
             <q-input class="q-mx-lg" dense rounded outlined v-model="dataMiPerfil.username" type="text" :disable="disable" />
-            <p class="text-subtitle2 text-left q-ml-lg q-mt-lg"> Contraseña: </p>
-            <q-input class="q-mx-lg" dense rounded outlined v-model="dataMiPerfil.password" type="password" :disable="disable" />  
+            <p class="text-subtitle2 text-left q-ml-lg q-mt-lg" v-if="!disable"> Repita su contraseña: </p>
+            <q-input class="q-mx-lg" dense rounded outlined v-model="password2" type="password" v-if="!disable" :disable="disable" />  
             <div v-if="!disable" class="text-right q-ma-lg">
-                <q-btn color="primary" icon="save" label="Guardar edición" @click="onClick" />
+                <q-btn color="primary" icon="save" label="Guardar edición" @click="saveEdition()" />
             </div>     
           </div>
         </div>
@@ -41,11 +41,13 @@
 
 <script setup>
 import { ref } from "vue"
+import { Loading, Notify, QSpinnerGears } from 'quasar'
 import apiMiPerfil from '../ModuloMiPerfil/apiMiPerfil.js'
 import authStore from '../../stores/userStore.js';
 
 const UserStore = authStore();
 const disable = ref(true);
+const password2 = ref();
 const dataMiPerfil = ref({
     nombre: null,
     username: null,
@@ -55,18 +57,36 @@ const dataMiPerfil = ref({
 const loadData = async () => {
   disable.value = true
   const id = UserStore.getUserId;
-  dataMiPerfil.value = await apiMiPerfil.getUserInfoById(id);  
+  dataMiPerfil.value = await apiMiPerfil.getUserInfoById(id); 
+  password2.value = dataMiPerfil.value.password
 }
 loadData()
 
 const habilitarEdicion = async () => {
   disable.value = !disable.value
 }
+
+const saveEdition = async () => {
+  if (password2.value == dataMiPerfil.value.password) {
+  const data = {
+  usuarioId: dataMiPerfil.value.usuarioId,
+  nombre: dataMiPerfil.value.nombre,
+  username: dataMiPerfil.value.username,
+  password: dataMiPerfil.value.password
+ }
+ await apiMiPerfil.createUsuarios(data); 
+ loadData()
+ Notify.create({ type: 'positive', message: 'Se ha actualizado con exito el usuario', position: 'top' })  
+  } else {
+  Notify.create({ type: 'negative', message: 'Las contraseñas no coinciden', position: 'top' })  
+  }
+ 
+}
 </script>
 
 <style lang="scss" scoped>
 .rounded-image {
-  border-radius: 100%;
+  border-radius: 20%;
   overflow: hidden;
 }
 </style>

@@ -11,6 +11,17 @@ const getUserInfoById = async (id) => {
   }
 }
 
+const createUsuarios = async (data) => {
+  try {
+    const response = await api.post('usuario/crudUser', data);
+    return response.data;
+  } catch (error) {
+      console.log('Se produjo un error al obtener los datos');
+    throw error;
+  }
+}
+
 export default {
- getUserInfoById
+ getUserInfoById,
+ createUsuarios
 }

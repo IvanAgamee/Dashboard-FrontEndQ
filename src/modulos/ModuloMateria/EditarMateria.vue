@@ -74,22 +74,19 @@ import apiDocente from '../ModuloDocente/apiDocente.js'
 import swal from 'sweetalert';
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
+const props = defineProps({
+    id:{
+        type:String,
+        required:true
+    }
+  })
 
 const router = useRouter();
 const tab = ref('infoGeneral')
-<<<<<<< Updated upstream
-const optSelectPrograma = ref(UserStore().fillSelectProgramas)
-const optSemestres = ref({})
-
-const selectedPrograma = ref(null)
-const rows = ref([])
-const selectedMaterias = ref([])
-=======
 const optSelectCarrera = ref(UserStore().getCarreras)
 const optSemestres = ref({})
 const selectedCarrera = ref(null)
 
->>>>>>> Stashed changes
 const objMateria = ref({
         "nombre": "",
         "area": null,
@@ -98,9 +95,25 @@ const objMateria = ref({
         "especialidadId": null,
         "urlVideo": null,
         "urlPrograma": "",
-        "programaId": null,
+        "carreraId": null,
         "status": 1
     });
+
+// Aqui construye la asignacion de valores a edit materia
+const loadDataMateriaById = async () => {
+Loading.show({ spinner: QSpinnerGears, })
+ var id = {
+    docenteId: props.id
+ }
+
+ const data = await apiDocente.getDocenteById(id);
+ 
+ selectedCarrera.value = optSelectCarrera.value.find(carrera => carrera.carreraId === data.data.carreraId);
+
+ Loading.hide()
+ return data;
+} 
+loadDataMateriaById()    
 
 //Agregar registro
 const agregarMateria = async () => {
@@ -109,35 +122,6 @@ const agregarMateria = async () => {
   || !!!selectedCarrera.value) {
   Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'}) }
 
-<<<<<<< Updated upstream
-const dataMaterias = async () => {
-Loading.show({ spinner: QSpinnerGears, })
-const idPrograma = {"programaId": selectedPrograma.value.id}
-const data = await apiMateria.getMateriasByProgramaId(idPrograma);
-  data.data.map((el) => {
-    var materia = {
-      id: el.materiaId,
-      nombre: el.nombre,
-      area: el.area == null ? "Sin especialidad" : el.area,
-      especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad.nombre,
-    };
-    rows.value.push(materia);
-  });
-  Loading.hide()
-  return data;
-} 
-
-// Agregar registros a la tabla
-const agregarDocente = async () => {
-  Loading.show({ spinner: QSpinnerGears, })
-  objDocente.value.materias = selectedMaterias?.value.map(materia => materia.id),
-  objDocente.value.programaId = selectedPrograma?.value?.id, 
-  response = await apiDocente.createDocente(objDocente.value);
-  console.log(response)
-  swal("Good job!", "You clicked the button!", "success");
-  router.push({path: "/vistaDocente",});
-  Loading.hide()
-=======
   else {
     const data = {
       nombre: objMateria.value.nombre,
@@ -158,7 +142,6 @@ const agregarDocente = async () => {
       console.log(e)
     }
   }
->>>>>>> Stashed changes
 }
 
 const validarInputInfoGral = () => {
@@ -170,13 +153,8 @@ const validarInputInfoGral = () => {
   }}
 
 const validarInputAdjuntos = () => {
-<<<<<<< Updated upstream
-  if (!!!selectedPrograma.value) {
-   Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
-=======
   if (objMateria.value.urlVideo == '' || objMateria.value.urlPrograma == '') {
    Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'})
->>>>>>> Stashed changes
   } else {
     agregarMateria()
   }}

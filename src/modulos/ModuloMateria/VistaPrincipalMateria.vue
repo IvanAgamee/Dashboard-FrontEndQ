@@ -196,7 +196,6 @@ const agregarMateria = async () => {
       programaId: 11,
       status: 1
     }
-    console.log(data)
     try {
       Loading.show({ spinner: QSpinnerGears, })
       await apiMateria.createMaterias(data);

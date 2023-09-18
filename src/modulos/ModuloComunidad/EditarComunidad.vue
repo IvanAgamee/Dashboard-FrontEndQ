@@ -89,7 +89,7 @@ import swal from 'sweetalert';
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
-const optSelectPrograma = ref(UserStore().fillSelectProgramas)
+const optSelectPrograma = ref(UserStore().getProgramas)
 const selectedPrograma = ref();
 
 const router = useRouter();
@@ -110,9 +110,7 @@ const llenarDatosComunidad = async () => {
   var id = {
     comunidadId: props.id
   }
-  console.log(id)
   const data = await apiComunidad.getComunidadById(id.comunidadId);
-  console.log(data)
   objComunidad.value.comunidadId = id.comunidadId;
   objComunidad.value.nombre = data.data.nombre;
   objComunidad.value.quienesSomos = data.data.quienesSomos;
@@ -128,7 +126,6 @@ llenarDatosComunidad()
 
 
 
-console.log(selectedPrograma.value);
 const props = defineProps({
   id: {
     type: String,
@@ -152,7 +149,6 @@ watch(selectedPrograma, (newVal, oldVal) => {
 const agregarComunidad = async () => {
   Loading.show({ spinner: QSpinnerGears, })
   const response = await apiComunidad.createComunidades(objComunidad.value);
-  console.log(response)
   swal("Good job!", "You clicked the button!", "success");
   router.push({ path: "/vistaComunidad", });
   Loading.hide()

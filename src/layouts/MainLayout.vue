@@ -98,7 +98,7 @@ const drawer = ref(false);
 const selectedOption = ref()
 const toggleLeftDrawer = () => leftDrawerOpen.value = !leftDrawerOpen.value;
 
-const programasOptions = UserStore().fillSelectProgramas;
+const programasOptions = UserStore().getProgramas;
 const showLogout = () => {
   $q.dialog(
     {

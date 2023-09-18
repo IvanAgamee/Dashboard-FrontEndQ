@@ -59,7 +59,6 @@ const useLocalStorage = defineStore({
       return state.userData.departamentoId;
     },
     getProgramas(state) {
-  //    console.log(state)
       return state.userData?.departamento?.programaEstudio;
     },
     /*

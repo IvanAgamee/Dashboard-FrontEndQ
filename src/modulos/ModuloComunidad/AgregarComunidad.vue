@@ -80,17 +80,17 @@
 
 <script setup>
 import { ref, watch, computed, onMounted } from 'vue'
-import UserStore from 'src/stores/userStore';
+import authStore from '../../stores/userStore.js';
 import apiComunidad from './apiComunidad';
 import swal from 'sweetalert';
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const UserStore = authStore();
 const tab = ref('infoGeneral')
-const optSelectPrograma = ref(UserStore().fillSelectProgramas);
-console.log(optSelectPrograma.value);
-const selectedPrograma = ref(UserStore().getProgramas[0]);
+const optSelectPrograma = ref(UserStore.getProgramas)
+const selectedPrograma = ref(null)
 const objComunidad = ref({
   nombre: '',
   quienesSomos: '',
@@ -101,7 +101,7 @@ const objComunidad = ref({
   status: 1,
 });
 watch(selectedPrograma, (newVal, oldVal) => {
-  objComunidad.value.programaId = newVal.id;
+  objComunidad.value.programaId = newVal.programaId;
 });
 // Agregar registros a la tabla
 const agregarComunidad = async () => {

@@ -59,6 +59,10 @@ const useLocalStorage = defineStore({
       return state.userData.departamentoId;
     },
     getProgramas(state) {
+<<<<<<< Updated upstream
+=======
+      console.log(state)
+>>>>>>> Stashed changes
       return state.userData?.departamento?.programaEstudio;
     },
     /*

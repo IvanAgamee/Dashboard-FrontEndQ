@@ -45,7 +45,7 @@ import { ref, onMounted } from "vue"
 import UserStore from 'src/stores/userStore';
 import apiDashboard from '../Modulo Dashboard/apiDashboard.js';
 import apiMateria from '../ModuloMateria/apiMateria.js'
-import apiPrograma from '../ModuloPrograma/apiPrograma.js'
+// import apiPrograma from '../ModuloPrograma/apiPrograma.js'
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
 const myStyles = {
@@ -110,7 +110,7 @@ const getInfo = async () => {
   Loading.hide()
   }
 
-getInfo()
+// getInfo()
 
 
 chartData.value = {

@@ -18,7 +18,7 @@
             <q-input rounded outlined dense v-model="objMateria.nombre" type="text" label="Nombre de la materia" class="q-mx-lg" />
             
             <div class="text-left q-ma-md q-mt-lg">Seleccione el semestre al que pertenece la materia.</div>
-            <q-select v-model="selectedCarrera" :options="optSelectCarrera" label="Semestre de la materia" option-label="nombre" rounded outlined dense class="q-mx-lg" />
+            <q-select v-model="selectedPrograma" :options="optSelectCarrera" label="Semestre de la materia" option-label="nombre" rounded outlined dense class="q-mx-lg" />
 
             <div class="text-left q-mt-lg q-mx-lg">Seleccione el area al que pertenece la materia.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Esta area puede ser null</div>
@@ -77,19 +77,12 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const tab = ref('infoGeneral')
-<<<<<<< Updated upstream
 const optSelectPrograma = ref(UserStore().fillSelectProgramas)
 const optSemestres = ref({})
 
 const selectedPrograma = ref(null)
 const rows = ref([])
 const selectedMaterias = ref([])
-=======
-const optSelectCarrera = ref(UserStore().getCarreras)
-const optSemestres = ref({})
-const selectedCarrera = ref(null)
-
->>>>>>> Stashed changes
 const objMateria = ref({
         "nombre": "",
         "area": null,
@@ -106,10 +99,9 @@ const objMateria = ref({
 const agregarMateria = async () => {
   if (objMateria.value.nombre == "" || objMateria.value.area == "" || objMateria.value.semestre == "" ||
   objMateria.value.competencia == "" || objMateria.value.urlVideo == "" || objMateria.value.urlPrograma == ""
-  || !!!selectedCarrera.value) {
+  || !!!selectedPrograma.value) {
   Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'}) }
 
-<<<<<<< Updated upstream
 const dataMaterias = async () => {
 Loading.show({ spinner: QSpinnerGears, })
 const idPrograma = {"programaId": selectedPrograma.value.id}
@@ -137,48 +129,21 @@ const agregarDocente = async () => {
   swal("Good job!", "You clicked the button!", "success");
   router.push({path: "/vistaDocente",});
   Loading.hide()
-=======
-  else {
-    const data = {
-      nombre: objMateria.value.nombre,
-      area: objMateria.value.area,
-      semestre: objMateria.value.semestre,
-      competencia: objMateria.value.competencia,
-      urlVideo: objMateria.value.urlVideo,
-      urlPrograma: objMateria.value.urlPrograma,
-      carreraId: selectedCarrera.value.carreraId,
-      status: 1
-    }
-    try {
-      Loading.show({ spinner: QSpinnerGears, })
-      await apiMateria.createMaterias(data);
-      Notify.create('Se ha realizado correctamente')
-      router.push({path: "/vistaMateria",});
-    } catch (e) {
-      console.log(e)
-    }
-  }
->>>>>>> Stashed changes
 }
 
 const validarInputInfoGral = () => {
   if (objMateria.value.nombre == '' || objMateria.value.area == '' || 
-  objMateria.value.semestre == '' || objMateria.value.competencia == '' || !!!selectedCarrera.value) {
+  objMateria.value.semestre == '' || objMateria.value.competencia == '' || !!!selectedPrograma.value) {
    Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'})
   } else {
     tab.value='archivos'
   }}
 
 const validarInputAdjuntos = () => {
-<<<<<<< Updated upstream
   if (!!!selectedPrograma.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
-=======
-  if (objMateria.value.urlVideo == '' || objMateria.value.urlPrograma == '') {
-   Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'})
->>>>>>> Stashed changes
   } else {
-    agregarMateria()
-  }}
+    agregarMateria();
+  }};
 
 </script>

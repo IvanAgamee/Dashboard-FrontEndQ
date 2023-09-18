@@ -8,11 +8,8 @@ const routes = [
       { path: '/vistaDocente', component: () => import('../modulos/ModuloDocente/VistaPrincipalDocente.vue') },
       { path: '/agregarMateria', component: () => import('../modulos/ModuloMateria/AgregarMateria.vue') },
       { path: '/vistaMateria', component: () => import('../modulos/ModuloMateria/VistaPrincipalMateria.vue') },
-<<<<<<< Updated upstream
       { path: '/vistaPrograma', component: () => import('../modulos/ModuloMateria/VistaPrincipalMateria.vue') },
-=======
       { path: '/vistaCarrera', component: () => import('../modulos/ModuloCarrera/VistaPrincipalCarrera.vue') },
->>>>>>> Stashed changes
       { path: '/vistaComunidad', component: () => import('../modulos/ModuloComunidad/VistaPrincipalComunidad.vue') },
       { path: '/agregarComunidad', component: () => import('../modulos/ModuloComunidad/AgregarComunidad.vue') },
       { name: 'editComunidad', path: '/editarComunidad/:id', component: () => import('../modulos/ModuloComunidad/EditarComunidad.vue'), props: true, },

@@ -144,6 +144,6 @@ const validarInputAdjuntos = () => {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {
     agregarMateria();
-  }};
-
+  }}
+  
 </script>

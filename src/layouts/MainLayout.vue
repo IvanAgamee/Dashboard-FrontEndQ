@@ -31,8 +31,8 @@
             <q-item-section> Materias </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple @click="navegar('/vistaCarrera')"
-            :class="{ 'my-menu-link': selectedOption === '/vistaCarrera' }">
+          <q-item clickable v-ripple @click="navegar('/vistaPrograma')"
+            :class="{ 'my-menu-link': selectedOption === '/vistaPrograma' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-university" size="20px" /> </q-item-section>
             <q-item-section> Programas </q-item-section>
           </q-item>
@@ -91,7 +91,7 @@ const drawer = ref(false);
 const selectedOption = ref()
 const toggleLeftDrawer = () => leftDrawerOpen.value = !leftDrawerOpen.value;
 
-const programasOptions = UserStore().fillSelectProgramas;
+const programasOptions = UserStore().getProgramas;
 const showLogout = () => {
   $q.dialog(
     {

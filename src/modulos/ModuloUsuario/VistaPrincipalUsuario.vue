@@ -60,43 +60,19 @@
 <div class="col-12 text-center">
 <q-separator style="margin:8px"/>
 <q-btn label="Cancelar" @click="showModal=false" class="q-ml-sm q-mr-md" color="negative"/>
-<q-btn label="Enviar" type="submit" @click="showModalConfirmarAgregar=true" color="positive"/>
+<q-btn label="Enviar" type="submit" @click="agregarUsuario()" class="btn-editar"/>
 </div>
-  </div>
+</div>
 
 </MiModal>
-<!----------------MODAL CONFIRMAR AGREGAR USUARIO---------------------->
-<MiModal v-model:show="showModalConfirmarAgregar">
-    <div class ="col-12 text-center ">
-    <h5 style="margin:0px"> ¿Esta seguro que desea agregar el usuario?</h5>
-  </div>
-  <q-separator style="margin:15px"/>
-  <!-- Botones del modal -->
-<div class="col-12 text-center">
-<q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="showModalConfirmarAgregar=false" class="q-ml-sm q-mr-md" color="negative"/>
-<q-btn label="Enviar" type="submit" @click="agregarUsuario()" color="positive"/>
-</div>
-</MiModal>
 
-<!----------------MODAL ELIMINAR USUARIO---------------------->
-<MiModal v-model:show="showModalEliminar">
-    <div class ="col-12 text-center ">
-    <h5 style="margin:0px"> ¿Esta seguro que desea eliminar el usuario?</h5>
-  </div>
-  <q-separator style="margin:15px"/>
-  <!-- Botones del modal -->
-<div class="col-12 text-center">
-<q-separator style="margin:8px"/>
-<q-btn label="Cancelar" @click="showModalEliminar=false" class="q-ml-sm q-mr-md" color="negative"/>
-<q-btn label="Enviar" type="submit" @click="eliminarUsuarios()" color="positive"/>
-</div>
-</MiModal>
+
+
 <!----------------MODAL ACTUALIZAR USUARIO---------------------->
 <MiModal v-model:show="showModalModificar">
 
 <div class="col-12 text-center ">
-  <h5 style="margin:0px">Editar materia</h5>
+  <h5 style="margin:0px">Editar usuario</h5>
 </div>
   <q-separator style="margin:15px" />
 
@@ -121,8 +97,8 @@
    <!-- Botones del modal -->
           <div class="col-12 text-center ">
           <q-separator style="margin:8px" />
-            <q-btn label="Cancelar" @click="showModalModificar=false" class="q-ml-sm q-mr-md" color="negative"/>
-            <q-btn label="Enviar" type="submit" @click="showModalConfirmarModificar=true" color="positive"/>
+            <q-btn label="Cancelar" @click="showModalModificar=false, clearInput()" class="q-ml-sm q-mr-md" color="negative"/>
+            <q-btn label="Enviar" type="submit" @click="ModificarUsuario()" class="btn-editar"/>
         </div>
   </div>
 </MiModal>
@@ -137,7 +113,7 @@
     <div class="col-1 text-center">
     <q-separator style="margin:8px"/>
     <q-btn label="Cancelar" @click="showModalConfirmarModificar=false" class="q-ml-sm q-mr-md" color="negative"/>
-    <q-btn label="Aceptar" type="submit" @click=ModificarUsuario() color="positive"/>
+    <q-btn label="Aceptar" type="submit" @click=ModificarUsuario() class="btn-editar"/>
     </div>
 
 </MiModal>
@@ -178,6 +154,7 @@ const idEliminar = ref('')
 const usuarioId = ref('')
 //Abrir y cerrar modal
 function openModal(){
+  clearInput()
   showModal.value = !showModal.value
 }
 
@@ -192,14 +169,13 @@ const columns = [
  const returnData =  async () =>{
   row.value=[];
     const data = await apiUsuario.getUsuarios();
-    console.log(data)
         data.data.map((el) => {
          var obj = {
           nombre: el.nombre,
           username: el.username,
           password: el.password,
           acciones: [
-            { nombre: 'Editar', funcion: () => {datosModificarUsuario(el), console.log(el)} },
+            { nombre: 'Editar', funcion: () => {datosModificarUsuario(el)} },
             { nombre: 'Eliminar', funcion: () =>{idEliminar.value=el.usuarioId, showModalEliminar.value = true} }
           ],
         };
@@ -219,11 +195,11 @@ const columns = [
       Loading.show({  spinner: QSpinnerGears,})
       await apiUsuario.createUsuarios(data);
       Loading.hide()
+      showModalModificar.value = false;
       showModalEliminar.value = false
-      Notify.create('Se ha realizado correctamente')
-        returnData();
+      Notify.create({ type: 'positive', message: 'Se ha realizado con exito', position: 'top' })  
+      returnData();
     } catch (e) {
-      console.log(e)
       returnData();
     }
  }
@@ -243,17 +219,19 @@ const columns = [
           rolId: 1,
           status: 1
         }
-        console.log(data)
         try{
           Loading.show({  spinner: QSpinnerGears,})
           await apiUsuario.createUsuarios(data);
           showModal.value = false;
+          showModalModificar.value = false;
           showModalConfirmarAgregar.value = false;
           Loading.hide()
           nombre.value = "",
           username.value = "",
           password.value = "",
-          Notify.create('Se ha realizado correctamente')
+          clearInput()
+          Notify.create({ type: 'positive', message: 'Se ha realizado con exito', position: 'top' }) 
+          // window.location.reload()
           returnData();
         }catch(e){
           console.log(e)
@@ -263,11 +241,18 @@ const columns = [
 
 //Llena el modal de editar con los valores del usuario
 const datosModificarUsuario = async(el) =>{
+
     showModalModificar.value = true
           nombre.value = el.nombre,
           username.value = el.username,
           password.value = el.password,
           usuarioId.value = el.usuarioId
+   }
+
+   const clearInput = () =>{
+    nombre.value = "",
+    username.value = "",
+    password.value = ""
    }
 
    //Modificar los valores del usuario
@@ -287,17 +272,15 @@ const datosModificarUsuario = async(el) =>{
         showModalModificar.value = false
         showModalConfirmarModificar.value = false
         Loading.hide()
-        Notify.create('Se ha realizado correcta');
+        Notify.create({ type: 'positive', message: 'Se ha realizado con exito', position: 'top' }) 
         returnData();
       }catch(e){
         toast.error("No se pudo modificar la materia");
       }
         } else {
-            Notify.create('El nombre del docente es obligatorio')
-        }
+        Notify.create({ type: 'negative', message: 'Todos los campos son obligatorios', position: 'top' }) 
       }
-
-
+      }
 </script>
 
 // Diseño de la tabla - Estilos de la tabla

@@ -35,8 +35,8 @@
                 <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar
                   comunidades a las carreras
                   a las que su usuario tiene permiso.</div>
-                <q-select rounded outlined dense option-label="nombre" :options="optSelectCarrera"
-                  v-model="selectedCarrera" type="text" label="Carreras" class="q-mx-lg" option-value="id" />
+                <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma"
+                  v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" option-value="id" />
               </div>
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
                 @click="validarInputInfoGral()" />
@@ -53,7 +53,7 @@
               es importante cuidar la calidad de la misma.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">La foto puede ser en formato png
               o jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="model"
+            <q-file dense class="q-mx-lg" outlined v-model="inputLogo" standout @change="uploadImageFunc"
               label="Da click aqui y seleccione un archivo de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
@@ -62,8 +62,8 @@
               la pagina oficial de la carrera, por ello
               es importante cuidar la calidad de las mismas. La fotos puede ser en formato png o jpg.</div>
 
-            <q-file dense class="q-mx-lg" outlined v-model="model"
-              label="Da click aqui y seleccione un archivo de su computador">
+            <q-file dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="3"
+              label="Da click aqui y seleccione dos archivos de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 
@@ -80,29 +80,56 @@
 
 <script setup>
 import { ref, watch, computed, onMounted } from 'vue'
-import UserStore from 'src/stores/userStore';
+import authStore from '../../stores/userStore.js';
 import apiComunidad from './apiComunidad';
 import swal from 'sweetalert';
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const UserStore = authStore();
 const tab = ref('infoGeneral')
-const optSelectCarrera = ref(UserStore().fillSelectCarreras);
-console.log(optSelectCarrera.value);
-const selectedCarrera = ref(UserStore().getCarreras[0]);
+const optSelectPrograma = ref(UserStore.getProgramas)
+const selectedPrograma = ref(null)
+const inputFiles = ref()
+const inputLogo = ref()
+const fileImageComunidad = ref()
+const envRoute = ref("http://localhost:3010/imagenes/")
 const objComunidad = ref({
   nombre: '',
   quienesSomos: '',
   queHacemos: '',
   logo: 'logo.png',
   fotosComunidad: 'fotos.png',
-  carreraId: '',
+  programaId: '',
   status: 1,
 });
-watch(selectedCarrera, (newVal, oldVal) => {
-  objComunidad.value.carreraId = newVal.id;
+watch(selectedPrograma, (newVal, oldVal) => {
+  objComunidad.value.programaId = newVal.programaId;
 });
+
+watch(inputFiles, async (newVal, oldVal) => {
+  if (typeof (inputFiles.value) !== 'string') {
+    const id = objComunidad.value.programaId;
+    const response = await apiComunidad.uploadFiles(inputFiles.value, objComunidad.value.nombre, id)
+
+    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
+    const fotosComunidad = response.filenames.join(',');
+    objComunidad.value.fotosComunidad = !!response.filenames ? fotosComunidad : null
+  }
+});
+
+watch(inputLogo, async (newVal, oldVal) => {
+  if (typeof (inputLogo.value) !== 'string') {
+    const id = objComunidad.value.programaId;
+    console.log(inputLogo.value)
+    const response = await apiComunidad.uploadFiles([inputLogo.value], objComunidad.value.nombre, id)
+
+    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames[0]);
+    objComunidad.value.logo = !!response.filenames ? response.filenames[0] : null
+  }
+});
+
 // Agregar registros a la tabla
 const agregarComunidad = async () => {
   Loading.show({ spinner: QSpinnerGears, })

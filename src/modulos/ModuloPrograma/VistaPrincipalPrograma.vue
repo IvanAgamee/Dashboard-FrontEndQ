@@ -6,7 +6,7 @@
     <q-card class="q-pt-lg q-pb-lg">
       <!-- Area del titulo y boton agregar -->
       <div class="row">
-        <h6 class="col q-ma-sm q-ml-lg">Carreras autorizadas</h6>
+        <h6 class="col q-ma-sm q-ml-lg">Programas autorizados</h6>
         <!-- <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar carrera" -->
           <!-- @click="openModal" dense ellipsis /> -->
       </div>
@@ -43,7 +43,7 @@ import { ref } from "vue"
 import { QBtn, QTable, QCard } from 'quasar'
 //import MiModal from '../../components/MiModal.vue'
 // Llamadas al backend
-import apiCarrera from '../ModuloCarrera/apiCarrera.js'
+import apiPrograma from '../ModuloPrograma/apiPrograma.js'
 import UserStore from 'src/stores/userStore';
 
 // Declaraciones de constantes
@@ -63,7 +63,7 @@ const returnData = async () => {
   var departamento = {
     "departamentoId": UserStore().getUserDepartamento
   }
-  const data = await apiCarrera.getCarrerasByDepartment(departamento);
+  const data = await apiPrograma.getProgramasByDepartment(departamento);
   data.data.map((el) => {
     var obj = {
       nombre: el.nombre,

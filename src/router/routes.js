@@ -8,7 +8,7 @@ const routes = [
       { path: '/vistaDocente', component: () => import('../modulos/ModuloDocente/VistaPrincipalDocente.vue') },
       { path: '/agregarMateria', component: () => import('../modulos/ModuloMateria/AgregarMateria.vue') },
       { path: '/vistaMateria', component: () => import('../modulos/ModuloMateria/VistaPrincipalMateria.vue') },
-      { path: '/vistaCarrera', component: () => import('../modulos/ModuloCarrera/VistaPrincipalCarrera.vue') },
+      { path: '/vistaPrograma', component: () => import('../modulos/ModuloPrograma/VistaPrincipalPrograma.vue') },
       { path: '/vistaComunidad', component: () => import('../modulos/ModuloComunidad/VistaPrincipalComunidad.vue') },
       { path: '/agregarComunidad', component: () => import('../modulos/ModuloComunidad/AgregarComunidad.vue') },
       { name: 'editComunidad', path: '/editarComunidad/:id', component: () => import('../modulos/ModuloComunidad/EditarComunidad.vue'), props: true, },
@@ -16,7 +16,9 @@ const routes = [
       { path: '/dashboardInicio', component: () => import('../modulos/Modulo Dashboard/dashboardInicio.vue') },
       { path: '/agregarDocente', component: () => import('../modulos/ModuloDocente/AgregarDocente.vue') },
       { name: 'editDocente', path: '/editarDocente/:id', component: () => import('../modulos/ModuloDocente/EditarDocente.vue'), props: true, },
-      { path: '/archivoEjemplo', component: () => import('../modulos/ModuloAlumno/Archivoejemplo.vue') }
+      { name: 'editMateria', path: '/editarMateria/:id', component: () => import('../modulos/ModuloMateria/EditarMateria.vue'), props: true, },
+      { path: '/archivoEjemplo', component: () => import('../modulos/ModuloAlumno/Archivoejemplo.vue') },
+      { path: '/miPerfil', component: () => import('../modulos/ModuloMiPerfil/miPerfil.vue') }
     ]
   },
   {

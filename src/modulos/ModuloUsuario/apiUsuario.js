@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { api } from '../../boot/axios.js'
-console.log(process.env.URL_BACK)
+
 const getModulos = async () => {
     try {
       const response = await api.get('modulo/getModulos');

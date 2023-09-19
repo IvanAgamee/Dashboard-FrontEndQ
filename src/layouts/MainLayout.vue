@@ -31,10 +31,10 @@
             <q-item-section> Materias </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple @click="navegar('/vistaCarrera')"
-            :class="{ 'my-menu-link': selectedOption === '/vistaCarrera' }">
+          <q-item clickable v-ripple @click="navegar('/vistaPrograma')"
+            :class="{ 'my-menu-link': selectedOption === '/vistaPrograma' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-university" size="20px" /> </q-item-section>
-            <q-item-section> Carreras </q-item-section>
+            <q-item-section> Programas </q-item-section>
           </q-item>
 
           <q-item clickable v-ripple @click="navegar('/vistaComunidad')"
@@ -58,10 +58,11 @@
       <q-img class="absolute-top" src="../assets/img/portada-perfil5.png" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="../assets/img/ericmontalvo.png">
+            <img src="../assets/img/logotecnm.png" @click="navegar('/miPerfil')">
           </q-avatar>
-          <div class="text-weight-bold">{{ UserStore().getUser }}</div>
-          <div>@{{ UserStore().getUsername }} <q-btn size="8px" class="q-px-sm" icon="settings" @click="onClick" /></div>
+          <div class="text-weight-bold" @click="navegar('/miPerfil')">{{ UserStore().getUser }}</div>
+          <div @click="navegar('/miPerfil')">@{{ UserStore().getUsername }} 
+          <q-btn class="q-ml-lg" color="primary" size="8px" icon="settings" @click="navegar('/miPerfil')"/></div>
           
         </div>
       </q-img>
@@ -90,7 +91,7 @@ const drawer = ref(false);
 const selectedOption = ref()
 const toggleLeftDrawer = () => leftDrawerOpen.value = !leftDrawerOpen.value;
 
-const carrerasOptions = UserStore().fillSelectCarreras;
+const programasOptions = UserStore().getProgramas;
 const showLogout = () => {
   $q.dialog(
     {

@@ -7,7 +7,7 @@
       <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de materias</h6>
-        <q-select filled color="blue-10" v-model="selectedCarrera" :options="optionsCarreras" label="Carrera"
+        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" label="Programa"
           transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"/>
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar materia"
           @click="irAgregarMateria()" dense ellipsis />
@@ -33,171 +33,8 @@
             </q-td>
           </q-tr>
         </template>
-
       </q-table>
     </q-card>
-    <!----------------MODAL AGREGAR MATERIA---------------------->
-    <MiModal v-model:show="showModal">
-      <div class="col-12 text-center ">
-        <h5 style="margin:0px"> Agregar Materia</h5>
-      </div>
-
-      <q-separator style="margin:15px" />
-
-      <div class="row col-12">
-        <!-- Columna 1 del modal agregar Materia -->
-        <div class="col-6 col-6-full">
-
-          <!-- Input para ingresar la especialidad
-<q-input v-model="especialidad" label="Especialidad *" hint="Ingrese la especialidad de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-:rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
-
-          <!-- Input para ingresar el nombre de la materia-->
-          <q-input v-model="nombre" label="Nombre *" hint="Ingrese el nombre de la materia" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el area de la materia-->
-          <q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el semestre de la materia-->
-          <q-input v-model="semestre" label="Semestre *" hint="Ingrese el semestre de la materia" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" type="number" max="11" step="1"
-            :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-        </div>
-
-        <!-- Columna 2 del modal agregar Materia -->
-        <div class="col-6 col-6-full">
-          <!-- Input para ingresar la competencia de la materia-->
-          <q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules
-            dense style="padding: 0px 10px 45px 10px"
-            :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el url del vídeo de la materia-->
-          <q-input v-model="urlVideo" label="URL del Vídeo *" hint="Ingrese el URL del Vídeo" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el url del programa de la materia-->
-          <q-input v-model="urlPrograma" label="URL del Programa *" hint="Ingrese el URL del Programa" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el estatus de la materia
-<q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-  :rules="[val => val && val.length > 0 || 'Este campo es obligatorio', val => /^[0-9]+$/.test(val) || 'Ingrese solo números']"
-  type="number"/>-->
-        </div>
-
-        <!-- Botones del modal -->
-        <div class="col-12 text-center">
-          <q-separator style="margin:8px" />
-          <q-btn label="Cancelar" @click="showModal = false" class="q-ml-sm q-mr-md" color="negative" />
-          <q-btn label="Enviar" type="submit" @click="showModalConfirmarAgregar = true" color="positive" />
-        </div>
-      </div>
-
-    </MiModal>
-    <!----------------MODAL CONFIRMAR AGREGAR MATERIA---------------------->
-    <MiModal v-model:show="showModalConfirmarAgregar">
-      <div class="col-12 text-center ">
-        <h5 style="margin:0px"> ¿Esta seguro que desea agregar la materia?</h5>
-      </div>
-      <q-separator style="margin:15px" />
-      <!-- Botones del modal -->
-      <div class="col-12 text-center">
-        <q-separator style="margin:8px" />
-        <q-btn label="Cancelar" @click="showModalConfirmarAgregar = false" class="q-ml-sm q-mr-md" color="negative" />
-        <q-btn label="Enviar" type="submit" @click="agregarMateria()" color="positive" />
-      </div>
-    </MiModal>
-
-    <!----------------MODAL ELIMINAR MATERIA---------------------->
-    <MiModal v-model:show="showModalEliminar">
-      <div class="col-12 text-center ">
-        <h5 style="margin:0px"> ¿Esta seguro que desea eliminar la materia?</h5>
-      </div>
-      <q-separator style="margin:15px" />
-      <!-- Botones del modal -->
-      <div class="col-12 text-center">
-        <q-separator style="margin:8px" />
-        <q-btn label="Cancelar" @click="showModalEliminar = false" class="q-ml-sm q-mr-md" color="negative" />
-        <q-btn label="Enviar" type="submit" @click="eliminarMaterias()" color="positive" />
-      </div>
-    </MiModal>
-    <!----------------MODAL ACTUALIZAR MATERIA---------------------->
-    <MiModal v-model:show="showModalModificar">
-
-      <div class="col-12 text-center ">
-        <h5 style="margin:0px">Editar materia</h5>
-      </div>
-      <q-separator style="margin:15px" />
-
-      <div class="row col-12">
-
-        <!-- Columna 1 del modal agregar Docente -->
-        <div class="col-6 col-6-full">
-          <!-- Input para ingresar la especialidad
-              <q-input v-model="especialidad" label="Especialidad *" hint="Ingrese la especialidad de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-              :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>-->
-
-          <!-- Input para ingresar el nombre de la materia-->
-          <q-input v-model="nombre" label="Nombre *" hint="Ingrese el nombre de la materia" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el area de la materia-->
-          <q-input v-model="area" label="Área *" hint="Ingrese el área de la materia" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el semestre de la materia-->
-          <q-input v-model="semestre" label="Semestre *" hint="Ingrese el semestre de la materia" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" type="number" max="11" step="1"
-            :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-        </div>
-
-        <!-- Columna 2 del modal agregar Materia -->
-        <div class="col-6 col-6-full">
-          <!-- Input para ingresar la competencia de la materia-->
-          <q-input v-model="competencia" label="Competencia *" hint="Ingrese la competencia de la materia" lazy-rules
-            dense style="padding: 0px 10px 45px 10px"
-            :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el url del vídeo de la materia-->
-          <q-input v-model="urlVideo" label="URL del Vídeo *" hint="Ingrese el URL del Vídeo" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el url del programa de la materia-->
-          <q-input v-model="urlPrograma" label="URL del Programa *" hint="Ingrese el URL del Programa" lazy-rules dense
-            style="padding: 0px 10px 45px 10px" :rules="[val => val && val?.length > 0 || 'Este campo es obligatorio']" />
-
-          <!-- Input para ingresar el estatus de la materia
-              <q-input v-model="estatus" label="Estatus *" hint="Ingrese el estatus de la materia" lazy-rules dense style="padding: 0px 10px 45px 10px"
-                :rules="[val => val && val.length > 0 || 'Este campo es obligatorio', val => /^[0-9]+$/.test(val) || 'Ingrese solo números']"
-                type="number"/>-->
-        </div>
-
-        <!-- Botones del modal -->
-        <div class="col-12 text-center ">
-          <q-separator style="margin:8px" />
-          <q-btn label="Cancelar" @click="showModalModificar = false" class="q-ml-sm q-mr-md" color="negative" />
-          <q-btn label="Enviar" type="submit" @click="showModalConfirmarModificar = true" color="positive" />
-        </div>
-      </div>
-    </MiModal>
-
-    <!----------------MODAL CONFIRMAR ACTUALIZAR MATERIA---------------------->
-    <MiModal v-model:show="showModalConfirmarModificar">
-      <div class="col-1 text-center ">
-        <h5 style="margin:0px"> ¿Estas seguro que quieres modificar los datos de esta materia?</h5>
-      </div>
-
-      <!-- Botones del modal -->
-      <div class="col-1 text-center">
-        <q-separator style="margin:8px" />
-        <q-btn label="Cancelar" @click="showModalConfirmarModificar = false" class="q-ml-sm q-mr-md" color="negative" />
-        <q-btn label="Aceptar" type="submit" @click=modificarMateria() color="positive" />
-      </div>
-
-    </MiModal>
-
   </q-page>
 </template>
 
@@ -239,8 +76,8 @@ const urlPrograma = ref('')
 const idEliminar = ref('')
 const materiaId = ref('')
 
-const optionsCarreras = UserStore.getCarreras;
-const selectedCarrera = ref(UserStore?.getCarreras[0])
+const optionsProgramas = UserStore.getProgramas;
+const selectedPrograma = ref(UserStore?.getProgramas[0])
 
 
 //Abrir y cerrar modal
@@ -256,19 +93,19 @@ const columns = [
   { name: 'area', align: 'center', label: 'Area', align: 'center', field: 'area', sortable: true },
   { name: 'acciones', align: 'center', label: 'Acciones', align: 'center', field: 'acciones', sortable: true }]
 
-// const carrerasOptions = UserStore().fillSelectCarreras;
+// const programasOptions = UserStore().fillSelectProgramas;
 
-// const carreras = ref(
+// const programas = ref(
 //   {
-//     label: carrerasOptions[0].nombre,
-//     value: carrerasOptions[0].id,
-//     options: carrerasOptions
+//     label: programasOptions[0].nombre,
+//     value: programasOptions[0].id,
+//     options: programasOptions
 //   }
 // );
 
 // Observar cambios en el select
- watch(selectedCarrera, (newVal, oldVal) => {
- returnData(newVal.carreraId)});
+ watch(selectedPrograma, (newVal, oldVal) => {
+ returnData(newVal.programaId)});
 
 const filteredRows = computed(() => {
   if (search.value) {
@@ -282,7 +119,7 @@ const filteredRows = computed(() => {
   return row.value;
 });
 
-const leerCarreraId = () => {
+const leerProgramaId = () => {
   row.value = [];
   returnData(2);
 }
@@ -290,9 +127,9 @@ const leerCarreraId = () => {
 // Llenado de la tabla con información del backend
 const returnData = async (id) => {
   Loading.show({ spinner: QSpinnerGears, })
-  const obj = { carreraId: id}
+  const obj = { programaId: id}
   row.value = [];
-  const data = await apiMateria.getMateriasByCarreraId(obj);
+  const data = await apiMateria.getMateriasByProgramaId(obj);
   data.data.map((el) => {
     var obj = {
       especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad.nombre,
@@ -303,7 +140,7 @@ const returnData = async (id) => {
       urlVideo: el.urlVideo?.length > 40 ? el.urlVideo.substring(0, 40) + "..." : el.urlVideo,
       urlPrograma: el.urlPrograma?.length > 40 ? el.urlPrograma.substring(0, 40) + "..." : el.urlPrograma,
       acciones: [
-        { nombre: "Editar", funcion: () => { datosModificarMateria(el), console.log(el) } },
+        { nombre: 'Editar', funcion: () => {navegarEditarDocente(el)}},
         { nombre: 'Eliminar', funcion: () => { idEliminar.value = el.materiaId, showModalEliminar.value = true } }
       ],
     };
@@ -311,7 +148,12 @@ const returnData = async (id) => {
   });
   Loading.hide()
 };
-returnData(selectedCarrera.value.carreraId);
+returnData(selectedPrograma.value.programaId);
+
+const navegarEditarDocente =  (el) => {
+Loading.show({ spinner: QSpinnerGears, })
+router.push({name: "editMateria",params: { id: el.materiaId }});
+Loading.hide()}
 
 //Eliminar registros de la tabla
 const eliminarMaterias = async () => {
@@ -342,7 +184,6 @@ Loading.hide()
 
 //Agregar registros a la tabla
 const agregarMateria = async () => {
-
   if (nombre.value == "" || area.value == "" || semestre.value == "" || competencia.value == "" ||
     urlVideo.value == "" || urlPrograma.value == "") {
     console.log("Debe llenar todos los campos")
@@ -356,10 +197,9 @@ const agregarMateria = async () => {
       competencia: competencia.value,
       urlVideo: urlVideo.value,
       urlPrograma: urlPrograma.value,
-      carreraId: 11,
+      programaId: 11,
       status: 1
     }
-    console.log(data)
     try {
       Loading.show({ spinner: QSpinnerGears, })
       await apiMateria.createMaterias(data);
@@ -402,7 +242,7 @@ const modificarMateria = async () => {
     competencia: competencia.value,
     urlVideo: urlVideo.value,
     urlPrograma: urlPrograma.value,
-    carreraId: 11,
+    programaId: 11,
     status: 1
   }
 

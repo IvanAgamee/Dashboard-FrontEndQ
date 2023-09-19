@@ -63,7 +63,6 @@
           <div class="text-weight-bold" @click="navegar('/miPerfil')">{{ UserStore().getUser }}</div>
           <div @click="navegar('/miPerfil')">@{{ UserStore().getUsername }} 
           <q-btn class="q-ml-lg" color="primary" size="8px" icon="settings" @click="navegar('/miPerfil')"/></div>
-          
         </div>
       </q-img>
     </q-drawer>

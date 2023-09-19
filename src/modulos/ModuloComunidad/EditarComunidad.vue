@@ -30,11 +30,12 @@
               son: 250 palabras</div>
             <q-input v-model="objComunidad.queHacemos" rows="15" rounded outlined type="textarea" class="q-mx-lg"
               color="red-12" label="Información academica" />
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar
+              <div class="text-left q-mt-lg q-mx-md">Edita el programa academico.</div>
+            <div class="text-caption text-weight-light q-mx-md text-left">Usted solo puede agregar
               comunidades a las carreras
               a las que su usuario tiene permiso.
               <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma"
-                v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" />
+               class="q-mt-md" v-model="selectedPrograma" type="text" label="Programas" />
             </div>
             <div class="text-right">
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
@@ -46,19 +47,30 @@
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora edite cuidadosamente los elementos
               multimedia de la comunidad
             </div>
-            <div class="q-pa-md">
-            <q-carousel
+            <div class="q-pa-md row" style="align-items: center;">
+            <div class="col-6">
+             <q-avatar size="250px" class="q-mb-sm">
+            <img :src="arrayImg.logo">
+            </q-avatar> 
+            <div class="q-mt-md q-mx-md text-bold text-center">Logo de {{objComunidad.nombre}}</div>
+            </div>
+            <div class="col-6">
+             <q-carousel
+            arrows
+            swipeable
             animated
             v-model="slide"
-            arrows
-            navigation
+            thumbnails
             infinite
+            class="q-mx-lg"
+            height="300px"
             >
-            <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-            <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-            <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
-            </q-carousel>
+            <q-carousel-slide :name="1" :img-src="arrayImg.img1" />
+            <q-carousel-slide :name="2" :img-src="arrayImg.img2" />
+            </q-carousel> 
+            </div>
+
+            
             </div>
             <div class="text-left q-mt-lg q-mx-lg">Cambiar Imagen del logo de la comunidad. Recuerda que esta foto será
               visualizada en
@@ -79,7 +91,7 @@
               fotos,
               se sobrescribiran
               las fotos actuales y no será posible recuperarlas. La fotos puede ser en formato png o jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="3" label="Da click aqui y seleccione dos archivos de su computador">
+            <q-file dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="2" label="Da click aqui y seleccione dos archivos de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 
@@ -107,14 +119,15 @@ const selectedPrograma = ref();
 const inputFiles = ref()
 const inputLogo = ref()
 const envRoute = ref("http://localhost:3010/imagenes/")
-
+const pathFile = ref()
+const slide = ref(1)
 const fileImageComunidad = ref()
 const router = useRouter();
 const tab = ref('infoGeneral')
 const arrayImg = ref({
   img1: '',
   img2: '',
-  img3: ''
+  logo: ''
 });
 const objComunidad = ref({
   comunidadId: '',
@@ -133,8 +146,18 @@ const llenarDatosComunidad = async () => {
     comunidadId: props.id
   }
   const data = await apiComunidad.getComunidadById(id.comunidadId);
-  console.log(data.data.fotosComunidad[0])
-  arrayImg.value.img1 = data.data.fotosComunidad[0]
+
+  optSelectPrograma.value.map(element => {
+    if (element.programaId == data.data.programaId) {
+      selectedPrograma.value = element 
+    }
+  });
+  
+  
+  pathFile.value = data.data.pathFile
+  arrayImg.value.img1 =  envRoute.value + pathFile.value + '/' + data.data.fotosComunidad[0]
+  arrayImg.value.img2 =  envRoute.value + pathFile.value + '/' + data.data.fotosComunidad[1]
+  arrayImg.value.logo =  envRoute.value + pathFile.value + '/' + data.data.logo
   objComunidad.value.comunidadId = id.comunidadId;
   objComunidad.value.nombre = data.data.nombre;
   objComunidad.value.quienesSomos = data.data.quienesSomos;
@@ -143,7 +166,6 @@ const llenarDatosComunidad = async () => {
   objComunidad.value.fotosComunidad = data.data.fotosComunidad.join(',');
   objComunidad.value.programaId = data.data.programaId;
   inputFiles.value = data.data.fotoComunidad;
-  selectedPrograma.value = optSelectPrograma.value.find(programa => programa.id === objComunidad.value.programaId);
   fileImageComunidad.value = createRouteImage(data.data.pathFile, data.data.urlImagen);
   Loading.hide()
   return data;
@@ -175,17 +197,19 @@ watch(inputFiles, async (newVal, oldVal) => {
     fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
     const fotosComunidad = response.filenames.join(',');
     objComunidad.value.fotosComunidad = !!response.filenames ? fotosComunidad : null
+    arrayImg.value.img1 =  envRoute.value + pathFile.value + '/' + response.filenames[0]
+    arrayImg.value.img2 =  envRoute.value + pathFile.value + '/' + response.filenames[1]
   }
 });
 
 watch(inputLogo, async (newVal, oldVal) => {
   if (typeof (inputLogo.value) !== 'string') {
     const id = objComunidad.value.programaId;
-    console.log(inputLogo.value)
     const response = await apiComunidad.uploadFiles([inputLogo.value], objComunidad.value.nombre, id)
 
     fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames[0]);
     objComunidad.value.logo = !!response.filenames ?  response.filenames[0] : null
+    arrayImg.value.logo =  envRoute.value + pathFile.value + '/' + objComunidad.value.logo
   }
 });
 

@@ -130,6 +130,10 @@ watch(inputLogo, async (newVal, oldVal) => {
   }
 });
 
+const createRouteImage = (pathFile, nameFile) => {
+  return envRoute.value + pathFile + "/" + nameFile;
+}
+
 // Agregar registros a la tabla
 const agregarComunidad = async () => {
   Loading.show({ spinner: QSpinnerGears, })

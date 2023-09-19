@@ -18,7 +18,7 @@
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puedes editar el nombre de la
               comunidad
               Recuerda, solo se permiten caracteres alfabeticos</div>
-            <q-input rounded outlined dense v-model="objComunidad.nombre" type="text" label="Nombre completo del docente"
+            <q-input rounded outlined dense disable v-model="objComunidad.nombre" type="text" label="Nombre completo del docente"
               class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Edición de la descripción del docente.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras
@@ -34,7 +34,7 @@
             <div class="text-caption text-weight-light q-mx-md text-left">Usted solo puede agregar
               comunidades a las carreras
               a las que su usuario tiene permiso.
-              <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma"
+              <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" disable
                class="q-mt-md" v-model="selectedPrograma" type="text" label="Programas" />
             </div>
             <div class="text-right">
@@ -190,33 +190,39 @@ watch(selectedPrograma, (newVal, oldVal) => {
 });
 
 watch(inputFiles, async (newVal, oldVal) => {
+   Loading.show({ spinner: QSpinnerGears, })
   if (typeof (inputFiles.value) !== 'string') {
     const id = objComunidad.value.programaId;
-    const response = await apiComunidad.uploadFiles(inputFiles.value, objComunidad.value.nombre, id)
+    const response = await apiComunidad.uploadFiles(inputFiles.value, objComunidad.value.nombre, selectedPrograma.value.programaId)
 
     fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
     const fotosComunidad = response.filenames.join(',');
     objComunidad.value.fotosComunidad = !!response.filenames ? fotosComunidad : null
+    console.log(response.filenames)
     arrayImg.value.img1 =  envRoute.value + pathFile.value + '/' + response.filenames[0]
     arrayImg.value.img2 =  envRoute.value + pathFile.value + '/' + response.filenames[1]
   }
+  Loading.hide()
 });
 
 watch(inputLogo, async (newVal, oldVal) => {
+   Loading.show({ spinner: QSpinnerGears, })
   if (typeof (inputLogo.value) !== 'string') {
     const id = objComunidad.value.programaId;
-    const response = await apiComunidad.uploadFiles([inputLogo.value], objComunidad.value.nombre, id)
-
+    const response = await apiComunidad.uploadFiles([inputLogo.value], objComunidad.value.nombre, selectedPrograma.value.programaId)
+    console.log(response.filenames)
     fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames[0]);
     objComunidad.value.logo = !!response.filenames ?  response.filenames[0] : null
     arrayImg.value.logo =  envRoute.value + pathFile.value + '/' + objComunidad.value.logo
+    console.log(arrayImg.value.logo)
   }
+  Loading.hide()
 });
 
 const agregarComunidad = async () => {
   Loading.show({ spinner: QSpinnerGears, })
   const response = await apiComunidad.createComunidades(objComunidad.value);
-  swal("Good job!", "You clicked the button!", "success");
+  Notify.create({ type: 'positive', message: 'Se ha actualizado correctamente', position: 'top' })
   router.push({ path: "/vistaComunidad", });
   Loading.hide()
 }

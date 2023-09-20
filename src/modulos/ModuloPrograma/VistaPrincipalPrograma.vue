@@ -63,11 +63,12 @@ const returnData = async () => {
   var departamento = {
     "departamentoId": UserStore().getUserDepartamento
   }
-  const data = await apiPrograma.getProgramasByDepartment(departamento);
-  data.data.map((el) => {
+  const data = UserStore().getProgramas;
+  console.log(data)
+  data.map((el) => {
     var obj = {
       nombre: el.nombre,
-      departamentoNombre: el.departamentoNombre,
+      departamentoNombre: el.departamento.nombre,
       acciones: [
         { nombre: 'Editar', funcion: () => console.log('Editar') },
         { nombre: 'Eliminar', funcion: () => console.log(idEliminar.value = el.docenteId, eliminarDocente) }

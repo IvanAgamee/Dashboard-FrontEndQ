@@ -217,7 +217,8 @@ const columns = [
           username: username.value,
           password: password.value,
           rolId: 1,
-          status: 1
+          status: 1,
+          departamentoId:1
         }
         try{
           Loading.show({  spinner: QSpinnerGears,})
@@ -263,7 +264,8 @@ const datosModificarUsuario = async(el) =>{
           username: username.value,
           password: password.value,
           rolId: 1,
-          status:1
+          status:1,
+          departamentoId:1
       }
       if (nombre.value != "" ) {
       try{

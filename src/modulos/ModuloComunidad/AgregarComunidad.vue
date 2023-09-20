@@ -32,11 +32,12 @@
             <div class="text-right">
               <div class="text-left q-mt-lg q-mx-lg">Seleccione la carrera a la que pertenece la comunidad
 
-                <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar
-                  comunidades a las carreras
-                  a las que su usuario tiene permiso.</div>
-                <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma"
-                  v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" option-value="id" />
+            <div class="text-caption text-weight-light text-left">Usted solo puede agregar
+              comunidades a las carreras
+              a las que su usuario tiene permiso.
+              <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma"
+               class="q-mt-md" v-model="selectedPrograma" type="text" label="Programas" />
+            </div>
               </div>
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
                 @click="validarInputInfoGral()" />
@@ -109,6 +110,7 @@ watch(selectedPrograma, (newVal, oldVal) => {
 });
 
 watch(inputFiles, async (newVal, oldVal) => {
+   Loading.show({ spinner: QSpinnerGears, })
   if (typeof (inputFiles.value) !== 'string') {
     const id = objComunidad.value.programaId;
     const response = await apiComunidad.uploadFiles(inputFiles.value, objComunidad.value.nombre, id)
@@ -117,9 +119,11 @@ watch(inputFiles, async (newVal, oldVal) => {
     const fotosComunidad = response.filenames.join(',');
     objComunidad.value.fotosComunidad = !!response.filenames ? fotosComunidad : null
   }
+   Loading.hide()
 });
 
 watch(inputLogo, async (newVal, oldVal) => {
+   Loading.show({ spinner: QSpinnerGears, })
   if (typeof (inputLogo.value) !== 'string') {
     const id = objComunidad.value.programaId;
     console.log(inputLogo.value)
@@ -128,7 +132,12 @@ watch(inputLogo, async (newVal, oldVal) => {
     fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames[0]);
     objComunidad.value.logo = !!response.filenames ? response.filenames[0] : null
   }
+   Loading.hide()
 });
+
+const createRouteImage = (pathFile, nameFile) => {
+  return envRoute.value + pathFile + "/" + nameFile;
+}
 
 // Agregar registros a la tabla
 const agregarComunidad = async () => {

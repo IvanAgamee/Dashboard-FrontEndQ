@@ -4,7 +4,7 @@
     <q-header elevated class="cabecera primary">
       <q-toolbar>
         <q-toolbar-title padding>Inicio</q-toolbar-title>
-        <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+        <q-btn flat @click="drawer = !drawer" round dense icon="menu"/>
       </q-toolbar>
     </q-header>
 
@@ -14,41 +14,62 @@
 
           <!-- Elementos del Menú -->
           <q-item clickable v-ripple @click="navegar('/dashboardInicio')"
-            :class="{ 'my-menu-link': selectedOption === '/dashboardInicio' }">
-            <q-item-section avatar> <q-icon name="home" /> </q-item-section>
-            <q-item-section> Inicio </q-item-section>
+                  :class="{ 'my-menu-link': selectedOption === '/dashboardInicio' }">
+            <q-item-section avatar>
+              <q-icon name="home"/>
+            </q-item-section>
+            <q-item-section> Inicio</q-item-section>
           </q-item>
 
           <q-item clickable v-ripple @click="navegar('/vistaDocente')"
-            :class="{ 'my-menu-link': selectedOption === '/vistaDocente' }">
-            <q-item-section avatar> <q-icon name="fa-solid fa-chalkboard-user" size="20px" /> </q-item-section>
-            <q-item-section> Docentes </q-item-section>
+                  :class="{ 'my-menu-link': selectedOption === '/vistaDocente' }">
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-chalkboard-user" size="20px"/>
+            </q-item-section>
+            <q-item-section> Docentes</q-item-section>
           </q-item>
 
           <q-item clickable v-ripple @click="navegar('/vistaMateria')"
-            :class="{ 'my-menu-link': selectedOption === '/vistaMateria' }">
-            <q-item-section avatar> <q-icon name="fa-solid fa-book" size="20px" /> </q-item-section>
-            <q-item-section> Materias </q-item-section>
+                  :class="{ 'my-menu-link': selectedOption === '/vistaMateria' }">
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-book" size="20px"/>
+            </q-item-section>
+            <q-item-section> Materias</q-item-section>
           </q-item>
 
           <q-item clickable v-ripple @click="navegar('/vistaPrograma')"
-            :class="{ 'my-menu-link': selectedOption === '/vistaPrograma' }">
-            <q-item-section avatar> <q-icon name="fa-solid fa-university" size="20px" /> </q-item-section>
-            <q-item-section> Programas </q-item-section>
+                  :class="{ 'my-menu-link': selectedOption === '/vistaPrograma' }">
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-university" size="20px"/>
+            </q-item-section>
+            <q-item-section> Programas</q-item-section>
           </q-item>
 
           <q-item clickable v-ripple @click="navegar('/vistaComunidad')"
-            :class="{ 'my-menu-link': selectedOption === '/vistaComunidad' }">
-            <q-item-section avatar> <q-icon name="fa-solid fa-people-group" size="20px" /> </q-item-section>
-            <q-item-section> Comunidades </q-item-section>
+                  :class="{ 'my-menu-link': selectedOption === '/vistaComunidad' }">
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-people-group" size="20px"/>
+            </q-item-section>
+            <q-item-section> Comunidades</q-item-section>
+          </q-item>
+          <q-item clickable v-ripple @click="navegar('/vistaSeccion')"
+                  :class="{ 'my-menu-link': selectedOption === '/vistaSeccion' }">
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-layer-group" size="20px"/>
+            </q-item-section>
+            <q-item-section> Secciones</q-item-section>
           </q-item>
           <q-item clickable v-ripple @click="navegar('/vistaUsuario')"
-            :class="{ 'my-menu-link': selectedOption === '/vistaUsuario' }">
-            <q-item-section avatar> <q-icon name="fa-solid fa-user" size="20px" /> </q-item-section>
-            <q-item-section> Usuarios </q-item-section>
+                  :class="{ 'my-menu-link': selectedOption === '/vistaUsuario' }">
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-user" size="20px"/>
+            </q-item-section>
+            <q-item-section> Usuarios</q-item-section>
           </q-item>
           <q-item clickable v-ripple @click="showLogout" active-class="my-menu-link">
-            <q-item-section avatar> <q-icon name="fa-solid fa-right-from-bracket" size=" 20px" /> </q-item-section>
+            <q-item-section avatar>
+              <q-icon name="fa-solid fa-right-from-bracket" size=" 20px"/>
+            </q-item-section>
             <q-item-section>Cerrar Sesion</q-item-section>
           </q-item>
 
@@ -61,9 +82,10 @@
             <img src="../assets/img/logotecnm.png" @click="navegar('/miPerfil')">
           </q-avatar>
           <div class="text-weight-bold" @click="navegar('/miPerfil')">{{ UserStore().getUser }}</div>
-          <div @click="navegar('/miPerfil')">@{{ UserStore().getUsername }} 
-          <q-btn class="q-ml-lg" color="primary" size="8px" icon="settings" @click="navegar('/miPerfil')"/></div>
-          
+          <div @click="navegar('/miPerfil')">@{{ UserStore().getUsername }}
+            <q-btn class="q-ml-lg" color="primary" size="8px" icon="settings" @click="navegar('/miPerfil')"/>
+          </div>
+
         </div>
       </q-img>
     </q-drawer>
@@ -77,13 +99,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import {ref} from 'vue';
 import UserStore from 'src/stores/userStore';
 import EssentialLinkProps from 'components/EssentialLink.vue';
-import { useQuasar } from 'quasar';
-import { useCounterStore } from 'src/stores/example-store';
-import { useUserStore } from 'src/stores';
-import { useRouter } from 'vue-router';
+import {useQuasar} from 'quasar';
+import {useCounterStore} from 'src/stores/example-store';
+import {useUserStore} from 'src/stores';
+import {useRouter} from 'vue-router';
+
 const $q = useQuasar();
 const leftDrawerOpen = ref(false)
 const router = useRouter();
@@ -100,16 +123,16 @@ const showLogout = () => {
       cancel: true,
       color: 'red'
     }).onOk(() => {
-      UserStore().clear();
-      router.push({
-        path: '/login/index',
-      });
-    })
+    UserStore().clear();
+    router.push({
+      path: '/login/index',
+    });
+  })
 }
 
 const navegar = (ruta) => {
   selectedOption.value = ruta
-  router.push({ path: ruta, });
+  router.push({path: ruta,});
 }
 </script>
 

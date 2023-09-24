@@ -5,13 +5,12 @@
         <q-tabs v-model="tab" class="bg-accent text-black" align="justify" narrow-indicator>
           <q-tab name="infoGeneral" label="Informacion general"/>
           <q-tab name="contenido" label="contenido"/>
-          <q-tab name="materias" label="Materias"/>
         </q-tabs>
         <q-separator/>
         <!-- PANEL 1: INFORMACION GENERAL -->
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="infoGeneral">
-            <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de edición de Seccion!</div>
+            <div class="text-h6 text-center q-ma-md">¡Bienvenido al módulo de edición de Seccion!</div>
             <div class="text-left q-mt-lg q-mx-lg">A continuación se muestran los datos de la seccion. En caso de no
               querer editar algun dato, no borrarlo:
             </div>
@@ -22,16 +21,8 @@
             <q-input rounded outlined dense v-model="objSeccion.titulo" type="text" label="Nombre completo del docente"
                      class="q-mx-lg"/>
             <div class="text-left q-mt-lg q-mx-lg">Edición de la descripción del docente.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras
-              son: 250 palabras
-            </div>
-            <q-input v-model="objSeccion.descripcion" rows="3" rounded outlined type="textarea" class="q-mx-lg"
-                     color="red-12" label="Descripción"/>
-            <div class="text-left q-mt-lg q-mx-lg">Edición del resumen de su informacion academica.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras
-              son: 250 palabras
-            </div>
-
+              <q-input rounded outline dense v-model="objSeccion.descripcion" type="text"
+              label="Descripción de la seccion"></q-input>
             <div class="text-right">
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
                      @click="validarInputInfoGral()"/>
@@ -39,13 +30,20 @@
           </q-tab-panel>
           <!-- PANEL 2: contenido -->
           <q-tab-panel name="contenido">
-            <div class="text-h6 text-left q-ma-md">¡Bien hecho! Continue editando la siguiente información:</div>
-            <div class="text-left q-mt-lg q-mx-lg">Edición de la carrera a la que pertenece el docente</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede editar
-              docentes de las carreras
-              a las que su usuario tiene permiso.
+            <div class="text-h6 text-left q-ma-md">Bien hecho! Continue editando la siguiente información: edición del conteido de la seccion {{objSeccion.titulo}}
             </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">
+              Recuerde, que solo puede editar el contenido de las secciones que tenga acceso solamente
+            </div>
+            <div class="h6-text text-center">
+              {{objSeccion.titulo}}
+            </div>
+            <div style="
+            display: grid;
+             grid-template-columns: repeat(3, auto);
+             gap: 15px;
+            align-content: space-between;
+            align-items: stretch;">
               <div v-for="(objeto, index) in objSeccion.objeto" :key="index">
                 <q-card style="margin-bottom: 15px;">
                   <q-card-section class="bg-primary text-white">
@@ -54,8 +52,11 @@
                   <q-separator></q-separator>
                   <q-card-actions align="right">
                     <q-btn flat>
-                      <q-icon class="fa-solid fa-file-pen" style="color: #ffa200;"></q-icon></q-btn>
-                    <q-btn flat><q-icon class="fa-sharp fa-solid fa-trash" style="color: #ff0000;"></q-icon></q-btn>
+                      <q-icon class="fa-solid fa-file-pen" style="color: #eb9705;"></q-icon>
+                    </q-btn>
+                    <q-btn flat>
+                      <q-icon class="fa-sharp fa-solid fa-trash" style="color: #cc0000;"></q-icon>
+                    </q-btn>
                   </q-card-actions>
                 </q-card>
               </div>

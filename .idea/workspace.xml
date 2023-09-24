@@ -7,7 +7,7 @@
     <list default="true" id="fab51739-bd4b-4213-97b2-2675b66ddd06" name="Changes" comment="Secciones">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layouts/MainLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/MainLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +76,8 @@
       <workItem from="1694917667688" duration="3501000" />
       <workItem from="1694970256086" duration="33188000" />
       <workItem from="1695086407829" duration="673000" />
+      <workItem from="1695177632029" duration="4165000" />
+      <workItem from="1695574362417" duration="457000" />
     </task>
     <task id="LOCAL-00001" summary="Secciones">
       <option name="closed" value="true" />
@@ -93,7 +95,15 @@
       <option name="project" value="LOCAL" />
       <updated>1694994074709</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Secciones">
+      <option name="closed" value="true" />
+      <created>1695177715648</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1695177715648</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

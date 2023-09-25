@@ -41,6 +41,28 @@ const getModulos = async () => {
     }
   }
 
+  const getDptos = async () => {
+    try {
+      const response = await api.get('departamento/getDepartamentos');
+      return response.data.data;
+    } catch (error) {
+        console.log('Se produjo un error al obtener los datos');
+      throw error;
+    }
+  }
+
+
+  const getRoles = async () => {
+    try {
+      const response = await api.get('usuario/getRoles');
+      return response.data.data;
+    } catch (error) {
+        console.log('Se produjo un error al obtener los datos');
+      throw error;
+    }
+  }
+
+
   export default {
-    getModulos, getUsuarios, createUsuarios
+    getModulos, getUsuarios, createUsuarios, getDptos, getRoles
   }

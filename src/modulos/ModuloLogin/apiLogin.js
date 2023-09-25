@@ -6,6 +6,7 @@ const loginAuth = async (data) => {
     const response = await api.post('usuario/login', data);
     return response.data;
   } catch (error) {
+    console.log(error)
     return error.response.data;
   }
 }

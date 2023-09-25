@@ -54,6 +54,10 @@
 <!-- Input para ingresar la password del usuario-->
 <q-input v-model="password" label="Contraseña *" hint="Ingrese la contraseña" lazy-rules dense style="padding: 0px 10px 45px 10px"
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+<q-select v-model="selectedDpto" :options="optsDptos" label="Departamento" lazy-rules dense style="padding: 0px 10px 45px 10px"  option-label="nombre"/>
+
+<q-select v-model="selectedRole" :options="optsRoles" label="Rol" lazy-rules dense style="padding: 0px 10px 25px 10px"  option-label="nombre"/>
 </div>
 
 <!-- Botones del modal -->
@@ -91,6 +95,10 @@
                     <!-- Input para ingresar la password del usuario-->
                     <q-input v-model="password" label="Password *" hint="Ingrese la contraseña" lazy-rules dense style="padding: 0px 10px 45px 10px"
                     :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
+
+                    <q-select v-model="selectedDpto" :options="optsDptos" label="Departamento" lazy-rules dense style="padding: 0px 10px 25px 10px"  option-label="nombre"/>
+
+                    <q-select v-model="selectedRole" :options="optsRoles" label="Rol" lazy-rules dense style="padding: 0px 10px 45px 10px"  option-label="nombre"/>
                     </div>
 
 
@@ -140,6 +148,10 @@ import UserStore from 'src/stores/userStore';
 const prueba = ref(UserStore().getUserIsAdmin)
 // Declaraciones de constantes
 const row = ref([])
+const optsDptos = ref([])
+const selectedDpto = ref([])
+const optsRoles = ref([])
+const selectedRole = ref([])
 
 //Constantes para inputs de creación
 const showModal = ref(false)
@@ -162,7 +174,7 @@ function openModal(){
 const columns = [
   { name: 'nombre', required: true, align: 'center', label: 'Nombre', field: 'nombre', format: val => `${val}`, sortable: true},
   { name: 'username', required: true, align: 'center', label: 'Username',align: 'center', field: 'username', sortable: true },
-  { name: 'password', required: true, align: 'center', label: 'Password',align: 'center', field: 'password', sortable: true },
+  { name: 'password', required: true, align: 'center', label: 'Rol',align: 'center', field: 'password', sortable: true },
   { name: 'acciones', align: 'center', label: 'Acciones',align: 'center', field: 'acciones', sortable: true }]
 
 // Llenado de la tabla con información del backend
@@ -170,10 +182,11 @@ const columns = [
   row.value=[];
     const data = await apiUsuario.getUsuarios();
         data.data.map((el) => {
+          console.log(el)
          var obj = {
           nombre: el.nombre,
           username: el.username,
-          password: el.password,
+          password: el.rolNombre,
           acciones: [
             { nombre: 'Editar', funcion: () => {datosModificarUsuario(el)} },
             { nombre: 'Eliminar', funcion: () =>{idEliminar.value=el.usuarioId, showModalEliminar.value = true} }
@@ -212,13 +225,14 @@ const columns = [
       }
 
       else{
+
         const data = {
           nombre: nombre.value,
           username: username.value,
           password: password.value,
-          rolId: 1,
+          rolId: selectedRole.value.rolId,
           status: 1,
-          departamentoId:1
+          departamentoId:selectedDpto.value.departamentoId
         }
         try{
           Loading.show({  spinner: QSpinnerGears,})
@@ -244,10 +258,18 @@ const columns = [
 const datosModificarUsuario = async(el) =>{
 
     showModalModificar.value = true
+
           nombre.value = el.nombre,
           username.value = el.username,
           password.value = el.password,
-          usuarioId.value = el.usuarioId
+          usuarioId.value = el.usuarioId,
+          selectedRole.value= el.rol
+
+          optsDptos.value.map(el => {
+          if (el.departamentoId == el.departamentoId) {      
+           selectedDpto.value = el 
+          }
+          });
    }
 
    const clearInput = () =>{
@@ -263,9 +285,9 @@ const datosModificarUsuario = async(el) =>{
           nombre: nombre.value,
           username: username.value,
           password: password.value,
-          rolId: 1,
-          status:1,
-          departamentoId:1
+          rolId: selectedRole.value.rolId,
+          status: 1,
+          departamentoId:selectedDpto.value.departamentoId
       }
       if (nombre.value != "" ) {
       try{
@@ -283,6 +305,13 @@ const datosModificarUsuario = async(el) =>{
         Notify.create({ type: 'negative', message: 'Todos los campos son obligatorios', position: 'top' }) 
       }
       }
+
+   const loadData = async () =>{
+      optsDptos.value = await apiUsuario.getDptos();
+      optsRoles.value = await apiUsuario.getRoles();
+      }
+  loadData()
+
 </script>
 
 // Diseño de la tabla - Estilos de la tabla

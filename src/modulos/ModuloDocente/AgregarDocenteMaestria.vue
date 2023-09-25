@@ -5,15 +5,13 @@
         <q-tabs v-model="tab" class="bg-accent text-black" align="justify" narrow-indicator >
           <q-tab name="infoGeneral" label="Informacion general" />
           <q-tab name="archivos" label="Adjuntos" />
-          <q-tab v-if="isPostgred" name="infoPostgrados" label="Datos posgrado" />
           <q-tab name="materias" label="Materias" />
         </q-tabs>
         <q-separator />
       <!-- PANEL 1: INFORMACION GENERAL -->
         <q-tab-panels v-model="tab" animated>
-
           <q-tab-panel name="infoGeneral">
-            <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de creación de un profesor!</div>
+            <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de creación de un profesor de posgrado!</div>
             <div class="text-left q-mt-lg q-mx-lg">A continuación llena cuidadosamente la información requerida para añadir 
             correctamente un nuevo docente.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El nombre debe estar escrito de la 
@@ -31,48 +29,6 @@
             <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoGral()" />
             </div>
             </q-tab-panel>
-
-          <q-tab-panel v-if="isPostgred" name="infoPostgrados">
-            <div class="text-h6 text-left q-ma-md">¡Se ha realizado de manera correcta! Ahora llena la siguiente información</div>
-
-            <div class="text-left q-mt-lg q-mx-lg">A continuación ingresa el perfil deseable del docente.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de caracteres es de 250  caracteres</div>
-            <q-input rounded outlined dense v-model="objDocente.perfilDeseable" type="text" label="Perfil deseable" class="q-mx-lg" />
-
-            <div class="text-left q-mt-lg q-mx-lg">Ahora ingresa el nivel del SNI.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.sni" type="text" label="SNI" class="q-mx-lg" />
-
-            <div class="text-left q-mt-lg q-mx-lg">Ahora ingresa el ORCID.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.orcid" type="text" label="SNI" class="q-mx-lg" />
-
-            <div class="text-left q-mt-lg q-mx-lg">Areas e Intereses.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.areasInteres" type="text" label="SNI" class="q-mx-lg" />
-
-            <div class="text-left q-mt-lg q-mx-lg">Resumen CONACYT.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.resumenCONAHCYT" type="text" label="SNI" class="q-mx-lg" />
-
-            <div class="text-left q-mt-lg q-mx-lg">Google academico.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.googleAcademico" type="text" label="SNI" class="q-mx-lg" />
-
-            <div class="text-left q-mt-lg q-mx-lg">Research gate.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.researchGate" type="text" label="SNI" class="q-mx-lg" />
-
-            <div class="text-left q-mt-lg q-mx-lg">SCOPUS.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.SCOPUS" type="text" label="SNI" class="q-mx-lg" />
-            
-            <div class="text-right">
-            <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoPosgrado()" />
-            </div>
-            </q-tab-panel>
-
-
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
             <div class="text-h6 text-left q-ma-md">¡Bien hecho! Continue llenando la siguiente información:</div>
@@ -137,7 +93,6 @@ const UserStore = authStore();
 const tab = ref('infoGeneral')
 const optSelectPrograma = ref(UserStore.getProgramas)
 const selectedPrograma = ref(null)
-const isPostgred = ref(false)
 const rows = ref([])
 const search = ref('');
 const inputFile = ref()
@@ -153,14 +108,6 @@ const objDocente = ref({
   urlImagen: '',
   programaId: '',
   status: 1,
-  perfilDeseable: '',
-  sni: '',
-  orcid: '',
-  areasInteres: '',
-  resumenCONAHCYT: '',
-  googleAcademico: '',
-  researchGate: '',
-  SCOPUS: '',
 });
 
  watch(inputFile, async(newVal, oldVal) => {
@@ -180,11 +127,6 @@ const objDocente = ref({
 
   }
  });
-
-
-  watch(selectedPrograma, async(newVal, oldVal) => {
-  isPostgred.value = newVal.isPosgrado == 1 ? true : false 
-  });
 
 const createRouteImage = (pathFile,nameFile) => {
   return envRoute.value + pathFile + "/" + nameFile;
@@ -246,23 +188,14 @@ const validarInputInfoGral = () => {
   if (objDocente.value.nombre == '' || objDocente.value.descripcion == '' || objDocente.value.infoAcademica == '') {
    Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'})
   } else {
-    tab.value= 'archivos'
-  }}
-
-  const validarInputInfoPosgrado = () => {
-  if (objDocente.value.perfilDeseable == '' || objDocente.value.sni == '' || objDocente.value.orcid == '' || objDocente.value.areasInteres == ''
-  || objDocente.value.resumenCONAHCYT == '' || objDocente.value.googleAcademico == '' || objDocente.value.researchGate == '' || objDocente.value.SCOPUS == '' ) {
-   Notify.create({ type: 'negative', message: 'Todos los campos son obligatorios', position: 'top'})
-  } else {
-    tab.value='materias'
-    // dataMaterias()
+    tab.value='archivos'
   }}
 
 const validarInputAdjuntos = () => {
   if (!!!selectedPrograma.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {
-    tab.value= isPostgred.value ? 'infoPostgrados' : 'materias'
+    tab.value='materias'
     // dataMaterias()
   }}
 

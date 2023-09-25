@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fab51739-bd4b-4213-97b2-2675b66ddd06" name="Changes" comment="Secciones">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/MainLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/MainLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/AgregarSeccion.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/AgregarSeccion.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/apiSecciones.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/apiSecciones.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="Vue Composition API Component" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -77,7 +78,7 @@
       <workItem from="1694970256086" duration="33188000" />
       <workItem from="1695086407829" duration="673000" />
       <workItem from="1695177632029" duration="4165000" />
-      <workItem from="1695574362417" duration="457000" />
+      <workItem from="1695574362417" duration="21435000" />
     </task>
     <task id="LOCAL-00001" summary="Secciones">
       <option name="closed" value="true" />

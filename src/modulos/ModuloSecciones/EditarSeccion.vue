@@ -4,7 +4,7 @@
       <q-card class="q-pa-lg">
         <q-tabs v-model="tab" class="bg-accent text-black" align="justify" narrow-indicator>
           <q-tab name="infoGeneral" label="Informacion general"/>
-          <q-tab name="contenido" label="contenido"/>
+          <q-tab v-if="objSeccion.objeto.length>0" name="contenido" label="contenido"/>
         </q-tabs>
         <q-separator/>
         <!-- PANEL 1: INFORMACION GENERAL -->

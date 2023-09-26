@@ -14,27 +14,25 @@
             <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de edición de comunidad!</div>
             <div class="text-left q-mt-lg q-mx-lg">A continuación se muestran los datos de la comunidad a editar. En caso
               de no querer
-              editar algun dato, no borrarlo:</div>
+              editar algun dato, no borrarlo</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puedes editar el nombre de la
               comunidad
               Recuerda, solo se permiten caracteres alfabeticos</div>
             <q-input rounded outlined dense disable v-model="objComunidad.nombre" type="text" label="Nombre completo del docente"
               class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Edición de la descripción del docente.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras
-              son: 250 palabras</div>
+            <div class="text-left q-mt-lg q-mx-lg">Edición de la descripción de la comunidad.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo es de 250 caracteres</div>
             <q-input v-model="objComunidad.quienesSomos" rows="3" rounded outlined type="textarea" class="q-mx-lg"
-              color="red-12" label="Descripción" />
+              color="red-12" label="Descripción" maxlength="250" />
             <div class="text-left q-mt-lg q-mx-lg">Edición del resumen de su informacion academica.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras
-              son: 250 palabras</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo es de 250 caracteres</div>
             <q-input v-model="objComunidad.queHacemos" rows="15" rounded outlined type="textarea" class="q-mx-lg"
-              color="red-12" label="Información academica" />
+              color="red-12" label="Información academica" maxlength="250" />
               <div class="text-left q-mt-lg q-mx-md">Edita el programa academico.</div>
-            <div class="text-caption text-weight-light q-mx-md text-left">Usted solo puede agregar
+            <div class="text-caption text-weight-light q-mx-md text-left">Usted solo editar
               comunidades a las carreras
               a las que su usuario tiene permiso.
-              <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" disable
+              <q-select disable rounded outlined dense option-label="nombre" :options="optSelectPrograma" disable
                class="q-mt-md" v-model="selectedPrograma" type="text" label="Programas" />
             </div>
             <div class="text-right">
@@ -72,7 +70,7 @@
 
             
             </div>
-            <div class="text-left q-mt-lg q-mx-lg">Cambiar Imagen del logo de la comunidad. Recuerda que esta foto será
+            <div class="text-left q-mt-lg q-mx-lg">Cambiar imagen del logo de la comunidad. Recuerda que esta foto será
               visualizada en
               la pagina oficial de la carrera, por ello
               es importante cuidar la calidad de la misma.</div>

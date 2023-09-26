@@ -48,16 +48,16 @@
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar el username del usuario-->
-<q-input v-model="username" label="Username *" hint="Ingrese el username" lazy-rules dense style="padding: 0px 10px 45px 10px"
+<q-input v-model="username" label="Nombre de usuario *" hint="Nombre de usuario" lazy-rules dense style="padding: 0px 10px 45px 10px"
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
 <!-- Input para ingresar la password del usuario-->
 <q-input v-model="password" label="Contraseña *" hint="Ingrese la contraseña" lazy-rules dense style="padding: 0px 10px 45px 10px"
 :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
-<q-select v-model="selectedDpto" :options="optsDptos" label="Departamento" lazy-rules dense style="padding: 0px 10px 45px 10px"  option-label="nombre"/>
+<q-select v-model="selectedDpto" :options="optsDptos" label="Departamento" lazy-rules dense style="padding: 0px 10px 25px 10px"  option-label="nombre"/>
 
-<q-select v-model="selectedRole" :options="optsRoles" label="Rol" lazy-rules dense style="padding: 0px 10px 25px 10px"  option-label="nombre"/>
+<q-select v-model="selectedRole" :options="optsRoles" label="Rol" lazy-rules dense style="padding: 0px 10px 15px 10px"  option-label="nombre"/>
 </div>
 
 <!-- Botones del modal -->
@@ -89,7 +89,7 @@
                     :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
                     <!-- Input para ingresar el username del usuario-->
-                    <q-input v-model="username" label="Username *" hint="Ingrese el username" lazy-rules dense style="padding: 0px 10px 45px 10px"
+                    <q-input v-model="username" label="Nombre de usuario *" hint="Ingrese el nombre de usuario" lazy-rules dense style="padding: 0px 10px 45px 10px"
                     :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
                     <!-- Input para ingresar la password del usuario-->
@@ -98,7 +98,7 @@
 
                     <q-select v-model="selectedDpto" :options="optsDptos" label="Departamento" lazy-rules dense style="padding: 0px 10px 25px 10px"  option-label="nombre"/>
 
-                    <q-select v-model="selectedRole" :options="optsRoles" label="Rol" lazy-rules dense style="padding: 0px 10px 45px 10px"  option-label="nombre"/>
+                    <q-select v-model="selectedRole" :options="optsRoles" label="Rol" lazy-rules dense style="padding: 0px 10px 25px 10px"  option-label="nombre"/>
                     </div>
 
 

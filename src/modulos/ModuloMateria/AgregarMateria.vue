@@ -11,31 +11,29 @@
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="infoGeneral">
             <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de creación de una materia!</div>
-            <div class="text-left q-mt-lg q-mx-lg">A continuación llena cuidadosamente la información requerida para
-              añadir
-              correctamente una nueva materia.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El nombre debe estar escrito de
-              la
-              siguiente manera: Fundamentos de programación</div>
+            <div class="text-left q-mt-lg q-mx-lg">A continuación llene cuidadosamente la información requerida para
+              añadir correctamente una nueva materia.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El nombre debe estar escrito en el
+            siguiente formato: Fundamentos de programación</div>
             <q-input rounded outlined dense v-model="objMateria.nombre" type="text" label="Nombre de la materia"
-              class="q-mx-lg" />
+            class="q-mx-lg" />
 
             <div class="text-left q-ma-md q-mt-lg">Seleccione el programa de estudio al que pertenece la materia.</div>
             <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma"
               type="text" label="Programas" class="q-mx-lg" />
 
-            <div class="text-left q-mt-lg q-mx-lg">Seleccione el area al que pertenece la materia.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Esta area puede ser null</div>
-            <q-input rounded outlined dense v-model="objMateria.area" type="text" label="Area de la materia"
+            <div class="text-left q-mt-lg q-mx-lg">Seleccione el área al que pertenece la materia.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El área es opcional</div>
+            <q-input rounded outlined dense v-model="objMateria.area" type="text" label="Área de la materia"
               class="q-mx-lg" />
             <div class="text-left q-ma-md q-mt-lg">Seleccione el semestre al que pertenece la materia.</div>
             <q-input rounded outlined dense v-model="objMateria.semestre" type="number" min="1" max="12"
               label="Semestre de la materia" class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">A continuación escribe la competencia de la materia.</div>
+            <div class="text-left q-mt-lg q-mx-lg">A continuación describe la competencia de la materia.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras
-              son: 250 palabras</div>
-            <q-input v-model="objMateria.competencia" rows="10" rounded outlined type="textarea" class="q-mx-lg"
-              color="red-12" label="Competencias de la materia" />
+            son: 250 palabras</div>
+            <q-input v-model="objMateria.competencia" rows="8" rounded outlined type="textarea" class="q-mx-lg"
+            color="red-12" label="Competencias de la materia" maxlength="250"/>
 
             <div class="text-right">
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
@@ -45,15 +43,15 @@
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! En esta sección se adjuntaran los archivos
-              relacionados a la materia :</div>
-            <div class="text-left q-mt-lg q-mx-lg">Ingresa el link del Url del programa</div>
+              relacionados a la materia: </div>
+            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del url del programa</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como
-              obtener este Url da click aqui.</div>
+              obtener esta url consulte el manual de usuario.</div>
             <q-input rounded outlined dense v-model="objMateria.urlPrograma" type="text" label="Url del programa"
               class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del Url del video de la materia</div>
+            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del url del video de la materia</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como
-              obtener este Url da click aqui. Si
+              obtener este url consulte el manual de usuario. Si
               el video se ha ingresado correctamente, aparecera inmediatamente debajo de este formulario</div>
             <q-input rounded outlined dense v-model="objMateria.urlVideo" type="text" label="Url del video de la materia"
               class="q-mx-lg" />

@@ -51,7 +51,7 @@
             <div class="text-left q-mt-lg q-mx-lg">Añade una foto del docente. Recuerda que esta foto será visualizada en la pagina oficial de la carrera, por ello
             es importante cuidar la calidad de la misma.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">La foto puede ser en formato png y jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="inputFile" label="Seleccione un archivo de su computador">
+            <q-file  accept=".jpg, image/*" use-chips dense dense class="q-mx-lg" outlined v-model="inputFile" label="Seleccione un archivo de su computador">
             <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
             <div class="text-right">

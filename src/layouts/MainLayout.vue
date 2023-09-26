@@ -49,7 +49,7 @@
           </q-item>
           <q-item clickable v-ripple @click="showLogout" active-class="my-menu-link">
             <q-item-section avatar> <q-icon name="fa-solid fa-right-from-bracket" size=" 20px" /> </q-item-section>
-            <q-item-section>Cerrar Sesion</q-item-section>
+            <q-item-section>Cerrar Sesión</q-item-section>
           </q-item>
 
         </q-list>
@@ -94,10 +94,10 @@ const programasOptions = UserStore().getProgramas;
 const showLogout = () => {
   $q.dialog(
     {
-      title: 'Cierre de Sesion',
-      message: '¿Estas seguro de cerrar sesion?',
+      title: 'Cierre de Sesión',
+      message: '¿Estás seguro de cerrar sesión?',
       cancel: true,
-      color: 'red'
+      color: 'blue'
     }).onOk(() => {
       UserStore().clear();
       router.push({

@@ -11,70 +11,76 @@
         <q-separator />
       <!-- PANEL 1: INFORMACION GENERAL -->
         <q-tab-panels v-model="tab" animated>
+
           <q-tab-panel name="infoGeneral">
-            <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de edición de un profesor!</div>
-            <div class="text-left q-mt-lg q-mx-lg">A continuación se muestran los datos del profesor. En caso de no querer editar algun dato, no borrarlo:</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puedes editar el nombre del docente. Recuerda que el 
-            formato debe ser: Juan Hernandez Sanchez</div>
+            <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de creación de un docente!</div>
+            <div class="text-left q-mt-lg q-mx-lg">A continuación llene cuidadosamente la información requerida para añadir 
+            correctamente un nuevo docente.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El nombre debe estar escrito en el siguiente 
+            fomato: Rafael Rivera Lopez</div>
             <q-input rounded outlined dense v-model="objDocente.nombre" type="text" label="Nombre completo del docente" class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Edición de la descripción del docente.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras son: 250 palabras</div>
+            <div class="text-left q-mt-lg q-mx-lg">Añade una pequeña descripción del docente.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo son 150 caracteres. Puede añadir alguna
+            frase motivacional o lo mas destacado de esa persona</div>
             <q-input v-model="objDocente.descripcion" rows="3" rounded outlined type="textarea" class="q-mx-lg"
-            color="red-12" label="Descripción"/>
-            <div class="text-left q-mt-lg q-mx-lg">Edición del resumen de su informacion academica.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras son: 250 palabras</div>
+            color="red-12" label="Descripción"  maxlength="150"/>
+            <div class="text-left q-mt-lg q-mx-lg">Ahora escriba un resumen de su informacion academica.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo son 250 caracteres</div>
             <q-input v-model="objDocente.informacionAcademica" rows="15" rounded outlined type="textarea" class="q-mx-lg"
-            color="red-12" label="Información academica"/>
+            color="red-12" label="Información academica" maxlength="250"/>
             <div class="text-right">
             <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoGral()" />
             </div>
             </q-tab-panel>
 
-          
           <q-tab-panel v-if="isPostgred" name="infoPostgrados">
-            <div class="text-h6 text-left q-ma-md">¡Se ha realizado de manera correcta! Ahora llena la siguiente información</div>
+            <div class="text-h6 text-left q-ma-md">Estas añadiendo un docente de posgrado.Es importante llenar la siguiente información</div>
 
             <div class="text-left q-mt-lg q-mx-lg">A continuación ingresa el perfil deseable del docente.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de caracteres es de 250  caracteres</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Describe el perfil de este docente</div>
             <q-input rounded outlined dense v-model="objDocente.perfilDeseable" type="text" label="Perfil deseable" class="q-mx-lg" />
 
-            <div class="text-left q-mt-lg q-mx-lg">Ahora ingresa el nivel del SNI.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.sni" type="text" label="SNI" class="q-mx-lg" />
+            <div class="text-left q-mt-lg q-mx-lg">Nivel del SNI</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Ingrese el nivel del Sistema Nacional de Investigadores según la 
+            clasificación de CONACYT</div>
+            <q-input rounded outlined dense v-model="objDocente.sni" type="text" label="Nivel  SNI" class="q-mx-lg" />
 
-            <div class="text-left q-mt-lg q-mx-lg">Ahora ingresa el ORCID.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.orcid" type="text" label="SNI" class="q-mx-lg" />
+            <div class="text-left q-mt-lg q-mx-lg">ORCID.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Sistema de identificación y perfil de autores científicos</div>
+            <q-input rounded outlined dense v-model="objDocente.orcid" type="text" label="ORCID" class="q-mx-lg" />
 
-            <div class="text-left q-mt-lg q-mx-lg">Areas e Intereses.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.areasInteres" type="text" label="SNI" class="q-mx-lg" />
+            <div class="text-left q-mt-lg q-mx-lg">Áreas de interés.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Describe las áreas de mayor desempeño</div>
+            <q-input v-model="objDocente.areasInteres" rows="5" rounded outlined type="textarea" class="q-mx-lg"
+            color="red-12" label="Áreas de interés" maxlength="150"/>
 
             <div class="text-left q-mt-lg q-mx-lg">Resumen CONACYT.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.resumenCONAHCYT" type="text" label="SNI" class="q-mx-lg" />
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Ingrese un resumen deL Consejo Nacional de Ciencia y Tecnología</div>
+            <q-input v-model="objDocente.resumenCONAHCYT" rows="5" rounded outlined type="textarea" class="q-mx-lg"
+            color="red-12" label="Resumen" maxlength="150"/>
 
             <div class="text-left q-mt-lg q-mx-lg">Google academico.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.googleAcademico" type="text" label="SNI" class="q-mx-lg" />
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Ingrese algún url de referencia</div>
+            <q-input rounded outlined dense v-model="objDocente.googleAcademico" type="text" label="Google academico" class="q-mx-lg" />
 
             <div class="text-left q-mt-lg q-mx-lg">Research gate.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.researchGate" type="text" label="SNI" class="q-mx-lg" />
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Ingrese algún url de referencia</div>
+            <q-input rounded outlined dense v-model="objDocente.researchGate" type="text" label="Research gate" class="q-mx-lg" />
 
             <div class="text-left q-mt-lg q-mx-lg">SCOPUS.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que este campo es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objDocente.SCOPUS" type="text" label="SNI" class="q-mx-lg" />
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Ingrese algún url de referencia</div>
+            <q-input rounded outlined dense v-model="objDocente.SCOPUS" type="text" label="Scopus" class="q-mx-lg" />
             
             <div class="text-right">
             <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoPosgrado()" />
             </div>
             </q-tab-panel>
 
+
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
-            <div class="text-h6 text-left q-ma-md">¡Bien hecho! Continue editando la siguiente información:</div>
-            <q-img v-if="!!fileImageDocente" :src="fileImageDocente"
+            <div class="text-h6 text-left q-ma-md">¡Bien hecho! Continue adjuntando los siguientes archivos:</div>
+            <q-img v-if="fileImageDocente != null" :src="fileImageDocente"
             no-native-menu
             height="200px"
             style="max-width: 220px">
@@ -82,19 +88,18 @@
               Imagen del docente
             </div>
             </q-img>
-            <div class="text-left q-mt-lg q-mx-lg">Edición de la carrera a la que pertenece el docente</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede editar docentes de las carreras
+            <div class="text-left q-mt-lg q-mx-lg">Seleccione la carrera a la que pertenece el docente</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar docentes a las carreras
             a las que su usuario tiene permiso.</div>
             <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Edición del contacto de este docente.
+            <div class="text-left q-mt-lg q-mx-lg">Adémas le pedimos que proporcione un contacto de este docente.
             Le recordamos que este contacto será público (No es obligatorio)</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerde que puede ser un número telefonico o un correo electronico.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puede agregar un número telefonico o un correo electronico.</div>
             <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Contacto del docente" class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Edición de foto del docente. Recuerda que esta foto será visualizada en la pagina oficial de la carrera, por ello
+            <div class="text-left q-mt-lg q-mx-lg">Añade una foto del docente. Recuerda que esta foto será visualizada en la pagina oficial de la carrera, por ello
             es importante cuidar la calidad de la misma.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Recuerda que si editas la foto, se sobrescribira 
-            la foto actual y no será posible recuperarla. La foto puede ser en formato png y jpg.</div>
-            <q-file dense class="q-mx-lg" outlined v-model="inputFile" @change="uploadImageFunc" label="Da click aqui si desea editar la imagen">
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">La imagen puede ser en formato png o jpg.</div>
+            <q-file  accept=".jpg, image/*" use-chips dense class="q-mx-lg" outlined v-model="inputFile" label="Seleccione un archivo de su computador">
             <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
             <div class="text-right">
@@ -104,13 +109,16 @@
           </q-tab-panel>
           <!-- PANEL 3: MATERIAS -->
           <q-tab-panel name="materias">
-            <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora edite cuidadosamente las materias que imparte este docente, en caso de ser necesario</div>
+            <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora selecciona cuidadosamente las materias que imparte este docente</div>
             <div class="text-left q-ma-lg">Debe marcar las casillas correspondientes a cada materia.</div>
-            <q-input v-model="objDocente.materias" rows="15" rounded outlined type="textarea" class="q-mx-lg"
-            color="red-12" label="Información academica"/>
+            <q-input class="q-ma-lg" v-model="search" label="Busca una materia individualmente" dense outlined clearable> <template v-slot:prepend>
+            <q-icon name="search" />
+            </template> </q-input>
+             <q-table bordered title="Materias" :rows="filteredRows" :columns="columns" row-key="nombre"
+             class="q-ma-lg"  selection="multiple" v-model:selected="selectedMaterias"/>
              <div class="text-right">
-              <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='archivos'" />
-              <q-btn class="q-mt-lg" color="primary" icon="check" label="Finalizar" @click="validarInputMaterias()" />    
+            <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='archivos'" />
+            <q-btn class="q-mt-lg" color="primary" icon="check" label="Finalizar" @click="validarInputMaterias()" />    
              </div>
           </q-tab-panel>
         </q-tab-panels>

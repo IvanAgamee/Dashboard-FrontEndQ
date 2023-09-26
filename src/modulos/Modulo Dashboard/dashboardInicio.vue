@@ -4,23 +4,23 @@
      <q-card class=" q-pt-sm q-pb-sm row"> 
       <!-- Cards del dashboard -->
       <q-card class="col-2  bg-indigo-10 text-bold text-center text-white q-ma-md q-pa-md">
-      Numero de docentes:
+      Número de docentes:
       <div class="text-h4 text-bold text-white">{{getTotalDocentes}}</div> 
      </q-card>
      <q-card class="col-2 bg-blue-10 text-white text-bold text-center q-ma-md q-pa-md">
-      Numero de carreras:
+      Número de carreras:
       <div class="text-h4 text-bold text-white">{{getTotalProgramas}}</div> 
      </q-card>
      <q-card class="col-2 bg-indigo-12 text-white text-bold text-center q-ma-md q-pa-md">
-      Numero de Materias:
+      Número de materias:
       <div class="text-h4 text-bold text-white">{{getTotalMaterias}}</div> 
      </q-card>
      <q-card class="col-2 bg-cyan-5 text-white text-bold text-center q-ma-md q-pa-md">
-      Numero de Comunidades:
+      Número de comunidades:
       <div class="text-h4 text-bold text-white">{{getTotalComunidades}}</div> 
      </q-card>
      <q-card class="col-2 bg-cyan-8 text-white text-bold text-center q-ma-md q-pa-md">
-      Numero de Usuarios:
+      Número de usuarios:
       <div class="text-h4 text-bold text-white">{{getTotalUsers}}</div> 
      </q-card>
     </q-card>
@@ -116,7 +116,7 @@ getInfo()
 chartData.value = {
   labels:  ['I.G.E.', 'L.ADM.', 'I.Q.', 'I.BQ', 'I.MEC.','I.MCT', 'I.IND', 'I.E.R.', 'I.E.', 'I.E.','I.S.C.'],
   datasets: [{
-      label: "Cantidad de materias: ",
+      label: " Cantidad de materias: ",
       backgroundColor: ['#EFE694','#0D47A1','#448AFF','#64B5F6','#D4E7EA','#9CE0EB','#599AA4']  ,
       // backgroundColor: ['#FFF491','#EFE694','#E8DE7E','#F1E570','#FFEB38','#EDC36B'] ,
       data: arrayCantidadMateriasxPrograma.value
@@ -130,7 +130,7 @@ chartDona.value = {
   labels: arrayNombreProgramas.value,
   datasets: [
     {
-      label: "Cantidad de materias",
+      label: "  Cantidad de docentes: ",
       backgroundColor: ['#EFE694','#0D47A1','#448AFF','#64B5F6','#D4E7EA','#9CE0EB','#599AA4']  ,
       //  backgroundColor: ['#1A237E','#0D47A1','#536DFE','#448AFF','#64B5F6','#D4E7EA','#9CE0EB','#599AA4']  ,
       data: arrayProfesoresxPrograma.value

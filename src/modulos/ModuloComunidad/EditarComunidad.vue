@@ -32,7 +32,7 @@
             <div class="text-caption text-weight-light q-mx-md text-left">Usted solo editar
               comunidades a las carreras
               a las que su usuario tiene permiso.
-              <q-select disable rounded outlined dense option-label="nombre" :options="optSelectPrograma" disable
+              <q-select disable rounded outlined dense option-label="nombre" :options="optSelectPrograma"
                class="q-mt-md" v-model="selectedPrograma" type="text" label="Programas" />
             </div>
             <div class="text-right">
@@ -78,7 +78,7 @@
               se sobrescribira
               la foto actual y no será posible recuperarla. La foto puede ser en formato png o jpg.</div>
             <q-file dense class="q-mx-lg" outlined v-model="inputLogo" standout
-              accept=".jpg, image/*" use-chips dense @change="uploadImageFunc" label="Da click aqui y seleccione un archivo de su computador">
+              accept=".jpg, image/*" use-chips @change="uploadImageFunc" label="Da click aqui y seleccione un archivo de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 
@@ -89,7 +89,7 @@
               fotos,
               se sobrescribiran
               las fotos actuales y no será posible recuperarlas. La fotos puede ser en formato png o jpg.</div>
-            <q-file  accept=".jpg, image/*" use-chips dense dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="2" label="Da click aqui y seleccione dos archivos de su computador">
+            <q-file  accept=".jpg, image/*" use-chips dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="2" label="Da click aqui y seleccione dos archivos de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 

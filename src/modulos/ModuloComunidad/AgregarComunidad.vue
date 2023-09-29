@@ -51,7 +51,7 @@
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">La foto puede ser en formato png
               o jpg.</div>
             <q-file dense class="q-mx-lg" outlined v-model="inputLogo" standout @change="uploadImageFunc"
-              accept=".jpg, image/*" use-chips dense label="Da click aqui y seleccione un archivo de su computador">
+              accept=".jpg, image/*" use-chips label="Da click aqui y seleccione un archivo de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 
@@ -59,7 +59,7 @@
               la pagina oficial de la carrera, por ello
               es importante cuidar la calidad de las mismas. Las fotoss pueden ser en formato png o jpg.</div>
 
-            <q-file  accept=".jpg, image/*" use-chips dense dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="3"
+            <q-file  accept=".jpg, image/*" use-chips dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="3"
               label="Da click aqui y seleccione dos archivos de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>

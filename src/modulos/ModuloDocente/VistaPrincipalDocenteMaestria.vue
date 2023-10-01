@@ -2,20 +2,18 @@
   <q-page padding>
     <q-card class="q-pt-lg q-pb-lg">
       <div class="row">
-        <h6 class="col q-ma-sm q-ml-lg">Registro de Comunidades</h6>
-        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas"
-        label="Programa" option-label="nombre" option-value="id" />
-        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar Comunidad"
+        <h6 class="col q-ma-sm q-ml-lg">Registro de docentes de posgrado</h6>
+        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" 
+        label="Programa" option-label="nombre" option-value="id"/>
+        <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar docente"
           @click="irAgregarDocente()" dense ellipsis />
       </div>
       <q-separator style="margin:15px" />
-      <q-input class="q-ma-lg" v-model="search" label="Buscar comunidad" dense outlined clearable> <template
-          v-slot:prepend>
-          <q-icon name="search" />
-        </template> </q-input>
+      <q-input class="q-ma-lg" v-model="search" label="Buscar un docente" dense outlined clearable> <template v-slot:prepend>
+      <q-icon name="search" />
+      </template> </q-input>
       <!-- Estructura de la tabla -->
-      <q-table class="my-sticky-header-table q-ma-lg" :rows="filteredRows" :columns="columns" header
-        :rows-per-page-options="[10, 20, 50]">
+      <q-table class="my-sticky-header-table q-ma-lg" :rows="filteredRows" :columns="columns" header :rows-per-page-options="[10, 20, 50]">
         <!-- Agrega botones por cada registro de la tabla -->
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -41,7 +39,7 @@ import { ref, watch, computed } from "vue"
 import { useQuasar } from 'quasar';
 import authStore from '../../stores/userStore.js';
 import MiModal from '../../components/MiModal.vue'
-import apiComunidad from '../ModuloComunidad/apiComunidad.js'
+import apiDocente from '../ModuloDocente/apiDocente.js'
 import swal from 'sweetalert';
 import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
@@ -58,10 +56,9 @@ const selectedPrograma = ref(UserStore.getProgramas[0])
 // Columnas de la tabla
 const columns = [
   // { name: 'id', align: 'center', label: 'ID Docente', align: 'center', field: 'id', sortable: true },
-  { name: 'nombre', align: 'center', label: 'Nombre', align: 'center', field: 'nombre', sortable: true },
-  { name: 'descripcion', align: 'center', label: 'Descripción', align: 'center', field: 'quienesSomos', sortable: true },
-  { name: 'proposito', align: 'center', label: 'Proposito', align: 'center', field: 'queHacemos', sortable: true },
-  { name: 'logo', required: true, label: 'logo', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true },
+  { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true },
+  { name: 'contacto', align: 'center', label: 'Contacto', align: 'center', field: 'contacto', sortable: true },
+  { name: 'materias', align: 'center', label: 'Materias', align: 'center', field: 'materias', sortable: true },
   { name: 'acciones', align: 'center', label: 'Acciones', align: 'center', field: 'acciones', sortable: true }]
 
 const filteredRows = computed(() => {
@@ -78,74 +75,69 @@ const filteredRows = computed(() => {
 
 // Llenado de la tabla a traves del parametro id de carrera
 const returnData = async (id) => {
-  row.value = [];
-  Loading.show({ spinner: QSpinnerGears, })
-  const data = await apiComunidad.getComunidadByProgramaId(id);
+row.value = [];
+Loading.show({ spinner: QSpinnerGears, })
+  const obj = {programaId: id}
+  const data = await apiDocente.getDocentesByProgramaId(obj);
   data.data.map((el) => {
     var obj = {
-      id: el.comunidadId,
-      logo: el.logo,
+      id: el.docenteId,
       nombre: el.nombre,
-      descripcion: el.quienesSomos.length > 40 ? el.quienesSomos.substring(0, 40) + "..." : el.quienesSomos,
-      proposito: el.queHacemos.length > 40 ? el.queHacemos.substring(0, 40) + "..." : el.queHacemos,
+      contacto: el.contacto,
+      materias: el.materias.length > 40 ? el.materias.substring(0, 40) + "..." : el.materias,
       acciones: [
-        { nombre: 'Editar', funcion: () => { navegarEditarComunidad(el) }, class: 'btn-primary' },
-        { nombre: 'Eliminar', funcion: () => { eliminarComunidad(el.comunidadId) }, class: 'btn-negative' }
+        { nombre: 'Editar', funcion: () => {navegarEditarDocente(el)}, class: 'btn-primary' },
+        { nombre: 'Eliminar', funcion: () => {eliminarDocente(el.docenteId)}, class: 'btn-negative' }
       ],
     };
     row.value.push(obj);
   });
   Loading.hide()
 };
-
 returnData(selectedPrograma.value.programaId)
 
 // Observar cambios en el select
-watch(selectedPrograma, (newVal, oldVal) => {
-  returnData(newVal.programaId)
-});
+ watch(selectedPrograma, (newVal, oldVal) => {
+ returnData(newVal.programaId)});
 
 // Navegar con spinners
 const irAgregarDocente = async () => {
-  Loading.show({ spinner: QSpinnerGears, })
-  router.push({ path: "/agregarComunidad", });
-  Loading.hide()
+Loading.show({ spinner: QSpinnerGears, })
+router.push({path: "/agregarDocente",});
+Loading.hide()
 }
 
-const navegarEditarComunidad = (el) => {
-  Loading.show({ spinner: QSpinnerGears, })
-  router.push({ name: "editComunidad", params: { id: el.comunidadId } });
-  Loading.hide()
-}
+const navegarEditarDocente =  (el) => {
+Loading.show({ spinner: QSpinnerGears, })
+router.push({name: "editDocente",params: { id: el.docenteId }});
+Loading.hide()}
 
 //Eliminar registros de la tabla
-const eliminarComunidad = async (id) => {
-  $q.dialog({
-    title: 'Eliminar Comunidad',
-    message: '¿Estas seguro de eliminar esta comunidad?',
-    cancel: true,
-    color: 'blue'
-  }).onOk(async () => {
+const eliminarDocente = async (id) => {
+    $q.dialog({
+      title: 'Eliminar Docente',
+      message: '¿Estas seguro de eliminar este docente?',
+      cancel: true,
+      color: 'blue'
+    }).onOk( async() => {
     const data = {
-      comunidadId: id,
-      status: 0
-    }
+    docenteId: id,
+    status: 0}
     Loading.show({ spinner: QSpinnerGears, })
-    const response = await apiComunidad.createComunidades(data);
+    const response = await apiDocente.createDocente(data);
     swal({
-      position: 'top-end',
-      icon: response.success == true ? 'success' : 'error',
-      title: response.success == true ? '¡Se ha eliminado la comunidad!'
-        : '¡Ha ocurrido un error! Intentelo de nuevo',
-      showConfirmButton: false,
-      timer: 1500
-    })
+    position: 'top-end',
+    icon: response.success==true ? 'success' : 'error',
+    title: response.success==true ? '¡Se ha eliminado el docente!' 
+    : '¡Ha ocurrido un error! Intentelo de nuevo',
+    showConfirmButton: false,
+    timer: 1500})
     Loading.hide()
     filteredRows;
     row.value = [];
     returnData(selectedPrograma.value.programaId);
-  })
-}
+    })
+  }
 </script>
 
 <style lang="scss">
@@ -168,4 +160,3 @@ const eliminarComunidad = async (id) => {
   color: white;
 }
 </style>
-

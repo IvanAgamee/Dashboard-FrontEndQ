@@ -10,25 +10,21 @@
         <!-- PANEL 1: INFORMACION GENERAL -->
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="infoGeneral">
-            <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de registrar una nueva comunidad!</div>
-            <div class="text-left q-mt-lg q-mx-lg">A continuación llena cuidadosamente la información requerida para
-              añadir
-              correctamente a la comunidad.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Es importante que el nombre de
-              la
-              comunidad cunmpla con el formato en el que solo se permiten caracteres alfabeticos</div>
+            <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de creación de una nueva comunidad!</div>
+            <div class="text-left q-mt-lg q-mx-lg">A continuación llene cuidadosamente la información requerida para
+              añadir correctamente la comunidad.</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Es importante que se siga el siguiente formato: 
+            Comunidad de Industrial</div>
             <q-input rounded outlined dense v-model="objComunidad.nombre" type="text" label="Nombre de la comunidad"
               class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Describe lo que representa la comunidad.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras
-              son: 250 palabras</div>
-            <q-input v-model="objComunidad.quienesSomos" rows="3" rounded outlined type="textarea" class="q-mx-lg"
-              color="red-12" label="Descripción" />
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo es de 100 caracteres</div>
+              <q-input v-model="objComunidad.quienesSomos" rows="3" rounded outlined type="textarea" class="q-mx-lg"
+            color="red-12" label="Descripción" maxlength="100"/>
             <div class="text-left q-mt-lg q-mx-lg">Ahora escribe un resumen sobre las actividades que realizan.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número maximo de palabras
-              son: 250 palabras</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo es de 250 caracteres</div>
             <q-input v-model="objComunidad.queHacemos" rows="15" rounded outlined type="textarea" class="q-mx-lg"
-              color="red-12" label="Actividades" />
+              color="red-12" label="Actividades" maxlength="250" />
             <div class="text-right">
               <div class="text-left q-mt-lg q-mx-lg">Seleccione la carrera a la que pertenece la comunidad
 
@@ -48,22 +44,22 @@
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora agrega elementos multimedia
               de la comunidad
             </div>
-            <div class="text-left q-mt-lg q-mx-lg">Agregue la imágen del logo del a comunidad. Recuerda que esta foto será
+            <div class="text-left q-mt-lg q-mx-lg">Agregue la imágen del logo de la comunidad. Recuerda que esta foto será
               visualizada en
               la pagina oficial de la carrera, por ello
               es importante cuidar la calidad de la misma.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">La foto puede ser en formato png
               o jpg.</div>
             <q-file dense class="q-mx-lg" outlined v-model="inputLogo" standout @change="uploadImageFunc"
-              label="Da click aqui y seleccione un archivo de su computador">
+              accept=".jpg, image/*" use-chips label="Da click aqui y seleccione un archivo de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>
 
-            <div class="text-left q-mt-lg q-mx-lg">Editar fotos de la comunidad. Recuerda las fotos será visualizada en
+            <div class="text-left q-mt-lg q-mx-lg">Agregue las fotos de la comunidad. Recuerda que las fotos serán visualizadas en
               la pagina oficial de la carrera, por ello
-              es importante cuidar la calidad de las mismas. La fotos puede ser en formato png o jpg.</div>
+              es importante cuidar la calidad de las mismas. Las fotoss pueden ser en formato png o jpg.</div>
 
-            <q-file dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="3"
+            <q-file  accept=".jpg, image/*" use-chips dense class="q-mx-lg" outlined v-model="inputFiles" standout multiple max-files="3"
               label="Da click aqui y seleccione dos archivos de su computador">
               <template v-slot:append><q-icon name="attachment" color="orange" /></template>
             </q-file>

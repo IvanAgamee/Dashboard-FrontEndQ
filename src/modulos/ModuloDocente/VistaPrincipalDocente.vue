@@ -3,8 +3,8 @@
     <q-card class="q-pt-lg q-pb-lg">
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de docentes</h6>
-        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" label="Programa"
-          transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"/>
+        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" 
+        label="Programa" option-label="nombre" option-value="id"/>
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar docente"
           @click="irAgregarDocente()" dense ellipsis />
       </div>
@@ -84,7 +84,7 @@ Loading.show({ spinner: QSpinnerGears, })
       id: el.docenteId,
       nombre: el.nombre,
       contacto: el.contacto,
-      materias: el.materias.length > 40 ? el.materias.substring(0, 40) + "..." : el.materias,
+      materias: el.materias?.length > 40 ? el.materias.substring(0, 40) + "..." : el.materias,
       acciones: [
         { nombre: 'Editar', funcion: () => {navegarEditarDocente(el)}, class: 'btn-primary' },
         { nombre: 'Eliminar', funcion: () => {eliminarDocente(el.docenteId)}, class: 'btn-negative' }

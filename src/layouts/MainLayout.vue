@@ -42,21 +42,19 @@
             <q-item-section avatar> <q-icon name="fa-solid fa-people-group" size="20px" /> </q-item-section>
             <q-item-section> Comunidades </q-item-section>
           </q-item>
-
           <q-item clickable v-ripple @click="navegar('/vistaSeccion')"
                   :class="{ 'my-menu-link': selectedOption === '/vistaSeccion' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-layer-group" size="20px" /> </q-item-section>
             <q-item-section> Secciones </q-item-section>
           </q-item>
-
-          <q-item clickable v-ripple @click="navegar('/vistaUsuario')"
+          <q-item v-if="UserStore().getUserHasAdmin" clickable v-ripple @click="navegar('/vistaUsuario')"
             :class="{ 'my-menu-link': selectedOption === '/vistaUsuario' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-user" size="20px" /> </q-item-section>
             <q-item-section> Usuarios </q-item-section>
           </q-item>
           <q-item clickable v-ripple @click="showLogout" active-class="my-menu-link">
             <q-item-section avatar> <q-icon name="fa-solid fa-right-from-bracket" size=" 20px" /> </q-item-section>
-            <q-item-section>Cerrar Sesion</q-item-section>
+            <q-item-section>Cerrar Sesión</q-item-section>
           </q-item>
 
         </q-list>
@@ -69,7 +67,7 @@
           </q-avatar>
           <div class="text-weight-bold" @click="navegar('/miPerfil')">{{ UserStore().getUser }}</div>
           <div @click="navegar('/miPerfil')">@{{ UserStore().getUsername }}
-          <q-btn class="q-ml-lg" color="primary" size="8px" icon="settings" @click="navegar('/miPerfil')"/></div>
+          <q-btn dense color="primary" size="8px" icon="settings" @click="navegar('/miPerfil')"/></div>
         </div>
       </q-img>
     </q-drawer>
@@ -101,10 +99,10 @@ const programasOptions = UserStore().getProgramas;
 const showLogout = () => {
   $q.dialog(
     {
-      title: 'Cierre de Sesion',
-      message: '¿Estas seguro de cerrar sesion?',
+      title: 'Cierre de Sesión',
+      message: '¿Estás seguro de cerrar sesión?',
       cancel: true,
-      color: 'red'
+      color: 'blue'
     }).onOk(() => {
       UserStore().clear();
       router.push({

@@ -61,6 +61,13 @@ const useLocalStorage = defineStore({
     getProgramas(state) {
       return state.userData.programaEstudio;
     },
+    getUserHasAdmin(state) {
+      if (state.userData.rolId == 1) {
+        return true
+      }  else {
+        return false
+      }
+    },
     /*
     Funcion para obtener las carreras del usuario, en caso de ser más de una
     se retorna solo el primer indice, si no se devuevle un array de ellos

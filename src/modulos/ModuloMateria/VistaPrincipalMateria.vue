@@ -7,8 +7,8 @@
       <!-- Area del titulo y boton agregar -->
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de materias</h6>
-        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" label="Programa"
-          transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"/>
+        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" 
+        label="Programa" option-label="nombre" option-value="id"/>
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar materia"
           @click="irAgregarMateria()" dense ellipsis />
       </div>

@@ -20,9 +20,9 @@ const getSeccionByProgramaId = async (data) => {
   }
 }
 
-const getLastIdSeccion = async (data) => {
+const getLastIdSeccion = async (titulo,moduloId,programaId) => {
   try{
-    const response = await api.get('seccion/getLastIdSecccion');
+    const response = await api.get(`seccion/getLastIdSecccion?titulo=${titulo}&moduloId=${moduloId}&programaId=${programaId}`);
     return response.data;
   }
   catch (e) {
@@ -58,6 +58,23 @@ const createObjetosMasvos = async (data) => {
     throw error;
   }
 }
+
+const borrarObjetos = async (data) => {
+  try {
+    const response = await api.delete('seccion/borrarObjetos', {
+      data: data,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log('Se produjo un error al obtener los datos');
+    throw error;
+  }
+}
+
 export default {
-  getModulos, getSeccionByProgramaId, createSeccion, getSeccionById, createObjetosMasvos, getLastIdSeccion
+  getModulos, getSeccionByProgramaId, createSeccion, getSeccionById, createObjetosMasvos, getLastIdSeccion, borrarObjetos
 }

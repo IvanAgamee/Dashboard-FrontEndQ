@@ -85,8 +85,8 @@ const returnData = async (id) => {
       descripcion: el.descripcion?.length > 40 ? el.descripcion.substring(0, 40) + "..." : el.descripcion ?? '-',
       objeto: Array.isArray(el.objeto) ? el.objeto.map(item => item.descripcion).join(', ').substring(0,50) : (el.objeto && typeof el.objeto === 'object' ? el.objeto.descripcion : '-'),
       acciones: [
-        { nombre: 'Editar', funcion: () => {navegarEditarseccion(el)}, class: 'btn-primary' },
-        { nombre: 'Eliminar', funcion: () => {eliminarseccion(el.seccionId)}, class: 'btn-negative' }
+        { nombre: 'Editar', funcion: () => {navegarEditarseccion(el)}, class: 'btn-primary' }//,
+      /*  { nombre: 'Eliminar', funcion: () => {eliminarseccion(el.seccionId)}, class: 'btn-negative' }*/
       ],
     };
     row.value.push(obj);

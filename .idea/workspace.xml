@@ -4,25 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fab51739-bd4b-4213-97b2-2675b66ddd06" name="Changes" comment="Secciones">
-      <change afterPath="$PROJECT_DIR$/src/modulos/ModuloDocente/AgregarDocenteMaestria.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modulos/ModuloDocente/VistaPrincipalDocenteMaestria.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/MainLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/MainLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/Modulo Dashboard/dashboardInicio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/Modulo Dashboard/dashboardInicio.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloComunidad/AgregarComunidad.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloComunidad/AgregarComunidad.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloComunidad/EditarComunidad.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloComunidad/EditarComunidad.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloComunidad/VistaPrincipalComunidad.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloComunidad/VistaPrincipalComunidad.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloDocente/AgregarDocente.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloDocente/AgregarDocente.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloDocente/EditarDocente.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloDocente/EditarDocente.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloDocente/VistaPrincipalDocente.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloDocente/VistaPrincipalDocente.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloLogin/apiLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloLogin/apiLogin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloMateria/AgregarMateria.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloMateria/AgregarMateria.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloMateria/EditarMateria.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloMateria/EditarMateria.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloMateria/VistaPrincipalMateria.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloMateria/VistaPrincipalMateria.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloUsuario/VistaPrincipalUsuario.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloUsuario/VistaPrincipalUsuario.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloUsuario/apiUsuario.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloUsuario/apiUsuario.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/userStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/userStore.js" afterDir="false" />
+    <list default="true" id="fab51739-bd4b-4213-97b2-2675b66ddd06" name="Changes" comment="bajar cambios">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/AgregarSeccion.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/AgregarSeccion.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/VistaPrincipalSecciones.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/VistaPrincipalSecciones.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/apiSecciones.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/apiSecciones.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,14 +50,15 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Merging rama-eric",
+    "git-widget-placeholder": "rama-eric",
+    "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "E:/Projects/Vue/TecNM/DashboardBackEnd",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "discord-application",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
@@ -93,7 +81,8 @@
       <workItem from="1695086407829" duration="673000" />
       <workItem from="1695177632029" duration="4165000" />
       <workItem from="1695574362417" duration="21929000" />
-      <workItem from="1696174642010" duration="1789000" />
+      <workItem from="1696174642010" duration="8116000" />
+      <workItem from="1696184001081" duration="38352000" />
     </task>
     <task id="LOCAL-00001" summary="Secciones">
       <option name="closed" value="true" />
@@ -119,7 +108,15 @@
       <option name="project" value="LOCAL" />
       <updated>1695177715648</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="bajar cambios">
+      <option name="closed" value="true" />
+      <created>1696177216858</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696177216858</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,6 +124,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Secciones" />
-    <option name="LAST_COMMIT_MESSAGE" value="Secciones" />
+    <MESSAGE value="bajar cambios" />
+    <option name="LAST_COMMIT_MESSAGE" value="bajar cambios" />
   </component>
 </project>

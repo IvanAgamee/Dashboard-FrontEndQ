@@ -128,7 +128,7 @@ const eliminarDocente = async (id) => {
     swal({
     position: 'top-end',
     icon: response.success==true ? 'success' : 'error',
-    title: response.success==true ? '¡Se ha eliminado el docente!' 
+    title: response.success==true ? '¡Se ha eliminado el docente!'
     : '¡Ha ocurrido un error! Intentelo de nuevo',
     showConfirmButton: false,
     timer: 1500})

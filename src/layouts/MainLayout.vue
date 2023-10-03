@@ -49,7 +49,7 @@
             <q-item-section> Secciones </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple @click="navegar('/vistaUsuario')"
+          <q-item v-if="isAdmin" clickable v-ripple @click="navegar('/vistaUsuario')"
             :class="{ 'my-menu-link': selectedOption === '/vistaUsuario' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-user" size="20px" /> </q-item-section>
             <q-item-section> Usuarios </q-item-section>
@@ -70,7 +70,6 @@
           <div class="text-weight-bold" @click="navegar('/miPerfil')">{{ UserStore().getUser }}</div>
           <div @click="navegar('/miPerfil')">@{{ UserStore().getUsername }}
           <q-btn class="q-ml-lg" color="primary" size="8px" icon="settings" @click="navegar('/miPerfil')"/></div>
-
         </div>
       </q-img>
     </q-drawer>
@@ -99,6 +98,7 @@ const selectedOption = ref()
 const toggleLeftDrawer = () => leftDrawerOpen.value = !leftDrawerOpen.value;
 
 const programasOptions = UserStore().getProgramas;
+const isAdmin =  UserStore().getUserHasAdmin
 const showLogout = () => {
   $q.dialog(
     {

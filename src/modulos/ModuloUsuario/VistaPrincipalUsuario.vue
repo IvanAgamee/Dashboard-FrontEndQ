@@ -93,7 +93,7 @@
                     :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
                     <!-- Input para ingresar la password del usuario-->
-                    <q-input v-model="password" label="Password *" hint="Ingrese la contraseña" lazy-rules dense style="padding: 0px 10px 45px 10px"
+                    <q-input v-if="false" v-model="password" label="Password *" hint="Ingrese la contraseña" lazy-rules dense style="padding: 0px 10px 45px 10px"
                     :rules="[ val => val && val.length > 0 || 'Este campo es obligatorio']"/>
 
                     <q-select v-model="selectedDpto" :options="optsDptos" label="Departamento" lazy-rules dense style="padding: 0px 10px 25px 10px"  option-label="nombre"/>

@@ -109,7 +109,7 @@ const irAgregarseccion = async () => {
 
 const navegarEditarseccion =  (el) => {
   Loading.show({ spinner: QSpinnerGears, })
-  router.push({ name: 'editarSeccion', params:{id: el.seccionId}});
+  router.push({ path: '/editarSeccion', params:{id: el.seccionId}});
   Loading.hide()}
 
 //Eliminar registros de la tabla

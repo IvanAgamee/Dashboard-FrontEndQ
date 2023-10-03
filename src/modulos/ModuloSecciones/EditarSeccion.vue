@@ -22,8 +22,8 @@
             </div>
             <q-input rounded outlined dense v-model="objSeccion.titulo" type="text" label="Nombre de la seccion"
                      class="q-mx-lg"/>
-            <div class="text-left q-mt-lg q-mx-lg">Edición de la descripcion de la seccion.</div>
-              <q-input rounded outline dense v-model="objSeccion.descripcion" type="text"
+            <div class="text-left q-mx-lg q-mt-lg">Edición de la descripcion de la seccion.</div>
+              <q-input rounded outline dense class="q-mx-lg" v-model="objSeccion.descripcion" type="textarea"
               label="Descripción de la seccion"></q-input>
 <!--            <div class="text-right">
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
@@ -417,7 +417,7 @@ const limpiarContenido = () => {
   titulo.value = '';
 }
 const crearContenido = () => {
-  debugger;
+
   let objeto = null;
   if(isEditar.value===true) {
 
@@ -456,7 +456,6 @@ const crearContenido = () => {
 
 
 const editarObjeto = (objeto,nuevo) => {
-  debugger;
   isEditar.value = true;
    if(nuevo!==true) {
      titulo.value = objSeccion.value.objeto.at(

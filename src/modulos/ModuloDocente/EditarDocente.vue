@@ -109,13 +109,10 @@
           </q-tab-panel>
           <!-- PANEL 3: MATERIAS -->
           <q-tab-panel name="materias">
-            <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora selecciona cuidadosamente las materias que imparte este docente</div>
+            <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora edite cuidadosamente las materias que imparte este docente, en caso de ser necesario</div>
             <div class="text-left q-ma-lg">Debe marcar las casillas correspondientes a cada materia.</div>
-            <q-input class="q-ma-lg" v-model="search" label="Busca una materia individualmente" dense outlined clearable> <template v-slot:prepend>
-            <q-icon name="search" />
-            </template> </q-input>
-             <q-table bordered title="Materias" :rows="filteredRows" :columns="columns" row-key="nombre"
-             class="q-ma-lg"  selection="multiple" v-model:selected="selectedMaterias"/>
+            <q-input v-model="objDocente.materias" rows="15" rounded outlined type="textarea" class="q-mx-lg"
+            color="red-12" label="Información academica"/>
              <div class="text-right">
             <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='archivos'" />
             <q-btn class="q-mt-lg" color="primary" icon="check" label="Finalizar" @click="validarInputMaterias()" />    

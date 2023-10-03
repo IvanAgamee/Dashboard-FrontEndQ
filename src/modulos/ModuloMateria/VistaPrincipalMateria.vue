@@ -77,9 +77,7 @@ const idEliminar = ref('')
 const materiaId = ref('')
 
 const optionsProgramas = UserStore.getProgramas;
-console.log(UserStore.getUserProgramas)
-const selectedPrograma = ref(UserStore?.getUserProgramas.programaId)
-
+const selectedPrograma = ref(UserStore.getProgramas[0])
 
 //Abrir y cerrar modal
 function openModal() {

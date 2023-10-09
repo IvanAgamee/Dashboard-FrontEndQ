@@ -21,6 +21,8 @@ const routes = [
       { name: 'editMateria', path: '/editarMateria/:id', component: () => import('../modulos/ModuloMateria/EditarMateria.vue'), props: true, },
       { path: '/archivoEjemplo', component: () => import('../modulos/ModuloAlumno/Archivoejemplo.vue') },
       { path: '/miPerfil', component: () => import('../modulos/ModuloMiPerfil/miPerfil.vue') },
+      { path: '/especialidades', component: () => import('../modulos/ModuloEspecialidad/VistaPrincipalEspecialidad.vue') },
+      { path: '/lineasdeInvestigacion', component: () => import('../modulos/ModuloLineasInv/VistaPrincipalLineasInv.vue') },
       { path: '/vistaSeccion', component: () => import('../modulos/ModuloSecciones/VistaPrincipalSecciones.vue')},
       { path: '/agregarSeccion', component: () => import('../modulos/ModuloSecciones/AgregarSeccion.vue')},
       { name: 'editarSeccion',path: '/editarSeccion', component: () => import('../modulos/ModuloSecciones/EditarSeccion.vue'),   props: route => ({ id: route.query.id })}

@@ -48,6 +48,18 @@
             <q-item-section> Secciones </q-item-section>
           </q-item>
 
+          <q-item clickable v-ripple @click="navegar('/lineasdeInvestigacion')"
+                  :class="{ 'my-menu-link': selectedOption === '/lineasdeInvestigacion' }">
+            <q-item-section avatar> <q-icon name="fa-solid fa-glasses" size="20px" /> </q-item-section>
+            <q-item-section> Lineas de inv </q-item-section>
+          </q-item>
+
+          <q-item clickable v-ripple @click="navegar('/especialidades')"
+                  :class="{ 'my-menu-link': selectedOption === '/especialidades' }">
+            <q-item-section avatar> <q-icon name="fa-solid fa-code-branch" size="20px" /> </q-item-section>
+            <q-item-section> Especialidades </q-item-section>
+          </q-item>
+
           <q-item v-if="isAdmin" clickable v-ripple @click="navegar('/vistaUsuario')"
             :class="{ 'my-menu-link': selectedOption === '/vistaUsuario' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-user" size="20px" /> </q-item-section>

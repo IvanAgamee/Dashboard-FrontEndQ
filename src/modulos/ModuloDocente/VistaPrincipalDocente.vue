@@ -2,19 +2,23 @@
   <q-page padding>
     <q-card class="q-pt-lg q-pb-lg">
       <div class="row">
+      
+      <!-- SELECT MATERIAS Y AGREGAR MATERIA -->
         <h6 class="col q-ma-sm q-ml-lg">Registro de docentes</h6>
         <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" 
         label="Programa" option-label="nombre" option-value="id"/>
         <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar docente"
           @click="irAgregarDocente()" dense ellipsis />
       </div>
+
+      <!-- BUSCADOR -->
       <q-separator style="margin:15px" />
       <q-input class="q-ma-lg" v-model="search" label="Buscar un docente" dense outlined clearable> <template v-slot:prepend>
       <q-icon name="search" />
       </template> </q-input>
-      <!-- Estructura de la tabla -->
+
+      <!-- TABLA DE DOCENTES -->
       <q-table class="my-sticky-header-table q-ma-lg" :rows="filteredRows" :columns="columns" header :rows-per-page-options="[10, 20, 50]">
-        <!-- Agrega botones por cada registro de la tabla -->
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td v-for="column in props.cols" :key="column.name" :props="props">
@@ -38,10 +42,9 @@
 import { ref, watch, computed } from "vue"
 import { useQuasar } from 'quasar';
 import authStore from '../../stores/userStore.js';
-import MiModal from '../../components/MiModal.vue'
 import apiDocente from '../ModuloDocente/apiDocente.js'
 import swal from 'sweetalert';
-import { Loading, Notify, QSpinnerGears } from 'quasar'
+import { Loading, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -55,7 +58,6 @@ const selectedPrograma = ref(UserStore.getProgramas[0])
 
 // Columnas de la tabla
 const columns = [
-  // { name: 'id', align: 'center', label: 'ID Docente', align: 'center', field: 'id', sortable: true },
   { name: 'nombre', required: true, label: 'Nombre', align: 'center', field: 'nombre', format: val => `${val}`, sortable: true },
   { name: 'contacto', align: 'center', label: 'Contacto', align: 'center', field: 'contacto', sortable: true },
   { name: 'materias', align: 'center', label: 'Materias', align: 'center', field: 'materias', sortable: true },
@@ -74,7 +76,7 @@ const filteredRows = computed(() => {
 });
 
 // Llenado de la tabla a traves del parametro id de carrera
-const returnData = async (id) => {
+const getDataDocentes = async (id) => {
 row.value = [];
 Loading.show({ spinner: QSpinnerGears, })
   const obj = {programaId: id}
@@ -82,8 +84,8 @@ Loading.show({ spinner: QSpinnerGears, })
   data.data.map((el) => {
     var obj = {
       id: el.docenteId,
-      nombre: el.nombre,
-      contacto: el.contacto,
+      nombre: el.nombre?.length > 40 ? el.nombre.substring(0, 40) + "..." : el.nombre,
+      contacto: el.contacto?.length > 40 ? el.contacto.substring(0, 40) + "..." : el.contacto,
       materias: el.materias?.length > 40 ? el.materias.substring(0, 40) + "..." : el.materias,
       acciones: [
         { nombre: 'Editar', funcion: () => {navegarEditarDocente(el)}, class: 'btn-primary' },
@@ -94,11 +96,11 @@ Loading.show({ spinner: QSpinnerGears, })
   });
   Loading.hide()
 };
-returnData(selectedPrograma.value.programaId)
+getDataDocentes(selectedPrograma.value.programaId)
 
 // Observar cambios en el select
  watch(selectedPrograma, (newVal, oldVal) => {
- returnData(newVal.programaId)});
+  getDataDocentes(newVal.programaId)});
 
 // Navegar con spinners
 const irAgregarDocente = async () => {
@@ -115,7 +117,7 @@ Loading.hide()}
 //Eliminar registros de la tabla
 const eliminarDocente = async (id) => {
     $q.dialog({
-      title: 'Eliminar Docente',
+      title: 'Eliminar docente',
       message: '¿Estas seguro de eliminar este docente?',
       cancel: true,
       color: 'blue'
@@ -135,7 +137,7 @@ const eliminarDocente = async (id) => {
     Loading.hide()
     filteredRows;
     row.value = [];
-    returnData(selectedPrograma.value.programaId);
+    getDataDocentes(selectedPrograma.value.programaId);
     })
   }
 </script>

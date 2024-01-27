@@ -144,8 +144,8 @@ row.value = [
   informacionAcademica: 'Egresado de la programa del Cetis 15',
   fotoPerfil: 'www.fotodeperfil.com',
   acciones: [
-    { nombre: 'Editar', funcion: () => console.log('Editar') },
-    { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }
+    { nombre: 'Editar' },
+    { nombre: 'Eliminar' }
   ]
 }]
 
@@ -159,8 +159,8 @@ function addRow () {
     informacionAcademica: informacionAcademica.value,
     fotoPerfil: fotodeperfil.value,
     acciones: [
-      { nombre: 'Editar', funcion: () => console.log(nombre.value) },
-      { nombre: 'Eliminar', funcion: () => console.log('Eliminar') }
+      { nombre: 'Editar' },
+      { nombre: 'Eliminar' }
     ]
   })
   openModal()

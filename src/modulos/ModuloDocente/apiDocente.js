@@ -1,15 +1,4 @@
-import axios from 'axios';
 import { api } from '../../boot/axios.js';
-
-const getModulos = async () => {
-  try {
-    const response = await api.get('modulo/getModulos');
-    return response.data;
-  } catch (error) {
-    console.log('Se produjo un error al obtener los datos');
-    throw error;
-  }
-}
 
   const getDocentes = async () => {
     try {
@@ -69,6 +58,16 @@ const uploadImageDocente = async (file, docenteNombre, nameCarrer) => {
     return response.data;
   } catch (error) {
     console.log('Se produjo un error al subir la imagen');
+    throw error;
+  }
+}
+
+const getModulos = async () => {
+  try {
+    const response = await api.get('modulo/getModulos');
+    return response.data;
+  } catch (error) {
+    console.log('Se produjo un error al obtener los datos');
     throw error;
   }
 }

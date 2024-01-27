@@ -7,10 +7,8 @@ const getFileImage = async (pathFile, filename) => {
    }  
   try {
     const response = await api.post('main/getFileFromStorage',data);
-    console.log(response)
     return response;
   } catch (error) {
-    console.log('Se produjo un error al obtener los datos');
     throw error;
   }
 }

@@ -76,7 +76,6 @@
             </div>
             </q-tab-panel>
 
-
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
             <div class="text-h6 text-left q-ma-md">¡Bien hecho! Continue adjuntando los siguientes archivos:</div>
@@ -92,7 +91,7 @@
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar docentes a las carreras
             a las que su usuario tiene permiso.</div>
             <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Adémas le pedimos que proporcione un contacto de este docente.
+            <div class="text-left q-mt-lg q-mx-lg">Además le pedimos que proporcione un contacto de este docente.
             Le recordamos que este contacto será público (No es obligatorio)</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puede agregar un número telefonico o un correo electronico.</div>
             <q-input rounded outlined dense v-model="objDocente.contacto" type="text" label="Contacto del docente" class="q-mx-lg" />
@@ -107,6 +106,7 @@
             <q-btn class="q-mt-lg" color="primary" icon="check" label="Siguiente" @click="validarInputAdjuntos()" />
             </div>
           </q-tab-panel>
+
           <!-- PANEL 3: MATERIAS -->
           <q-tab-panel name="materias">
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora selecciona cuidadosamente las materias que imparte este docente</div>
@@ -129,12 +129,12 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { Loading, Notify, QSpinnerGears } from 'quasar'
+import { useRouter } from 'vue-router';
 import authStore from '../../stores/userStore.js';
 import apiMateria from '../ModuloMateria/apiMateria.js'
 import apiDocente from '../ModuloDocente/apiDocente.js'
 import swal from 'sweetalert';
-import { Loading, Notify, QSpinnerGears } from 'quasar'
-import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const UserStore = authStore();
@@ -148,6 +148,7 @@ const inputFile = ref()
 const fileImageDocente = ref(null);
 const envRoute = ref("http://localhost:3010/imagenes/")
 const selectedMaterias = ref([])
+
 const objDocente = ref({
   nombre: '',
   descripcion: '',
@@ -167,9 +168,31 @@ const objDocente = ref({
   SCOPUS: '',
 });
 
- watch(inputFile, async(newVal, oldVal) => {
+const columns = [
+  { name: 'nombre', align: 'left', label: 'Nombre', field: row => row.nombre},
+  { name: 'area', align: 'left', label: 'Area', field: row => row.area},
+  { name: 'especialidad', align: 'left', label: 'Especialidad', field: row => row.especialidad},]
+
+  // Obtiene los datos de la tabla materias
+  onMounted(async () => {
+  Loading.show({ spinner: QSpinnerGears });
+  const data = await apiMateria.getMaterias();
+  data.data.map((el) => {
+    var materia = {
+      id: el.materiaId,
+      nombre: el.nombre,
+      area: el.area == null ? "Sin especialidad" : el.area,
+      especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad.nombre,
+    };
+    rows.value.push(materia);
+  });
+
+  Loading.hide();
+  });
+
+  // Observa cuando se sube una foto de docente
+  watch(inputFile, async() => {
   if (typeof(inputFile.value) !== 'string') {
-    console.log(selectedPrograma.value)
     if (!!selectedPrograma.value) {
         const id = selectedPrograma.value.programaId;  
         const response = await apiDocente.uploadImageDocente(inputFile.value,objDocente.value.nombre,id)
@@ -185,21 +208,17 @@ const objDocente = ref({
   }
  });
 
-
-  watch(selectedPrograma, async(newVal, oldVal) => {
+  // Determina si mostrar la tab extra solo para programas de posgrado
+  watch(selectedPrograma, async(newVal) => {
   isPostgred.value = newVal.isPosgrado == 1 ? true : false 
   });
 
-const createRouteImage = (pathFile,nameFile) => {
-  return envRoute.value + pathFile + "/" + nameFile;
-}
+  const createRouteImage = (pathFile,nameFile) => {
+    return envRoute.value + pathFile + "/" + nameFile;
+  }
 
-const columns = [
-  { name: 'nombre', align: 'left', label: 'Nombre', field: row => row.nombre},
-  { name: 'area', align: 'left', label: 'Area', field: row => row.area},
-  { name: 'especialidad', align: 'left', label: 'Especialidad', field: row => row.especialidad},]
-
-const filteredRows = computed(() => {
+  // Filtra la tabla
+  const filteredRows = computed(() => {
   if (search.value) {
     const searchTerm = search.value.toLowerCase();
     return rows.value.filter(row => {
@@ -211,23 +230,7 @@ const filteredRows = computed(() => {
   return rows.value;
 });
 
-onMounted(async () => {
-  Loading.show({ spinner: QSpinnerGears });
-  const data = await apiMateria.getMaterias();
-  data.data.map((el) => {
-    var materia = {
-      id: el.materiaId,
-      nombre: el.nombre,
-      area: el.area == null ? "Sin especialidad" : el.area,
-      especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad.nombre,
-    };
-    rows.value.push(materia);
-  });
-
-  Loading.hide();
-});
-
-// Agregar registros a la tabla
+// Agrega un docente
 const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
 
@@ -246,7 +249,8 @@ const agregarDocente = async () => {
   Loading.hide()
 }
 
-const validarInputInfoGral = () => {
+  // VALIDACIONES
+  const validarInputInfoGral = () => {
   if (objDocente.value.nombre == '' || objDocente.value.descripcion == '' || objDocente.value.infoAcademica == '') {
    Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'})
   } else {
@@ -262,7 +266,7 @@ const validarInputInfoGral = () => {
     // dataMaterias()
   }}
 
-const validarInputAdjuntos = () => {
+  const validarInputAdjuntos = () => {
   if (!!!selectedPrograma.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {

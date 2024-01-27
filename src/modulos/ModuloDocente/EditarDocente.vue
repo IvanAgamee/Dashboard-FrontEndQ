@@ -9,9 +9,9 @@
           <q-tab name="materias" label="Materias" />
         </q-tabs>
         <q-separator />
+
       <!-- PANEL 1: INFORMACION GENERAL -->
         <q-tab-panels v-model="tab" animated>
-
           <q-tab-panel name="infoGeneral">
             <div class="text-h6 text-left q-ma-md">¡Bienvenido al módulo de edición de un docente!</div>
             <div class="text-left q-mt-lg q-mx-lg">A continuación llene cuidadosamente la información requerida para editar 
@@ -88,10 +88,10 @@
               Imagen del docente
             </div>
             </q-img>
-            <div class="text-left q-mt-lg q-mx-lg">Seleccione la carrera a la que pertenece el docente</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede agregar docentes a las carreras
+            <div class="text-left q-mt-lg q-mx-lg">El docente actualmente pertenece a la siguiente carrera: </div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Usted solo puede gestionar docentes de las carreras
             a las que su usuario tiene permiso.</div>
-            <q-select disable rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma" type="text" label="Programas" class="q-mx-lg" />
+            <q-select disable rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma" type="text" label="Programa" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">Adémas le pedimos que proporcione un contacto de este docente.
             Le recordamos que este contacto será público (No es obligatorio)</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puede agregar un número telefonico o un correo electronico.</div>
@@ -107,12 +107,13 @@
             <q-btn class="q-mt-lg" color="primary" icon="check" label="Siguiente" @click="validarInputAdjuntos()" />
             </div>
           </q-tab-panel>
+          
           <!-- PANEL 3: MATERIAS -->
           <q-tab-panel name="materias">
-            <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora edite cuidadosamente las materias que imparte este docente, en caso de ser necesario</div>
-            <div class="text-left q-ma-lg">Debe marcar las casillas correspondientes a cada materia.</div>
+            <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! Ahora edite cuidadosamente las materias que imparte este docente en caso de ser necesario</div>
+            <div class="text-left q-ma-lg">Debe escribir las materias que imparte actualmente.</div>
             <q-input v-model="objDocente.materias" rows="15" rounded outlined type="textarea" class="q-mx-lg"
-            color="red-12" label="Información academica"/>
+            color="red-12" label="Materias"/>
              <div class="text-right">
             <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='archivos'" />
             <q-btn class="q-mt-lg" color="primary" icon="check" label="Finalizar" @click="validarInputMaterias()" />    
@@ -126,13 +127,11 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import authStore from '../../stores/userStore.js';
-import apiMateria from '../ModuloMateria/apiMateria.js'
-import apiDocente from '../ModuloDocente/apiDocente.js'
-import apiUpload from '../Apis/apiUpload.js'
-import swal from 'sweetalert';
-import { Loading, Notify, QSpinnerGears } from 'quasar'
 import { useRouter } from 'vue-router';
+import { Loading, Notify, QSpinnerGears } from 'quasar'
+import authStore from '../../stores/userStore.js';
+import apiDocente from '../ModuloDocente/apiDocente.js'
+import swal from 'sweetalert';
 
 const router = useRouter();
 const UserStore = authStore();
@@ -140,7 +139,6 @@ const tab = ref('infoGeneral')
 const isPostgred = ref(true)
 const optSelectPrograma = ref(UserStore.getProgramas)
 const selectedPrograma = ref(null)
-const rows = ref([])
 const selectedMaterias = ref([])
 const fileImageDocente = ref()
 const inputFile = ref()
@@ -171,52 +169,30 @@ const objDocente = ref({
   SCOPUS: '',
 });
 
-const columns = [
-  { name: 'nombre', align: 'left', label: 'Nombre', field: row => row.nombre},
-  { name: 'area', align: 'left', label: 'Area', field: row => row.area},
-  { name: 'especialidad', align: 'left', label: 'Especialidad', field: row => row.especialidad},]
+// Obtiene los datos del docente que va editar
+const getDatosDocenteById = async () => {
+  Loading.show({ spinner: QSpinnerGears, })
+  var id = {
+      docenteId: props.id
+  }
 
-const dewataMaterias = async () => {
-Loading.show({ spinner: QSpinnerGears, })
-var id = {
-    docenteId: props.id
-}
-
-const data = await apiDocente.getDocenteById(id);
-
-selectedPrograma.value = optSelectPrograma.value.find(programa => programa.programaId === data.data.programaId);
-objDocente.value.docenteId = data.data.docenteId
-objDocente.value.programaId = data.data.programaId
-objDocente.value.nombre = data.data.nombre ;
-objDocente.value.descripcion = data.data.descripcion;
-objDocente.value.informacionAcademica = data.data.informacionAcademica;
-// objDocente.value.materias: data.data.
-objDocente.value.contacto = data.data.contacto;
-objDocente.value.urlImagen = data.data.urlImagen;
-// objDocente.value.programaId = data.data.urlImagen;
-objDocente.value.materias = data.data.materias;
-
-objDocente.value.perfilDeseable = data.data.perfilDeseable;
-objDocente.value.sni = data.data.sni;
-objDocente.value.orcid = data.data.orcid;
-objDocente.value.areasInteres = data.data.areasInteres;
-objDocente.value.resumenCONAHCYT = data.data.resumenCONAHCYT;
-objDocente.value.googleAcademico = data.data.googleAcademico;
-objDocente.value.researchGate = data.data.researchGate;
-objDocente.value.SCOPUS = data.data.SCOPUS;
-
-inputFile.value = data.data.urlImagen; 
-fileImageDocente.value = createRouteImage(data.data.pathFile,data.data.urlImagen);
+  const data = await apiDocente.getDocenteById(id);
+  selectedPrograma.value = optSelectPrograma.value.find(programa => programa.programaId === data.data.programaId);
+  objDocente.value = data.data
+  inputFile.value = data.data.urlImagen; 
+  fileImageDocente.value = createRouteImage(data.data.pathFile,data.data.urlImagen);
   Loading.hide()
   return data;
 } 
-dewataMaterias()
+getDatosDocenteById()
 
+// Crea la ruta de la imagen que consumira el componente img
 const createRouteImage = (pathFile,nameFile) => {
   return envRoute.value + pathFile + "/" + nameFile;
 }
 
- watch(inputFile, async(newVal, oldVal) => {
+// Observa cuando se sube una foto de docente
+ watch(inputFile, async() => {
   if (typeof(inputFile.value) !== 'string') {
     
   const id = selectedPrograma.value.programaId;  
@@ -228,28 +204,30 @@ const createRouteImage = (pathFile,nameFile) => {
   }
  });
 
- watch(selectedPrograma, async(newVal, oldVal) => {
+ // Determina si mostrar la tab extra solo para programas de posgrado
+ watch(selectedPrograma, async(newVal) => {
  isPostgred.value = newVal.isPosgrado == 1 ? true : false 
  });
 
 // Agregar registros a la tabla
 const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
-  objDocente.value.programaId = selectedPrograma?.value?.id;
-  const response = await apiDocente.createDocente(objDocente.value);
-  console.log("dfo0"+response)
-  swal({
-  position: 'top-end',
-  icon: response.success==true ? 'success' : 'error',
-  title: response.success==true ? '¡Se ha editado correctamente el docente!' 
-  : '¡Ha ocurrido un error! Intentelo de nuevo',
-  showConfirmButton: false,
-  timer: 1500})
-  router.push({path: "/vistaDocente",});
+    objDocente.value.programaId = selectedPrograma?.value?.id;
+    const response = await apiDocente.createDocente(objDocente.value);
+    console.log("dfo0"+response)
+    swal({
+    position: 'top-end',
+    icon: response.success==true ? 'success' : 'error',
+    title: response.success==true ? '¡Se ha editado correctamente el docente!' 
+    : '¡Ha ocurrido un error! Intentelo de nuevo',
+    showConfirmButton: false,
+    timer: 1500})
+    router.push({path: "/vistaDocente",});
   Loading.hide()
 }
 
-const validarInputInfoGral = () => {
+// VALIDACIONES
+  const validarInputInfoGral = () => {
   if (objDocente.value.nombre == '' || objDocente.value.descripcion == '' || objDocente.value.infoAcademica == '') {
    Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'})
   } else {
@@ -265,7 +243,7 @@ const validarInputInfoGral = () => {
     // dataMaterias()
   }}
 
-const validarInputAdjuntos = () => {
+  const validarInputAdjuntos = () => {
   if (!!!selectedPrograma.value) {
    Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top'})
   } else {

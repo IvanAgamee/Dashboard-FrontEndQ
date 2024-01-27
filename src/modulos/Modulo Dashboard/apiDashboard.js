@@ -5,7 +5,6 @@ const getTotalUsers = async () => {
     const response = await api.get('main/getTotalUsuarios');
     return response.data.data;
   } catch (error) {
-    console.log('Se produjo un error al obtener los datos');
     throw error;
   }
 }

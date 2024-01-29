@@ -67,9 +67,10 @@ const uploadFiles  = async (files, comunidadNombre, programaId) => {
   
   const formData = new FormData();
   formData.append('comunidadNombre', comunidadNombre);
-
   for (let i = 0; i < files.length; i++) {
-    formData.append('files', files[i]);
+    if (files[i] != undefined) {
+      formData.append('files', files[i]); 
+    }
   }
   
   try {

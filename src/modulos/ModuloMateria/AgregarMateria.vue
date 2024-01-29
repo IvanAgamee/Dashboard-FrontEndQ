@@ -3,10 +3,11 @@
     <q-card class="my-card text-center">
       <q-card class="q-pa-lg">
         <q-tabs v-model="tab" class="bg-accent text-black" align="justify" narrow-indicator>
-          <q-tab name="infoGeneral" label="Informacion general" />
+          <q-tab name="infoGeneral" label="Información general" />
           <q-tab name="archivos" label="Adjuntos" />
         </q-tabs>
         <q-separator />
+
         <!-- PANEL 1: INFORMACION GENERAL -->
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="infoGeneral">
@@ -23,10 +24,10 @@
               type="text" label="Programas" class="q-mx-lg" />
 
             <div class="text-left q-mt-lg q-mx-lg">Seleccione el área al que pertenece la materia.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El área es opcional</div>
+            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El área es de caracter opcional</div>
             <q-input rounded outlined dense v-model="objMateria.area" type="text" label="Área de la materia"
               class="q-mx-lg" />
-            <div class="text-left q-ma-md q-mt-lg">Seleccione el semestre al que pertenece la materia.</div>
+            <div class="text-left q-ma-md q-mt-lg">Escribe el número de semestre al que pertenece la materia.</div>
             <q-input rounded outlined dense v-model="objMateria.semestre" type="number" min="1" max="12"
               label="Semestre de la materia" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">A continuación describe la competencia de la materia.</div>
@@ -40,16 +41,17 @@
                 @click="validarInputInfoGral()" />
             </div>
           </q-tab-panel>
+
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! En esta sección se adjuntaran los archivos
               relacionados a la materia: </div>
-            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del url del programa</div>
+            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del programa</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como
               obtener esta url consulte el manual de usuario.</div>
             <q-input rounded outlined dense v-model="objMateria.urlPrograma" type="text" label="Url del programa"
               class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del url del video de la materia</div>
+            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del video de la materia</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como
               obtener este url consulte el manual de usuario. Si
               el video se ha ingresado correctamente, aparecera inmediatamente debajo de este formulario</div>
@@ -60,6 +62,7 @@
               <q-video loading="lazy" class="q-ma-lg" :ratio="16 / 9" style="" :src="objMateria.urlVideo" frameborder="0"
                 allowfullscreen />
             </div>
+
             <div class="text-right">
               <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab = 'infoGeneral'" />
               <q-btn class="q-mt-lg" color="primary" icon="check" label="Guardar" @click="validarInputAdjuntos()" />
@@ -73,20 +76,17 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import { Loading, Notify } from 'quasar'
+import { useRouter } from 'vue-router';
 import UserStore from 'src/stores/userStore';
 import apiMateria from '../ModuloMateria/apiMateria.js'
 import swal from 'sweetalert';
-import { Loading, Notify, QSpinnerGears } from 'quasar'
-import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const tab = ref('infoGeneral')
 const optSelectPrograma = ref(UserStore().getProgramas)
-const optSemestres = ref({})
 
 const selectedPrograma = ref(null)
-const rows = ref([])
-const selectedMaterias = ref([])
 const objMateria = ref({
   "nombre": "",
   "area": null,
@@ -99,11 +99,12 @@ const objMateria = ref({
   "status": 1
 });
 
-watch(selectedPrograma, (newVal, oldVal) => {
+// Actualizar el programa del profesor
+watch(selectedPrograma, (newVal) => {
   objMateria.value.programaId = newVal.programaId;
 });
 
-//Agregar registro
+// Agregar Materia
 const agregarMateria = async () => {
   const response = await apiMateria.createMaterias(objMateria.value);
   swal({
@@ -119,23 +120,7 @@ const agregarMateria = async () => {
 
 }
 
-const dataMaterias = async () => {
-  Loading.show({ spinner: QSpinnerGears, })
-  const idPrograma = { "programaId": selectedPrograma.value.id }
-  const data = await apiMateria.getMateriasByProgramaId(idPrograma);
-  data.data.map((el) => {
-    var materia = {
-      id: el.materiaId,
-      nombre: el.nombre,
-      area: el.area == null ? "Sin especialidad" : el.area,
-      especialidad: el.especialidad == null ? "Sin especialidad" : el.especialidad.nombre,
-    };
-    rows.value.push(materia);
-  });
-  Loading.hide()
-  return data;
-}
-
+// VALIDACIONES
 const validarInputInfoGral = () => {
   if (objMateria.value.nombre == "" || objMateria.value.area == "" || objMateria.value.semestre == "" ||
     objMateria.value.competencia == "" || !!!selectedPrograma.value) {
@@ -145,8 +130,8 @@ const validarInputInfoGral = () => {
   }
 }
 
-
 const validarInputAdjuntos = () => {
+  validarInputInfoGral()
   if (!!!selectedPrograma.value) {
     Notify.create({ type: 'negative', message: 'Debe seleccionar una carrera', position: 'top' })
   } else {

@@ -10,10 +10,10 @@
         <div class="text-center">
             <q-img
              class="rounded-image q-ma-sm q-mb-lg"
-             src="../../assets/img/grupo.png"
+             src="../../assets/img/logoItver.png"
              no-native-menu
              height="270px"
-             style="max-width: 280px"
+             style="max-width: 350px"
             >
             </q-img>
         <div class="row">

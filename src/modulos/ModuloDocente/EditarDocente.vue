@@ -214,7 +214,6 @@ const agregarDocente = async () => {
   Loading.show({ spinner: QSpinnerGears, })
     objDocente.value.programaId = selectedPrograma?.value?.id;
     const response = await apiDocente.createDocente(objDocente.value);
-    console.log("dfo0"+response)
     swal({
     position: 'top-end',
     icon: response.success==true ? 'success' : 'error',

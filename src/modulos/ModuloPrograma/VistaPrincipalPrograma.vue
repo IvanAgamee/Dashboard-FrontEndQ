@@ -50,7 +50,6 @@ const getProgramasByUserId = async () => {
     "departamentoId": UserStore().getUserDepartamento
   }
   const data = UserStore().getProgramas;
-  console.log(data)
   data.map((el) => {
     var obj = {
       nombre: el.nombre,
@@ -76,7 +75,6 @@ const eliminarDocente = async () => {
     await apiDocente.createDocente(data);
     getProgramasByUserId();
   } catch (e) {
-    console.log(e)
     getProgramasByUserId();
   }
 }

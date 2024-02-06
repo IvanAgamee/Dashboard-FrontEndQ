@@ -319,7 +319,6 @@ const llenarSeccion = async () => {
   var id = {
     seccionId: props.id
   }
-  console.log(props.id);
 
   const data = await apiSeccion.getSeccionById(id.seccionId);
 
@@ -353,8 +352,7 @@ const agregarSeccion = async () => {
   Loading.show({ spinner: QSpinnerGears, })
   const responseSeccion = await apiSeccion.createSeccion(objSeccion.value);
   const responseObjetos = await  apiSeccion.createObjetosMasvos(objSeccion.value.objeto);
-  console.log(responseSeccion);
-  console.log(responseObjetos);
+
   if(nuevosObjetos.value.length>0){
     nuevosObjetos.value.forEach(objeto => {
       objeto.seccionId = objSeccion.value.seccionId;
@@ -364,7 +362,6 @@ const agregarSeccion = async () => {
   }
   if(objetosABorrar.value.length>0){
     const data = await apiSeccion.borrarObjetos(objetosABorrar.value);
-    console.log(data);
   }
   swal({
     position: 'top-end',

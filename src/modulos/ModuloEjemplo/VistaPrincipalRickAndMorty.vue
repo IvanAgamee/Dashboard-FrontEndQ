@@ -49,7 +49,6 @@ row.value = [
 
  const returnData =  async () =>{
        const data = await apiRaM.getModulos();
-         console.log(data)
          data.data.map((el) => {
         var obj = {
          moduloid: el.moduloId,

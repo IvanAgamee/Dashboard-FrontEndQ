@@ -185,8 +185,6 @@ const agregarSeccion = async () => {
   Loading.show({ spinner: QSpinnerGears, })
   objSeccion.value.programaId = selectedPrograma.value.programaId;
   objSeccion.value.moduloId = moduloSeleccionado.value;
-  console.log(objSeccion.value);
-  console.log(objObjetos.value);
   const response = await apiSeccion.createSeccion(objSeccion.value);
   if(objObjetos.value.length>0) {
     const idSeccion = await apiSeccion.getLastIdSeccion(objSeccion.value.titulo,objSeccion.value.moduloId,objSeccion.value.programaId);
@@ -231,9 +229,7 @@ const crearContenido = () => {
 }
 
 const editarObjeto = (index) => {
-    console.log("editar");
     isEditar.value = true;
-    console.log(isEditar.value);
     objetoIndex.value = index;
     titulo.value = objObjetos.value.at(objetoIndex.value).titulo;
     contenido.value = objObjetos.value.at(objetoIndex.value).descripcion;

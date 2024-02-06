@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { api } from '../../boot/axios.js'
 
 const getModulos = async () => {
@@ -62,7 +61,17 @@ const getModulos = async () => {
     }
   }
 
+  const changePassword = async (data) => {
+    try {
+      const response = await api.post('usuario/changePassword', data);
+      return response.data;
+    } catch (error) {
+        console.log('Se produjo un error al obtener los datos');
+      throw error;
+    }
+  }
 
   export default {
-    getModulos, getUsuarios, createUsuarios, getDptos, getRoles
+    getModulos, getUsuarios, createUsuarios, getDptos, getRoles,
+    changePassword
   }

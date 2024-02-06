@@ -174,7 +174,7 @@ const llenarDatosComunidad = async () => {
   
   
   pathFile.value = data.data.pathFile
-  console.log(data.data)
+
   arrayImg.value.img1 = data.data.fotosComunidad[0] == undefined ? null 
     :  envRoute.value + pathFile.value + '/' + data.data.fotosComunidad[0]
 
@@ -226,26 +226,11 @@ watch(inputFiles, async () => {
   if (typeof (inputFiles.value) !== 'string' && 
       typeof (uploadImg2.value) !== 'string') {
 
-    console.log(inputFiles.value)
-    console.log(uploadImg2.value)
-
     const allImages = [inputFiles.value]
 
-    console.log(allImages)
-
     const response = await apiComunidad.uploadFiles(allImages, objComunidad.value.nombre, selectedPrograma.value.programaId)
-    
-    console.log(response)
-    
-    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
-    
-    console.log(fileImageComunidad.value)
-    
 
-    
-    console.log(objComunidad.value.fotosComunidad)
-    console.log(response.filenames[0])
-    console.log(response.filenames[1])
+    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
     
     arrayImg.value.img1 = response.filenames[0] == undefined ? null 
     :  envRoute.value + pathFile.value + '/' + response.filenames[0]
@@ -261,26 +246,11 @@ watch(uploadImg2, async () => {
   if (typeof (inputFiles.value) !== 'string' && 
       typeof (uploadImg2.value) !== 'string') {
 
-    console.log(inputFiles.value)
-    console.log(uploadImg2.value)
-
     const allImages = [uploadImg2.value]
 
-    console.log(allImages)
-
     const response = await apiComunidad.uploadFiles(allImages, objComunidad.value.nombre, selectedPrograma.value.programaId)
-    
-    console.log(response)
-    
-    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
-    
-    console.log(fileImageComunidad.value)
-    
 
-    
-    console.log(objComunidad.value.fotosComunidad)
-    console.log(response.filenames[0])
-    console.log(response.filenames[1])
+    fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames);
 
     arrayImg.value.img2 = response.filenames[0] == undefined ? null  
      : envRoute.value + pathFile.value + '/' + response.filenames[0]
@@ -295,14 +265,12 @@ watch(inputLogo, async (newVal, oldVal) => {
    Loading.show({ spinner: QSpinnerGears, })
   if (typeof (inputLogo.value) !== 'string') {
     const response = await apiComunidad.uploadFiles([inputLogo.value], objComunidad.value.nombre, selectedPrograma.value.programaId)
-    console.log(response.filenames)
+
     fileImageComunidad.value = createRouteImage(response.pathFile, response.filenames[0]);
     objComunidad.value.logo = !!response.filenames ?  response.filenames[0] : null
     
     arrayImg.value.logo = response.filenames[0] == undefined ? null 
     :  envRoute.value + pathFile.value + '/' + objComunidad.value.logo
-
-    console.log(arrayImg.value.logo)
   }
   Loading.hide()
 });
@@ -315,11 +283,8 @@ const agregarComunidad = async () => {
   
 
   const fotosPost = fotosComunidad.value.filter(item => item !== null).join(',');
-    
-    console.log(fotosPost)
-    
-    objComunidad.value.fotosComunidad = !!fotosPost ? fotosPost : null
 
+  objComunidad.value.fotosComunidad = !!fotosPost ? fotosPost : null
   const response = await apiComunidad.createComunidades(objComunidad.value);
   Notify.create({ type: 'positive', message: 'Se ha actualizado correctamente', position: 'top' })
   router.push({ path: "/vistaComunidad", });

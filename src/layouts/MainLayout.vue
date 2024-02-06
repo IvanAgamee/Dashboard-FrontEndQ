@@ -25,6 +25,12 @@
             <q-item-section> Docentes </q-item-section>
           </q-item>
 
+          <q-item clickable v-ripple @click="navegar('/vistaDirectivos')"
+            :class="{ 'my-menu-link': selectedOption === '/vistaDirectivos' }">
+            <q-item-section avatar> <q-icon name="fa-solid fa-street-view" size="20px" /> </q-item-section>
+            <q-item-section> Administrativo </q-item-section>
+          </q-item>
+
           <q-item clickable v-ripple @click="navegar('/vistaMateria')"
             :class="{ 'my-menu-link': selectedOption === '/vistaMateria' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-book" size="20px" /> </q-item-section>
@@ -42,11 +48,12 @@
             <q-item-section avatar> <q-icon name="fa-solid fa-people-group" size="20px" /> </q-item-section>
             <q-item-section> Comunidades </q-item-section>
           </q-item>
-          <q-item clickable v-ripple @click="navegar('/vistaSeccion')"
+
+          <!-- <q-item clickable v-ripple @click="navegar('/vistaSeccion')"
                   :class="{ 'my-menu-link': selectedOption === '/vistaSeccion' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-layer-group" size="20px" /> </q-item-section>
             <q-item-section> Secciones </q-item-section>
-          </q-item>
+          </q-item> -->
 
           <q-item clickable v-ripple @click="navegar('/lineasdeInvestigacion')"
                   :class="{ 'my-menu-link': selectedOption === '/lineasdeInvestigacion' }">
@@ -96,25 +103,20 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import UserStore from 'src/stores/userStore';
-import EssentialLinkProps from 'components/EssentialLink.vue';
 import { useQuasar } from 'quasar';
-import { useCounterStore } from 'src/stores/example-store';
-import { useUserStore } from 'src/stores';
 import { useRouter } from 'vue-router';
 const $q = useQuasar();
 const leftDrawerOpen = ref(false)
 const router = useRouter();
 const drawer = ref(false);
 const selectedOption = ref()
-const toggleLeftDrawer = () => leftDrawerOpen.value = !leftDrawerOpen.value;
 
-const programasOptions = UserStore().getProgramas;
 const isAdmin =  UserStore().getUserHasAdmin
 const showLogout = () => {
   $q.dialog(
     {
       title: 'Cierre de Sesión',
-      message: '¿Estás seguro de cerrar sesión?',
+      message: '¿Está seguro que desea cerrar sesión?',
       cancel: true,
       color: 'blue'
     }).onOk(() => {

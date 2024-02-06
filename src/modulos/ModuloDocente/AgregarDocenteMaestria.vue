@@ -112,7 +112,6 @@ const objDocente = ref({
 
  watch(inputFile, async(newVal, oldVal) => {
   if (typeof(inputFile.value) !== 'string') {
-    console.log(selectedPrograma.value)
     if (!!selectedPrograma.value) {
         const id = selectedPrograma.value.programaId;  
         const response = await apiDocente.uploadImageDocente(inputFile.value,objDocente.value.nombre,id)

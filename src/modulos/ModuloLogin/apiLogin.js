@@ -11,7 +11,22 @@ const loginAuth = async (data) => {
   }
 }
 
+const correoCambioContrasena = async (email) => {
+  try {
+    const data = {
+      username : email
+    }
+    const response = await api.post('usuario/forgottenPasswordMail', data);
+    return response.data;
+  }
+  catch (error) {
+    console.log(error)
+    return error.response.data;
+  }
+}
+
 
 export default {
-  loginAuth
+  loginAuth,
+  correoCambioContrasena
 }

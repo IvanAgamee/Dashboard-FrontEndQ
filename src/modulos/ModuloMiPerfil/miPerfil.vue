@@ -20,14 +20,14 @@
           <div class="col-6">
             <p class="text-subtitle2 text-left q-ml-lg"> Nombre completo: </p>
             <q-input class="q-mx-lg" dense rounded outlined v-model="dataMiPerfil.nombre" type="text" :disable="disable" />
-            <p class="text-subtitle2 text-left q-ml-lg q-mt-lg"> Contraseña: </p>
-            <q-input class="q-mx-lg" dense rounded outlined v-model="dataMiPerfil.password" type="password" :disable="disable" />       
+            <!-- <p class="text-subtitle2 text-left q-ml-lg q-mt-lg" v-if="!disable"> Contraseña: </p>
+            <q-input class="q-mx-lg" dense rounded outlined v-model="dataMiPerfil.password" v-if="!disable" type="password" :disable="disable" />        -->
           </div>
           <div class="col-6">
-            <p class="text-subtitle2 text-left q-ml-lg"> Usuario: </p>
+            <p class="text-subtitle2 text-left q-ml-lg"> Correo: </p>
             <q-input class="q-mx-lg" dense rounded outlined v-model="dataMiPerfil.username" type="text" :disable="disable" />
-            <p class="text-subtitle2 text-left q-ml-lg q-mt-lg" v-if="!disable"> Repita su contraseña: </p>
-            <q-input class="q-mx-lg" dense rounded outlined v-model="password2" type="password" v-if="!disable" :disable="disable" />  
+            <!-- <p class="text-subtitle2 text-left q-ml-lg q-mt-lg" v-if="!disable"> Repita su contraseña: </p>
+            <q-input class="q-mx-lg" dense rounded outlined v-model="password2" type="password" v-if="!disable" :disable="disable" />   -->
             <div v-if="!disable" class="text-right q-ma-lg">
                 <q-btn color="primary" icon="save" label="Guardar edición" @click="saveEdition()" />
             </div>     

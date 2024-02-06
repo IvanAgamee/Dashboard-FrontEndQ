@@ -190,7 +190,7 @@ const columns = [
   Loading.hide();
   });
 
-  // Observa cuando se sube una foto de docente
+  // Observa cuando se sube una foto de un docente
   watch(inputFile, async() => {
   if (typeof(inputFile.value) !== 'string') {
     if (!!selectedPrograma.value) {

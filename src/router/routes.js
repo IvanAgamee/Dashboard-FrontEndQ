@@ -25,6 +25,7 @@ const routes = [
       { path: '/lineasdeInvestigacion', component: () => import('../modulos/ModuloLineasInv/VistaPrincipalLineasInv.vue') },
       { path: '/vistaSeccion', component: () => import('../modulos/ModuloSecciones/VistaPrincipalSecciones.vue')},
       { path: '/agregarSeccion', component: () => import('../modulos/ModuloSecciones/AgregarSeccion.vue')},
+      { path : '/vistaDirectivos', component: () => import('../modulos/ModuloDirectivos/MainDirectivos.vue')},
       { name: 'editarSeccion',path: '/editarSeccion', component: () => import('../modulos/ModuloSecciones/EditarSeccion.vue'),   props: route => ({ id: route.query.id })}
     ]
   },

@@ -27,7 +27,6 @@
 <script setup>
 import {ref} from "vue"
 import { QBtn, QTable, QCard } from 'quasar'
-import MiModal from '../../components/MiModal.vue'
 import apiRaM from '../ModuloEjemplo/apiRickAndMorty.js'
 
 const row = ref([])

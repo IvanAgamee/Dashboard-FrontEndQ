@@ -142,7 +142,7 @@ const selectedPrograma = ref(null)
 const selectedMaterias = ref([])
 const fileImageDocente = ref()
 const inputFile = ref()
-const envRoute = ref("http://localhost:3010/imagenes/")
+const envRoute = ref(process.env.URL_FILES)
 const props = defineProps({
     id:{
         type:String,

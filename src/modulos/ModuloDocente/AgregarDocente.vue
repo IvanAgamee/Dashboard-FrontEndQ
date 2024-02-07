@@ -146,7 +146,7 @@ const rows = ref([])
 const search = ref('');
 const inputFile = ref()
 const fileImageDocente = ref(null);
-const envRoute = ref("http://localhost:3010/imagenes/")
+const envRoute = ref(process.env.URL_FILES)
 const selectedMaterias = ref([])
 
 const objDocente = ref({

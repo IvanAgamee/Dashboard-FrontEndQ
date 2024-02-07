@@ -181,7 +181,7 @@ const selectedPrograma = ref(UserStore().getProgramas[0]);
 
 const inputFile = ref();
 const fileImageDirectivo = ref(null);
-const envRoute = ref("http://localhost:3010/imagenes/");
+const envRoute = ref(process.env.URL_FILES);
 
 const showModal = ref(false);
 const showModalConfirmarAgregar = ref(false);

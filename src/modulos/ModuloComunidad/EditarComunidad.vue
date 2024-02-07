@@ -135,7 +135,7 @@ const inputFiles = ref()
 const uploadImg2 = ref()
 
 const inputLogo = ref()
-const envRoute = ref("http://localhost:3010/imagenes/")
+const envRoute = ref(process.env.URL_FILES)
 const pathFile = ref()
 const slide = ref(1)
 const fileImageComunidad = ref()

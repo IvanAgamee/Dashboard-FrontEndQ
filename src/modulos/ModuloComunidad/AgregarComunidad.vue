@@ -145,7 +145,7 @@ const arrayImg = ref({
 
 const inputLogo = ref()
 const fileImageComunidad = ref()
-const envRoute = ref("http://localhost:3010/imagenes/")
+const envRoute = ref(process.env.URL_FILES)
 const objComunidad = ref({
   nombre: '',
   quienesSomos: '',

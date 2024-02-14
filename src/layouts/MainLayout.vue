@@ -49,11 +49,11 @@
             <q-item-section> Comunidades </q-item-section>
           </q-item>
 
-          <!-- <q-item clickable v-ripple @click="navegar('/vistaSeccion')"
+          <q-item clickable v-ripple @click="navegar('/vistaSeccion')"
                   :class="{ 'my-menu-link': selectedOption === '/vistaSeccion' }">
             <q-item-section avatar> <q-icon name="fa-solid fa-layer-group" size="20px" /> </q-item-section>
             <q-item-section> Secciones </q-item-section>
-          </q-item> -->
+          </q-item>
 
           <q-item clickable v-ripple @click="navegar('/lineasdeInvestigacion')"
                   :class="{ 'my-menu-link': selectedOption === '/lineasdeInvestigacion' }">

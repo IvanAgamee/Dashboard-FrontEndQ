@@ -15,10 +15,6 @@
             <div class="text-left q-mt-lg q-mx-lg">A continuación se muestran los datos de la seccion. En caso de no
               querer editar algun dato, no borrarlo:
             </div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Puedes editar el nombre de la
-              seccion. Recuerda que una vez
-              guardado será visible en el sitio web
-            </div>
             <h4>{{objSeccion.titulo}}</h4>
             <div v-if="controlSeccion.hasDescription(objSeccion.titulo)" class="text-left q-mx-lg q-mt-lg">Edición de la descripcion de la seccion.</div>
               <q-input v-if="controlSeccion.hasDescription(objSeccion.titulo)"
@@ -45,10 +41,17 @@
               <div v-for="(objeto, index) in objSeccion.objeto" :key="index">
                 <q-card style="margin-bottom: 15px;">
                   <q-card-section class="bg-primary text-white">
-                    <q-img alt="algo"
+                    <q-img alt="icon"
                            :src="route_file.concat(icons.pathFile).concat(objeto.imagen)"
-                           width="6em" height="6em"></q-img>
-                    <div>{{ objeto.descripcion}}
+                           width="7em" height="7em"
+                           style="background-color: white;
+                           border-radius: 100%; margin-bottom: 1em"></q-img>
+                    <q-separator></q-separator>
+                    <div class="text-body1 text-justify"
+                         style="background-color: white;
+                         color: black;
+                         padding: 1em"
+                    >{{ objeto.descripcion}}
                     </div>
                   </q-card-section>
                   <q-separator></q-separator>
@@ -70,7 +73,7 @@
                   padding="xl"
                   round
                   color="primary"
-                  @click="modalContenido = true"
+                  @click="modalContenido = true;"
                 ><q-icon class="fa-sharp fa-light fa-plus" style="color: #ffffff;"></q-icon></q-btn>
               </div>
             </div>
@@ -109,7 +112,17 @@
               <div v-for="(objeto, index) in nuevosObjetos" :key="index">
                 <q-card style="margin-bottom: 15px;">
                   <q-card-section class="bg-green text-white">
-                    <div>{{ objeto.descripcion}}
+                    <q-img alt="icon"
+                           :src="route_file.concat(icons.pathFile).concat(objeto.imagen)"
+                           width="7em" height="7em"
+                           style="background-color: white;
+                           border-radius: 100%; margin-bottom: 1em"></q-img>
+                    <q-separator></q-separator>
+                    <div class="text-body1 text-justify"
+                         style="background-color: white;
+                         color: black;
+                         padding: 1em"
+                    >{{ objeto.descripcion}}
                     </div>
                   </q-card-section>
                   <q-separator></q-separator>
@@ -130,7 +143,7 @@
                     padding="xl"
                     round
                     color="primary"
-                    @click="modalContenido = true"
+                    @click="modalContenido = true;"
                 ><q-icon class="fa-sharp fa-light fa-plus" style="color: #ffffff;"></q-icon></q-btn>
               </div>
             </div>
@@ -151,11 +164,11 @@
           <!-- PANEL 4: contenido a Borrar -->
           <q-tab-panel name="contenidoBorrar">
             <h4>{{objSeccion.titulo}}</h4>
-            <div class="text-h6 text-left q-ma-md">
-            Contenido a Borrar
+            <div class="text-h4 text-left q-ma-md">
+             Contenido Deshabilitado
             </div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">
-              Recuerde, que solo puede editar el contenido de las secciones que tenga acceso solamente
+              El contenido presente en este panel esta marcado como deshabilitado, y por lo tanto no se visualizar&aacute; en la p&aacute;gina p&uacute;blica:
             </div>
             <div style="
             display: grid;
@@ -165,8 +178,18 @@
             align-items: stretch;">
               <div v-for="(objeto, index) in objetosABorrar" :key="index">
                 <q-card style="margin-bottom: 15px;">
-                  <q-card-section class="bg-red-14 text-white">
-                    <div>{{ objeto.descripcion}}
+                  <q-card-section class="bg-red-7 text-white">
+                      <q-img alt="icon"
+                             :src="route_file.concat(icons.pathFile).concat(objeto.imagen)"
+                             width="7em" height="7em"
+                             style="background-color: white;
+                           border-radius: 100%; margin-bottom: 1em"></q-img>
+                      <q-separator></q-separator>
+                    <div class="text-body1 text-justify"
+                         style="background-color: white;
+                         color: black;
+                         padding: 1em"
+                    >{{ objeto.descripcion}}
                     </div>
                   </q-card-section>
                   <q-separator></q-separator>
@@ -195,13 +218,14 @@
     </q-card>
   </q-page>
 
+  <!--- Modal para agregar punto -->
   <q-dialog v-model="modalContenido" persistent>
     <q-card style="max-width:100vh">
       <q-card-section>
         <div class="text-h6">Agregar Elemento</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-item-label>{{ controlSeccion.obtenerCategoriaPunto(objSeccion.titulo) }} :</q-item-label>
+        <q-item-label>{{controlSeccion.obtenerCategoriaPunto(objSeccion.titulo)}} :</q-item-label>
         <q-input dense
                  v-model="contenido" autofocus
                  @keyup.enter="prompt = false"
@@ -408,8 +432,8 @@ const validarGeneral = () => {
 }
 
 const validarContenidoModal = () => {
-  if(contenido.value===''){
-    Notify.create({type: 'negative', message: 'El contenido no puede estar vacio', position: 'top'})
+  if(contenido.value==='' || icon_selected.value===''){
+    Notify.create({type: 'negative', message: 'El contenido no puede estar vacio y contar con su respectivo icono', position: 'top'})
   }
   else {
     crearContenido();
@@ -422,7 +446,6 @@ const limpiarContenido = () => {
   titulo.value = '';
 }
 const crearContenido = () => {
-
   let objeto = null;
   if(isEditar.value===true) {
 
@@ -430,11 +453,13 @@ const crearContenido = () => {
       objeto = objSeccion.value.objeto.at(objSeccion.value.objeto.indexOf(objetoBorradoNuevo));
       objeto.titulo = titulo.value;
       objeto.descripcion = contenido.value;
+      objeto.imagen = icon_selected.value;
       objSeccion.value.objeto[objetoIndex] = objeto;
     } else if (nuevosObjetos.value.indexOf(objetoBorradoNuevo) !== -1) {
       objeto = nuevosObjetos.value.at(nuevosObjetos.value.indexOf(objetoBorradoNuevo));
       objeto.titulo = titulo.value;
       objeto.descripcion = contenido.value;
+      objeto.imagen = icon_selected.value;
       nuevosObjetos.value[objetoIndex] = objeto;
     }
     objetoBorradoNuevo = null;
@@ -458,6 +483,8 @@ const crearContenido = () => {
 
     contenido.value = '';
     titulo.value = '';
+    modalContenido.value = false;
+
 }
 
 
@@ -470,6 +497,9 @@ const editarObjeto = (objeto,nuevo) => {
      contenido.value = objSeccion.value.objeto.at(
          objSeccion.value.objeto.indexOf(objeto)
      ).descripcion;
+     icon_selected.value = objSeccion.value.objeto.at(
+       objSeccion.value.objeto.indexOf(objeto)
+     ).imagen;
      modalContenido.value = true;
    }
 
@@ -478,6 +508,7 @@ const editarObjeto = (objeto,nuevo) => {
      contenido.value = nuevosObjetos.value.at(
          objSeccion.value.objeto.indexOf(objeto)
      ).descripcion;
+     icon_selected.value = nuevosObjetos.value.at(objSeccion.value.objeto.indexOf(objeto)).imagen;
      modalContenido.value = true;
    }
    objetoBorradoNuevo = objeto;

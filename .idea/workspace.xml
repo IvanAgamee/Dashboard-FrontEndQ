@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab51739-bd4b-4213-97b2-2675b66ddd06" name="Changes" comment="bajar cambios">
+      <change afterPath="$PROJECT_DIR$/src/modulos/Apis/apiIcons.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/seccionControlEdit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/AgregarSeccion.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/AgregarSeccion.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/AgregarSeccion.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/VistaPrincipalSecciones.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/VistaPrincipalSecciones.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/apiSecciones.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/apiSecciones.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,29 +49,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "rama-eric",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "E:/Projects/Vue/TecNM/DashboardBackEnd",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "discord-application",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;secciones-fixes&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Projects/Vue/TecNM/DashboardBackEnd&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;discord-application&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;E:\\JetBrains\\WebStorm 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+  &quot;keyToStringList&quot;: {
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -83,6 +87,10 @@
       <workItem from="1695574362417" duration="21929000" />
       <workItem from="1696174642010" duration="8116000" />
       <workItem from="1696184001081" duration="38352000" />
+      <workItem from="1707956513898" duration="8609000" />
+      <workItem from="1708182500289" duration="559000" />
+      <workItem from="1708183141985" duration="13428000" />
+      <workItem from="1708198998917" duration="10294000" />
     </task>
     <task id="LOCAL-00001" summary="Secciones">
       <option name="closed" value="true" />

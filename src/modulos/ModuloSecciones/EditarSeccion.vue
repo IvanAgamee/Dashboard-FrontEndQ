@@ -4,7 +4,6 @@
       <q-card class="q-pa-lg">
         <q-tabs v-model="tab" class="bg-accent text-black" align="justify" narrow-indicator>
           <q-tab name="infoGeneral" label="Informacion general"/>
-          <q-tab v-if="objSeccion.objeto.length > 0 || tieneContenido===true && nuevosObjetos.length===0" name="contenido" label="contenido"/>
           <q-tab v-if="nuevosObjetos.length > 0" name="contenidoNuevo" label="Nuevo Contenido"/>
           <q-tab v-if="objetosABorrar.length > 0" name="contenidoBorrar" label="Contenido a Borrar"/>
         </q-tabs>
@@ -20,38 +19,23 @@
               seccion. Recuerda que una vez
               guardado será visible en el sitio web
             </div>
-            <q-input rounded outlined dense v-model="objSeccion.titulo" type="text" label="Nombre de la seccion"
-                     class="q-mx-lg"/>
-            <div class="text-left q-mx-lg q-mt-lg">Edición de la descripcion de la seccion.</div>
-              <q-input rounded outline dense class="q-mx-lg" v-model="objSeccion.descripcion" type="textarea"
+            <h4>{{objSeccion.titulo}}</h4>
+            <div v-if="controlSeccion.hasDescription(objSeccion.titulo)" class="text-left q-mx-lg q-mt-lg">Edición de la descripcion de la seccion.</div>
+              <q-input v-if="controlSeccion.hasDescription(objSeccion.titulo)"
+                rounded outline dense autogrow v-model="objSeccion.descripcion" type="text"
               label="Descripción de la seccion"></q-input>
 <!--            <div class="text-right">
               <q-btn class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente"
                      @click="validarInputInfoGral()"/>
             </div>-->
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">URL para acceder a más información.</div>
-            <q-input rounded outlined dense v-model="objSeccion.url" type="text" label="Ingrese URL" class="q-mx-lg" />
-            <q-toggle
-                v-if="objSeccion.objeto.length===0"
-                v-model="tieneContenido"
-                label="¿Desea agregar contenido a la seccion?"
-            ></q-toggle>
-            <div class="text-right">
-              <q-btn v-if="tieneContenido && nuevosObjetos.length===0 && objetosABorrar.length===0" class="q-ma-lg q-px-md q-py-sm" color="primary" icon="check" label="Finalizar" @click="validarGeneral()" />
-              <q-btn v-if="!tieneContenido" class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoGral()" />
-            </div>
-          </q-tab-panel>
-          <!-- PANEL 2: contenido -->
-          <q-tab-panel name="contenido">
-            <div class="text-h6 text-left q-ma-md">Bien hecho! Continue editando la siguiente información: edición del contenido de la seccion {{objSeccion.titulo}}
-            </div>
+            <q-input
+              v-if="controlSeccion.hasLink(objSeccion.titulo)"
+              rounded outlined dense v-model="objSeccion.url" type="text" label="Ingrese URL" class="q-mx-lg" />
+
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">
               Recuerde, que solo puede editar el contenido de las secciones que tenga acceso solamente
+            </div>
 
-            </div>
-            <div class="h6-text text-center">
-              {{objSeccion.titulo}}
-            </div>
             <div style="
             display: grid;
              grid-template-columns: repeat(3, auto);
@@ -61,7 +45,9 @@
               <div v-for="(objeto, index) in objSeccion.objeto" :key="index">
                 <q-card style="margin-bottom: 15px;">
                   <q-card-section class="bg-primary text-white">
-
+                    <q-img alt="algo"
+                           :src="route_file.concat(icons.pathFile).concat(objeto.imagen)"
+                           width="6em" height="6em"></q-img>
                     <div>{{ objeto.descripcion}}
                     </div>
                   </q-card-section>
@@ -80,7 +66,7 @@
               </div>
               <div>
                 <q-btn
-                    v-if="nuevosObjetos.length===0"
+                  v-if="controlSeccion.hasSeccions(objSeccion.titulo)"
                   padding="xl"
                   round
                   color="primary"
@@ -90,36 +76,29 @@
             </div>
 
             <div class="text-right">
+<!--              <q-btn
+                v-if="nuevosObjetos.length===0 && objetosABorrar.length===0"
+                class="q-ma-lg q-px-md q-py-sm"
+                dense color="primary" icon="check" label="Finalizar" @click="validarGeneral()" />
+              -->
+              <q-btn
+                class="q-ma-lg q-px-md q-py-sm"
+                dense color="primary" icon="check"
+                :label="dataButton.label"
+                @click="dataButton.finish ? validarGeneral() : tab=dataButton.tab" />
+            </div>
 
-              <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='infoGeneral'" />
-            </div>
-            <div class="text-right">
-              <q-btn
-                  v-if="nuevosObjetos.length===0 && objetosABorrar.length===0"
-                  class="q-ma-lg q-px-md q-py-sm"
-                  dense color="primary" icon="check" label="Finalizar" @click="validarGeneral()" />
-              <q-btn
-                  v-if="nuevosObjetos.length>0 && objetosABorrar.length===0"
-                  class="q-ma-lg q-px-md q-py-sm"
-                  dense color="primary" icon="check" label="Siguiente" @click="tab='contenidoBorrar'" />
-              <q-btn
-                  v-if="nuevosObjetos.length===0 && objetosABorrar.length>0"
-                  class="q-ma-lg q-px-md q-py-sm"
-                  dense color="primary" icon="check" label="Siguiente" @click="tab='contenidoBorrar'" />
-              <q-btn
-                  v-if="nuevosObjetos.length>0 && objetosABorrar.length>0"
-                  class="q-ma-lg q-px-md q-py-sm"
-                  dense color="primary" icon="check" label="Siguiente" @click="tab='contenidoNuevo'" />
-            </div>
+<!--              <div v-if="!controlSeccion.hasSeccions(objSeccion.titulo)" class="text-right">
+                <q-btn v-if="tieneContenido && nuevosObjetos.length===0 || objetosABorrar.length===0" class="q-ma-lg q-px-md q-py-sm" color="primary" icon="check" label="Finalizar" @click="validarGeneral()" />
+                <q-btn v-if="tieneContenido" class="q-ma-lg q-px-md q-py-sm" dense color="primary" icon="check" label="Siguiente" @click="validarInputInfoGral()" />
+              </div>-->
           </q-tab-panel>
 
           <!-- PANEL 3: contenido  Nuevo-->
           <q-tab-panel name="contenidoNuevo">
+            <h4>{{objSeccion.titulo}}</h4>
             <div class="text-h6 text-left q-ma-md">
               Nuevo Contenido
-            </div>
-            <div class="h6-text text-center">
-              {{objSeccion.titulo}}
             </div>
             <div style="
             display: grid;
@@ -157,7 +136,7 @@
             </div>
 
             <div class="text-right">
-              <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='contenido'" />
+              <q-btn class="q-mt-lg q-mx-lg" label="Volver" @click="tab='infoGeneral'" />
             </div>
             <div class="text-right">
               <q-btn v-if="objetosABorrar.length===0"
@@ -171,15 +150,12 @@
 
           <!-- PANEL 4: contenido a Borrar -->
           <q-tab-panel name="contenidoBorrar">
+            <h4>{{objSeccion.titulo}}</h4>
             <div class="text-h6 text-left q-ma-md">
             Contenido a Borrar
             </div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">
               Recuerde, que solo puede editar el contenido de las secciones que tenga acceso solamente
-
-            </div>
-            <div class="h6-text text-center">
-              {{objSeccion.titulo}}
             </div>
             <div style="
             display: grid;
@@ -190,7 +166,6 @@
               <div v-for="(objeto, index) in objetosABorrar" :key="index">
                 <q-card style="margin-bottom: 15px;">
                   <q-card-section class="bg-red-14 text-white">
-
                     <div>{{ objeto.descripcion}}
                     </div>
                   </q-card-section>
@@ -207,7 +182,7 @@
             <div class="text-right">
 
               <q-btn v-if="nuevosObjetos.length>0" class="q-mt-lg q-mx-lg" label="Volver" @click="tab='contenidoNuevo'" />
-              <q-btn v-if="nuevosObjetos.length===0" class="q-mt-lg q-mx-lg" label="Volver" @click="tab='contenido'" />
+              <q-btn v-if="nuevosObjetos.length===0" class="q-mt-lg q-mx-lg" label="Volver" @click="tab='infoGeneral'" />
             </div>
             <div class="text-right">
               <q-btn
@@ -221,17 +196,28 @@
   </q-page>
 
   <q-dialog v-model="modalContenido" persistent>
-    <q-card style="min-width: 350px">
+    <q-card style="max-width:100vh">
       <q-card-section>
         <div class="text-h6">Agregar Elemento</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-item-label>Titulo:</q-item-label>
-        <q-input dense v-model="titulo" autofocus @keyup.enter="prompt = false"></q-input>
-      </q-card-section>
-      <q-card-section class="q-pt-none">
-        <q-item-label>Contenido:</q-item-label>
-        <q-input dense v-model="contenido" autofocus @keyup.enter="prompt = false"></q-input>
+        <q-item-label>{{ controlSeccion.obtenerCategoriaPunto(objSeccion.titulo) }} :</q-item-label>
+        <q-input dense
+                 v-model="contenido" autofocus
+                 @keyup.enter="prompt = false"
+                 autogrow></q-input>
+        <div class="text-h6">Selecciona el icono para asignar al {{controlSeccion.obtenerCategoriaPunto(objSeccion.titulo).toLowerCase()}}: </div>
+        <div class="row" >
+          <div v-for="(icon, index) in icons.icons">
+            <q-radio v-model="icon_selected"
+                     :val="icon">
+            </q-radio>
+            <q-img :src="`${route_file.concat(icons.pathFile.concat(icon))}`"
+                   alt="icon"
+                   width="40px" height="30px"
+                   style="margin: 2em"/>
+          </div>
+        </div>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Cancelar" v-close-popup @click="limpiarContenido()"></q-btn>
@@ -275,12 +261,16 @@
 <script setup>
 import {ref, watch} from 'vue'
 import authStore from '../../stores/userStore.js';
-import apiDocente from '../ModuloDocente/apiDocente.js'
 import apiSeccion from '../ModuloSecciones/apiSecciones';
+import apiIcons from '../Apis/apiIcons';
 import swal from 'sweetalert';
 import {Loading, Notify, QSpinnerGears} from 'quasar'
 import {useRouter} from 'vue-router';
+import controlSeccion from './seccionControlEdit'
 
+const route_file = process.env.URL_FILES;
+let icon_selected = ref('');
+const icons = {pathFile:"", icons:[]};
 const router = useRouter();
 const UserStore = authStore();
 const tab = ref('infoGeneral')
@@ -298,7 +288,11 @@ const objSeccion = ref({
     status: 1,
     objeto:[]
 });
+let dataButton = ref({
+  label: "", tab:"",click:"", finish: false
+})
 
+const puntos = ['objetivos educacionales', 'perfil de ingreso', 'perfil de egreso']
 const nuevosObjetos = ref([]);
 const objetosABorrar = ref([]);
 let objObjetos = ref([]);
@@ -311,8 +305,10 @@ let modalBorrarObjeto = ref(false);
 let modalBorrarObjetoNuevo = ref(false);
 let objetoIndex = ref(0);
 let objetoBorradoNuevo = null;
+let seccionesDesglose = ref(false);
 const objModulo = ref({
 });
+
 
 const llenarSeccion = async () => {
   Loading.show({spinner: QSpinnerGears,});
@@ -321,7 +317,6 @@ const llenarSeccion = async () => {
   }
 
   const data = await apiSeccion.getSeccionById(id.seccionId);
-
   selectedPrograma.value = optSelectPrograma.value.find(programa => programa.programaId === data.data.programaId);
   objSeccion.value.seccionId = data.data.seccionId;
   objSeccion.value.moduloId = data.data.moduloId;
@@ -331,13 +326,26 @@ const llenarSeccion = async () => {
   objSeccion.value.objeto = data.data.objeto;
   objSeccion.value.status = data.data.status;
   objSeccion.value.url = data.data.url;
+
   if(objSeccion.value.objeto.length>0){
     objObjetos.value = objSeccion.value.objeto.slice();
   }
+
+  if(controlSeccion.hasSeccions(objSeccion.value.titulo)) {
+    let iconData = await apiIcons.getIconsByPromgramaId({programaId: selectedPrograma.value.programaId});
+    icons.pathFile = iconData.data.pathFile;
+    icons.icons = iconData.data.icons;
+    icon_selected.value = icons.pathFile.concat(icons.icons[0].toString());
+    console.log(icon_selected.value);
+  }
+  seccionesDesglose.value = controlSeccion.hasSeccions(objSeccion.value.titulo)
   Loading.hide()
+  dataButton.value = controlSeccion.controlButton(nuevosObjetos.value,objetosABorrar.value,objSeccion.value.titulo)
+  console.log(dataButton)
   return data;
 }
 llenarSeccion();
+
 objetoBorradoNuevo = null;
 
 
@@ -434,13 +442,14 @@ const crearContenido = () => {
     else{
         const objeto = {
             seccionId: objSeccion.value.seccionId,
-            imagen: null,
+            imagen: icon_selected.value,
             titulo: titulo.value,
             descripcion: contenido.value,
             status: 1
         };
         nuevosObjetos.value.push((objeto));
         tab.value="contenidoNuevo";
+        dataButton.value = controlSeccion.controlButton(nuevosObjetos.value,objetosABorrar.value,objSeccion.value.titulo);
     }
 
     if(isEditar.value===true){
@@ -478,8 +487,10 @@ const recuperarObjeto = (index) => {
 
   objSeccion.value.objeto.push(objetosABorrar.value.at(index));
   objetosABorrar.value.splice(index,1);
+  dataButton.value = controlSeccion.controlButton(nuevosObjetos.value,objetosABorrar.value,objSeccion.value.titulo);
+
   if(objetosABorrar.value.length===0){
-    tab.value = "contenido";
+    tab.value = "infoGeneral";
   }
 }
 const prepararBorrado = (index) => {
@@ -491,12 +502,13 @@ const eliminarObjeto = (objeto) => {
     eliminarObjetoNuevo(objetoBorradoNuevo);
     objetoBorradoNuevo = null;
     if(nuevosObjetos.value.length===0){
-      tab.value="contenido";
+      tab.value="infoGeneral";
     }
   }
   else {
     const objetoBorrar = objSeccion.value.objeto.at(objeto);
     objetosABorrar.value.push(objetoBorrar);
+    dataButton.value = controlSeccion.controlButton(nuevosObjetos.value,objetosABorrar.value,objSeccion.value.titulo);
     if (objetoBorrar === objSeccion.value.objeto.at(objSeccion.value.objeto.indexOf(objetoBorrar))) {
       objSeccion.value.objeto.splice(objSeccion.value.objeto.indexOf(objetoBorrar), 1);
       modalBorrarObjeto.value = false;
@@ -514,6 +526,7 @@ const confirmacionBorradoNuevo = (objetoNuevo) => {
 }
 const eliminarObjetoNuevo = (objeto) => {
   nuevosObjetos.value.splice(nuevosObjetos.value.indexOf(objeto),1);
+  dataButton.value = controlSeccion.controlButton(nuevosObjetos.value,objetosABorrar.value,objSeccion.value.titulo);
   modalBorrarObjetoNuevo.value = false;
   objetoBorradoNuevo = null;
 

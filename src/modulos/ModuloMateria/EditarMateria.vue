@@ -17,10 +17,10 @@
             siguiente formato: Fundamentos de programación </div>
             <q-input rounded outlined dense v-model="objMateria.nombre" type="text" label="Nombre de la materia" class="q-mx-lg" />
             
-            <div class="text-left q-ma-md q-mt-lg">Seleccione la carrera a la que pertenece la materia.</div>
-            <q-select v-model="selectedCarrera" :options="optSelectCarrera" label="Semestre de la materia" option-label="nombre" rounded outlined dense class="q-mx-lg" />
+            <div class="text-left q-ma-md q-mt-lg">Seleccione el programa de estudio al que pertenece la materia.</div>
+            <q-select v-model="selectedCarrera" :options="optSelectCarrera" label="Programas" option-label="nombre" rounded outlined dense class="q-mx-lg" />
 
-            <div class="text-left q-ma-md q-mt-lg">Seleccione el area al que pertenece la materia.</div>
+            <div class="text-left q-ma-md q-mt-lg">Seleccione el área al que pertenece la materia.</div>
               <q-select rounded outlined dense option-label="area" :options="optSelectArea" v-model="selectedArea"
                 type="text" label="Áreas" class="q-mx-lg" />
 
@@ -28,9 +28,6 @@
             <q-select rounded outlined dense option-label="nombre" :options="optSelectEspecialidad" v-model="selectedEspecialidad"
               type="text" label="Especialidades" class="q-mx-lg" />
 
-            <div class="text-left q-mt-lg q-mx-lg">Seleccione el area al que pertenece la materia.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El área es opcional</div>
-            <q-input rounded outlined dense v-model="objMateria.area" type="text" label="Area de la materia" class="q-mx-lg" />
             <div class="text-left q-ma-md q-mt-lg">Escribe el número de semestre al que pertenece la materia..</div>
             <q-input rounded outlined dense v-model="objMateria.semestre" type="number" min="1" max="12" label="Semestre de la materia" class="q-mx-lg" />
             <div class="text-left q-mt-lg q-mx-lg">A continuación escribe la competencia de la materia.</div>

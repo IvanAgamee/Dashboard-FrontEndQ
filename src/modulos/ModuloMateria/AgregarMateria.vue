@@ -23,7 +23,7 @@
             <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma"
               type="text" label="Programas" class="q-mx-lg" />
             
-              <div class="text-left q-ma-md q-mt-lg">Seleccione el area al que pertenece la materia.</div>
+              <div class="text-left q-ma-md q-mt-lg">Seleccione el área al que pertenece la materia.</div>
               <q-select rounded outlined dense option-label="area" :options="optSelectArea" v-model="selectedArea"
                 type="text" label="Áreas" class="q-mx-lg" />
 

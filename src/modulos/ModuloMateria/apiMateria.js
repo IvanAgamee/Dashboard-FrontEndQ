@@ -51,6 +51,27 @@ const getMateriaById = async (id) => {
   }
 }
 
+const getAreasById = async (id) => {
+  try {
+    const response = await api.get(`materia/getAreasByProgramaId?programaId=${id}`);
+    return response.data?.data;
+  } catch (error) {
+      console.log('Se produjo un error al obtener los datos');
+    throw error;
+  }
+}
+
+const getEspecialidadesById = async (id) => {
+  try {
+    const response = await api.get(`especialidad/getEspecialidadesByProgramaId?programaId=${id}`);
+    return response.data?.data;
+  } catch (error) {
+      console.log('Se produjo un error al obtener los datos');
+    throw error;
+  }
+}
+
 export default {
-  getModulos, getMaterias, createMaterias, getMateriasByProgramaId, getMateriaById
+  getModulos, getMaterias, createMaterias, getMateriasByProgramaId, 
+  getMateriaById, getAreasById, getEspecialidadesById
 }

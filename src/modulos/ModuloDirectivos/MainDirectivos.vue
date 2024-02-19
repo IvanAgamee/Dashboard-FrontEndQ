@@ -133,6 +133,7 @@ import { Loading } from 'quasar'; import { Loading } from 'quasar';
             lazy-rules
             dense
             style="padding: 0px 10px 20px 10px"
+            type="textarea"
           />
         </div>
 

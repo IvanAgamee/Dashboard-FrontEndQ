@@ -19,11 +19,11 @@
               comunidad Recuerda, solo se permiten caracteres alfabeticos</div>
             <q-input rounded outlined dense disable v-model="objComunidad.nombre" type="text" label="Nombre completo del docente"
               class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Edición de la descripción de la comunidad.</div>
+            <div class="text-left q-mt-lg q-mx-lg">¿Quiénes somos? Edita lo que representa esa comunidad</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo es de 250 caracteres</div>
             <q-input v-model="objComunidad.quienesSomos" rows="3" rounded outlined type="textarea" class="q-mx-lg"
               color="red-12" label="Descripción" maxlength="250" />
-            <div class="text-left q-mt-lg q-mx-lg">Edición del resumen de su informacion academica.</div>
+            <div class="text-left q-mt-lg q-mx-lg">¿Qué hacemos? Ahora escribe un resumen sobre las actividades que realizan.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo es de 250 caracteres</div>
             <q-input v-model="objComunidad.queHacemos" rows="15" rounded outlined type="textarea" class="q-mx-lg"
               color="red-12" label="Información academica" maxlength="250" />

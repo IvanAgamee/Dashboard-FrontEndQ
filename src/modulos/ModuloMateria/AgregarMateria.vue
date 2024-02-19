@@ -22,11 +22,15 @@
             <div class="text-left q-ma-md q-mt-lg">Seleccione el programa de estudio al que pertenece la materia.</div>
             <q-select rounded outlined dense option-label="nombre" :options="optSelectPrograma" v-model="selectedPrograma"
               type="text" label="Programas" class="q-mx-lg" />
+            
+              <div class="text-left q-ma-md q-mt-lg">Seleccione el area al que pertenece la materia.</div>
+              <q-select rounded outlined dense option-label="area" :options="optSelectArea" v-model="selectedArea"
+                type="text" label="Áreas" class="q-mx-lg" />
 
-            <div class="text-left q-mt-lg q-mx-lg">Seleccione el área al que pertenece la materia.</div>
-            <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El área es de caracter opcional</div>
-            <q-input rounded outlined dense v-model="objMateria.area" type="text" label="Área de la materia"
-              class="q-mx-lg" />
+            <div class="text-left q-ma-md q-mt-lg">Seleccione la especialidad a la que pertenece la materia.</div>
+            <q-select rounded outlined dense option-label="nombre" :options="optSelectEspecialidad" v-model="selectedEspecialidad"
+              type="text" label="Especialidades" class="q-mx-lg" />
+            
             <div class="text-left q-ma-md q-mt-lg">Escribe el número de semestre al que pertenece la materia.</div>
             <q-input rounded outlined dense v-model="objMateria.semestre" type="number" min="1" max="12"
               label="Semestre de la materia" class="q-mx-lg" />
@@ -84,9 +88,16 @@ import swal from 'sweetalert';
 
 const router = useRouter();
 const tab = ref('infoGeneral')
-const optSelectPrograma = ref(UserStore().getProgramas)
 
+const optSelectPrograma = ref(UserStore().getProgramas)
 const selectedPrograma = ref(null)
+
+const optSelectArea = ref([])
+const selectedArea = ref(null)
+
+const optSelectEspecialidad = ref([])
+const selectedEspecialidad = ref(null)
+
 const objMateria = ref({
   "nombre": "",
   "area": null,
@@ -100,12 +111,16 @@ const objMateria = ref({
 });
 
 // Actualizar el programa del profesor
-watch(selectedPrograma, (newVal) => {
+watch(selectedPrograma, async(newVal) => {
   objMateria.value.programaId = newVal.programaId;
+  await getAreasById(newVal.programaId);
+  await getEspecialidadesById(newVal.programaId);
 });
 
 // Agregar Materia
 const agregarMateria = async () => {
+  objMateria.value.especialidadId = selectedEspecialidad.value.especialidadId;
+  objMateria.value.area = selectedArea.value.area;
   const response = await apiMateria.createMaterias(objMateria.value);
   swal({
     position: 'top-end',
@@ -117,13 +132,27 @@ const agregarMateria = async () => {
   })
   router.push({ path: "/vistaMateria", });
   Loading.hide()
+}
 
+const getAreasById = async (id) => {
+  const data = await apiMateria.getAreasById(id);
+  optSelectArea.value = data;
+}
+
+const getEspecialidadesById = async (id) => {
+  const data = await apiMateria.getEspecialidadesById(id);
+  let especialidad = {
+    "especialidadId": null,
+    "nombre": "Sin especialidad",
+  }
+  optSelectEspecialidad.value = data;
+  optSelectEspecialidad.value.unshift(especialidad);
 }
 
 // VALIDACIONES
 const validarInputInfoGral = () => {
   if (objMateria.value.nombre == "" || objMateria.value.area == "" || objMateria.value.semestre == "" ||
-    objMateria.value.competencia == "" || !!!selectedPrograma.value) {
+    objMateria.value.competencia == "" || !!!selectedPrograma.value || !!!selectedArea.value || !!!selectedEspecialidad.value) {
     Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top' })
   } else {
     tab.value = 'archivos'

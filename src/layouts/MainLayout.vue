@@ -86,7 +86,7 @@
             <img src="../assets/img/logotecnm.png" @click="navegar('/miPerfil')">
           </q-avatar>
           <div class="text-weight-bold" @click="navegar('/miPerfil')">{{ UserStore().getUser }}</div>
-          <div @click="navegar('/miPerfil')">@{{ UserStore().getUsername }}
+          <div @click="navegar('/miPerfil')">{{ UserStore().getUsername }}
           <q-btn dense color="primary" size="8px" icon="settings" @click="navegar('/miPerfil')"/></div>
         </div>
       </q-img>

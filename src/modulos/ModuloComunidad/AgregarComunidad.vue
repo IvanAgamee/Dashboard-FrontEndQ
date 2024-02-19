@@ -18,11 +18,11 @@
               formato: Comunidad de Industrial</div>
             <q-input rounded outlined dense v-model="objComunidad.nombre" type="text" label="Nombre de la comunidad"
               class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Describe lo que representa la comunidad.</div>
+            <div class="text-left q-mt-lg q-mx-lg">¿Quiénes somos? Describe lo que representa esa comunidad</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo es de 100 caracteres</div>
               <q-input v-model="objComunidad.quienesSomos" rows="3" rounded outlined type="textarea" class="q-mx-lg"
             color="red-12" label="Descripción" maxlength="100"/>
-            <div class="text-left q-mt-lg q-mx-lg">Ahora escribe un resumen sobre las actividades que realizan.</div>
+            <div class="text-left q-mt-lg q-mx-lg">¿Qué hacemos? Ahora escribe un resumen sobre las actividades que realizan.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El número máximo es de 250 caracteres</div>
             <q-input v-model="objComunidad.queHacemos" rows="15" rounded outlined type="textarea" class="q-mx-lg"
               color="red-12" label="Actividades" maxlength="250" />

@@ -17,8 +17,16 @@
             siguiente formato: Fundamentos de programación </div>
             <q-input rounded outlined dense v-model="objMateria.nombre" type="text" label="Nombre de la materia" class="q-mx-lg" />
             
-            <div class="text-left q-ma-md q-mt-lg">Seleccione el semestre al que pertenece la materia.</div>
+            <div class="text-left q-ma-md q-mt-lg">Seleccione la carrera a la que pertenece la materia.</div>
             <q-select v-model="selectedCarrera" :options="optSelectCarrera" label="Semestre de la materia" option-label="nombre" rounded outlined dense class="q-mx-lg" />
+
+            <div class="text-left q-ma-md q-mt-lg">Seleccione el area al que pertenece la materia.</div>
+              <q-select rounded outlined dense option-label="area" :options="optSelectArea" v-model="selectedArea"
+                type="text" label="Áreas" class="q-mx-lg" />
+
+            <div class="text-left q-ma-md q-mt-lg">Seleccione la especialidad a la que pertenece la materia.</div>
+            <q-select rounded outlined dense option-label="nombre" :options="optSelectEspecialidad" v-model="selectedEspecialidad"
+              type="text" label="Especialidades" class="q-mx-lg" />
 
             <div class="text-left q-mt-lg q-mx-lg">Seleccione el area al que pertenece la materia.</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">El área es opcional</div>
@@ -37,10 +45,10 @@
           <!-- PANEL 2: ADJUNTOS -->
           <q-tab-panel name="archivos">
             <div class="text-h6 text-left q-ma-md">¡Ya casi terminamos! En esta sección se adjuntaran los archivos relacionados a la materia :</div>
-            <div class="text-left q-mt-lg q-mx-lg">Ingresa el link del Url del programa</div>
+            <div class="text-left q-mt-lg q-mx-lg">Ingresa el link del programa</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como obtener este url consulte el manual de usuario.</div>
             <q-input rounded outlined dense v-model="objMateria.urlPrograma" type="text" label="Url del programa" class="q-mx-lg" />
-            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del Url del video de la materia</div>
+            <div class="text-left q-mt-lg q-mx-lg">Ingrese el link del video de la materia</div>
             <div class="text-caption text-weight-light q-mb-md q-mb-sm q-mx-lg text-left">Si tienes algunda duda de como obtener este url consulte el manual de usuario. Si
             el video se ha ingresado correctamente, aparecera inmediatamente debajo de este formulario</div>
             <q-input rounded outlined dense v-model="objMateria.urlVideo" type="text" label="Url del video de la materia" class="q-mx-lg" />
@@ -66,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import UserStore from 'src/stores/userStore';
 import authStore from '../../stores/userStore.js';
 import apiMateria from '../ModuloMateria/apiMateria.js'
@@ -83,9 +91,15 @@ const props = defineProps({
 
 const router = useRouter();
 const tab = ref('infoGeneral')
+
 const optSelectCarrera = ref(UserStore().getProgramas)
-const optSemestres = ref({})
 const selectedCarrera = ref(null)
+
+const optSelectArea = ref([])
+const selectedArea = ref(null)
+
+const optSelectEspecialidad = ref([])
+const selectedEspecialidad = ref(null)
 
 const objMateria = ref({
         "materiaId": null,
@@ -100,11 +114,21 @@ const objMateria = ref({
         "status": 1
     });
 
+// Actualizar el programa del profesor
+watch(selectedCarrera, async(newVal) => {
+  objMateria.value.programaId = newVal.programaId;
+  await getAreasById(newVal.programaId);
+  await getEspecialidadesById(newVal.programaId);
+});
+
 // Aqui construye la asignacion de valores a edit materia
 const loadDataMateriaById = async () => {
 Loading.show({ spinner: QSpinnerGears, })
 
  const data = await apiMateria.getMateriaById(props.id);
+
+ await getAreasById(data.programaId);
+ await getEspecialidadesById(data.programaId);
 
  objMateria.value.materiaId= data.materiaId
  objMateria.value.nombre= data.nombre
@@ -115,6 +139,8 @@ Loading.show({ spinner: QSpinnerGears, })
  objMateria.value.urlVideo= data.urlVideo
  objMateria.value.urlPrograma= data.urlPrograma
  selectedCarrera.value = optSelectCarrera.value.find(programa => programa.programaId === data.programaId);
+ selectedArea.value = optSelectArea.value.find(area => area.area === data.area);
+ selectedEspecialidad.value = optSelectEspecialidad.value.find(especialidad => especialidad.especialidadId === data.especialidadId);
  
  Loading.hide()
  return data;
@@ -129,6 +155,8 @@ const agregarMateria = async () => {
   Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'}) }
 
   else {
+    objMateria.value.especialidadId = selectedEspecialidad.value.especialidadId;
+    objMateria.value.area = selectedArea.value.area;
     objMateria.value.programaId = selectedCarrera.value.programaId
     try {
       Loading.show({ spinner: QSpinnerGears, })
@@ -141,9 +169,25 @@ const agregarMateria = async () => {
   }
 }
 
+const getAreasById = async (id) => {
+  const data = await apiMateria.getAreasById(id);
+  optSelectArea.value = data;
+}
+
+const getEspecialidadesById = async (id) => {
+  const data = await apiMateria.getEspecialidadesById(id);
+  let especialidad = {
+    "especialidadId": null,
+    "nombre": "Sin especialidad",
+  }
+  optSelectEspecialidad.value = data;
+  optSelectEspecialidad.value.unshift(especialidad);
+}
+
 const validarInputInfoGral = () => {
   if (objMateria.value.nombre == '' || objMateria.value.area == '' || 
-  objMateria.value.semestre == '' || objMateria.value.competencia == '' || !!!selectedCarrera.value) {
+  objMateria.value.semestre == '' || objMateria.value.competencia == '' || !!!selectedCarrera.value
+  || !!!selectedArea.value || !!!selectedEspecialidad.value) {
    Notify.create({ type: 'negative', message: 'Debe llenar todos los campos', position: 'top'})
   } else {
     tab.value='archivos'

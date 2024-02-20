@@ -256,7 +256,7 @@
     <q-card>
       <q-card-section class="row items-center">
         <span class="q-ml-sm">Estas a punto de eliminar este elemento.
-        ¿Estas Seguro? Será de manera permanente el eleemento: {{objSeccion.objeto[objetoIndex].descripcion}} </span>
+        ¿Estas Seguro? Será de manera permanente el elemento: {{objSeccion.objeto[objetoIndex].descripcion}} </span>
       </q-card-section>
 
       <q-card-actions align="right">
@@ -270,7 +270,7 @@
     <q-card>
       <q-card-section class="row items-center">
         <span class="q-ml-sm">Estas a punto de eliminar este elemento.
-        ¿Estas Seguro? Será de manera permanente el eleemento: {{objetoBorradoNuevo.descripcion}} </span>
+        ¿Estas Seguro? Será de manera permanente el elemento: {{objetoBorradoNuevo.descripcion}} </span>
       </q-card-section>
 
       <q-card-actions align="right">
@@ -359,7 +359,7 @@ const llenarSeccion = async () => {
     let iconData = await apiIcons.getIconsByPromgramaId({programaId: selectedPrograma.value.programaId});
     icons.pathFile = iconData.data.pathFile;
     icons.icons = iconData.data.icons;
-    icon_selected.value = icons.pathFile.concat(icons.icons[0].toString());
+/*    icon_selected.value = icons.pathFile.concat(icons.icons[0].toString());*/
     console.log(icon_selected.value);
   }
   seccionesDesglose.value = controlSeccion.hasSeccions(objSeccion.value.titulo)
@@ -407,30 +407,25 @@ const agregarSeccion = async () => {
   Loading.hide()
 }
 
-const validarInputInfoGral = () => {
-  if (selectedPrograma.value === null) {
-    Notify.create({type: 'negative', message: 'Debe seleccionar a que programa pertence', position: 'top'})
-  } else {
-    if (objSeccion.value.nombre == '' || objSeccion.value.descripcion == '' || objModulo.value == null) {
-      Notify.create({type: 'negative', message: 'Debe llenar todos los campos', position: 'top'})
-    } else {
-      tab.value = 'contenido'
-    }
-  }
-}
-
 const validarGeneral = () => {
+/*  debugger;*/
   if (selectedPrograma.value === null) {
     Notify.create({type: 'negative', message: 'Debe seleccionar a que programa pertenece la seccion', position: 'top'})
   } else {
     if (tieneContenido == true && objSeccion.value.objeto.length == 0) {
-      Notify.create({type: 'negative', message: 'Contenido vacio', position: 'top'})
-    } else {
+      Notify.create({type: 'negative', message: 'Todos los campos requeridos no pueden estar vacios', position: 'top'})
+    }
+    else if(controlSeccion.validarDescription(objSeccion.value.titulo,objSeccion.value.descripcion) ||
+      controlSeccion.validarLink(objSeccion.value.titulo,objSeccion.value.url))
+    {
+      Notify.create({type: 'negative', message: 'Todos los campos requeridos no pueden estar vacios', position: 'top'})
+    }
+    else {
       agregarSeccion();
     }
   }
 }
-
+/*Debo checarlo*/
 const validarContenidoModal = () => {
   if(contenido.value==='' || icon_selected.value===''){
     Notify.create({type: 'negative', message: 'El contenido no puede estar vacio y contar con su respectivo icono', position: 'top'})

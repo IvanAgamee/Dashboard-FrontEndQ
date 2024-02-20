@@ -1,6 +1,6 @@
 const puntos = ['perfil de egreso', 'objetivos educacionales'];
 const link = 'ver plan de estudios'
-const description = ['objetivo general',puntos[1], 'perfil de ingreso']
+const description = ['objetivo general',puntos[1], 'perfil de ingreso','vision','mision']
 
 
 const hasSeccions = (data) => {
@@ -46,6 +46,12 @@ const obtenerCategoriaPunto = (data) => {
   let nameCategory = puntos.find(value => data.toLowerCase() === value);
   return nameCategory === puntos[0] ? 'Punto de perfil de egreso' : 'Objetivo educacional';
 }
+
+const validarDescription = (title,data) => hasDescription(title) && data.length === 0
+
+
+const validarLink = (title,data) => hasLink(title) && data.length === 0;
+
 export default{
-  hasSeccions, hasLink, hasDescription, controlButton, obtenerCategoriaPunto
+  hasSeccions, hasLink, hasDescription, controlButton, obtenerCategoriaPunto, validarDescription, validarLink
 }

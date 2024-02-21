@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fab51739-bd4b-4213-97b2-2675b66ddd06" name="Changes" comment="bajar cambios">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/EditarSeccion.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modulos/ModuloSecciones/seccionControlEdit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modulos/ModuloSecciones/seccionControlEdit.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +86,7 @@
       <workItem from="1708198998917" duration="10294000" />
       <workItem from="1708272448515" duration="14297000" />
       <workItem from="1708401068716" duration="1289000" />
-      <workItem from="1708485743821" duration="2398000" />
+      <workItem from="1708485743821" duration="2767000" />
     </task>
     <task id="LOCAL-00001" summary="Secciones">
       <option name="closed" value="true" />

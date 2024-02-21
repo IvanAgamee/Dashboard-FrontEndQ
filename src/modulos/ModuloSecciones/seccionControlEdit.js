@@ -1,6 +1,6 @@
 const puntos = ['perfil de egreso', 'objetivos educacionales'];
 const link = 'ver plan de estudios'
-const description = ['objetivo general',puntos[1], 'perfil de ingreso','vision','mision']
+const description = ['objetivo general',puntos[1], 'perfil de ingreso','vision','mision',gitpuntos[1]]
 
 
 const hasSeccions = (data) => {

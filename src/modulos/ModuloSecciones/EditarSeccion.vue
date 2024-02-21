@@ -441,6 +441,7 @@ const limpiarContenido = () => {
   titulo.value = '';
 }
 const crearContenido = () => {
+  debugger;
   let objeto = null;
   if(isEditar.value===true) {
 
@@ -499,11 +500,10 @@ const editarObjeto = (objeto,nuevo) => {
    }
 
    else{
-     titulo.value = nuevosObjetos.value.at(objSeccion.value.objeto.indexOf(objeto)).titulo;
      contenido.value = nuevosObjetos.value.at(
-         objSeccion.value.objeto.indexOf(objeto)
+       nuevosObjetos.value.indexOf(objeto)
      ).descripcion;
-     icon_selected.value = nuevosObjetos.value.at(objSeccion.value.objeto.indexOf(objeto)).imagen;
+     icon_selected.value = nuevosObjetos.value.at(nuevosObjetos.value.indexOf(objeto)).imagen;
      modalContenido.value = true;
    }
    objetoBorradoNuevo = objeto;

@@ -3,10 +3,16 @@
     <q-card class="q-pt-lg q-pb-lg">
       <div class="row">
         <h6 class="col q-ma-sm q-ml-lg">Registro de Secciones</h6>
-        <q-select filled color="blue-10" v-model="selectedPrograma" :options="optionsProgramas" label="Programa"
-                  transition-show="flip-up" transition-hide="flip-down" option-label="nombre" option-value="id"/>
-       <!--  <q-btn class="col-2 q-ma-sm q-mr-lg" text-color="white" color="secondary" size="md" label="Agregar seccion"
-               @click="irAgregarseccion()" dense ellipsis /> -->
+        <q-select filled color="blue-10"
+                  v-model="selectedPrograma"
+                  :options="optionsProgramas"
+                  label="Programa"
+                  transition-show="flip-up"
+                  transition-hide="flip-down"
+                  option-label="nombre"
+                  option-value="id"
+                  style="margin: 2em;"
+        />
       </div>
       <q-separator style="margin:15px" />
       <q-input class="q-ma-lg" v-model="search" label="Buscar una seccion" dense outlined clearable> <template v-slot:prepend>

@@ -359,13 +359,10 @@ const llenarSeccion = async () => {
     let iconData = await apiIcons.getIconsByPromgramaId({programaId: selectedPrograma.value.programaId});
     icons.pathFile = iconData.data.pathFile;
     icons.icons = iconData.data.icons;
-/*    icon_selected.value = icons.pathFile.concat(icons.icons[0].toString());*/
-    console.log(icon_selected.value);
   }
   seccionesDesglose.value = controlSeccion.hasSeccions(objSeccion.value.titulo)
   Loading.hide()
   dataButton.value = controlSeccion.controlButton(nuevosObjetos.value,objetosABorrar.value,objSeccion.value.titulo)
-  console.log(dataButton)
   return data;
 }
 llenarSeccion();
